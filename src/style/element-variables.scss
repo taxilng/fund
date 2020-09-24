@@ -1,0 +1,401 @@
+/*
+Write your variables here. All available variables can be
+found in element-ui/packages/theme-chalk/src/common/var.scss.
+For example, to overwrite the theme color:
+*/
+// $--color-primary: teal;
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+// 通用部分
+.el-input > input {
+  border: 1px solid #d9d9d9;
+}
+
+.el-table th {
+  background-color: #F1F8FF;
+}
+
+.el-button {
+  border-radius: 0px !important;
+}
+
+.vue-directive-image-previewer {
+  z-index: 99;
+}
+
+.requireIviewStar .ivu-form-item-label:before {
+  content: '*';
+  display: inline-block;
+  margin-right: 4px;
+  line-height: 1;
+  font-family: SimSun;
+  font-size: 12px;
+  color: #ed4014;
+}
+
+.smsManage-container {
+  .el-dialog__body {
+    padding-bottom: 0;
+  }
+}
+
+// 财务中心 -> 充值管理 弹框长度
+.rechargeManage-message {
+  width: 670px !important;
+}
+
+/**
+ * 表格筛选小箭头样式修改 
+ */
+.el-table__column-filter-trigger i {
+  color: #333 !important;
+  -webkit-transform: scale(1.15) !important;
+  transform: scale(1.15) !important;
+  padding-left: 4px;
+}
+
+.el-input__inner, .el-checkbox__inner, .el-textarea__inner {
+  border-radius: 0 !important;
+}
+
+// notify 样式修改(notice4个大图标)
+.el-notification__content {
+  margin: 0 !important
+}
+
+/**
+ * iview notice框样式修改 start 
+ */
+.ivu-notice-desc {
+  max-height: 650px;
+  overflow-y: auto;
+}
+
+.ivu-icon-ios-close-circle-outline, .ivu-icon-ios-alert-outline, .ivu-icon-ios-information-circle-outline, .ivu-icon-ios-checkmark-circle-outline {
+  font-family: "iconfont" !important;
+  font-size: 32px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ivu-icon-ios-close-circle-outline::before {
+  content: "\e658";
+}
+
+.ivu-icon-ios-alert-outline::before {
+  content: "\e6ca";
+}
+
+.ivu-icon-ios-information-circle-outline::before {
+  content: "\e623";
+}
+
+.ivu-icon-ios-checkmark-circle-outline::before {
+  content: "\e656";
+}
+
+// End （iview notice框样式修改）
+
+
+// 提示框加最大宽度
+.el-tooltip__popper {
+  max-width: 500px;
+}
+
+// 覆盖checkbox的margin-left
+.coverElement-checkbox {
+  .el-checkbox-group .el-checkbox:nth-child(1) {
+    margin-right: 20px;
+  }
+
+  .el-checkbox + .el-checkbox {
+    margin-left: 0 !important;
+    margin-right: 20px;
+  }
+}
+
+/**
+ * tag栏样式修改
+ */
+.tags-nav {
+
+  .scroll-outer {
+    left: 46px !important;
+  }
+
+  .btn-con {
+    padding: 3px 7px 0 !important;
+  }
+
+  .btn-con.right-btn {
+    right: 47px !important;
+  }
+
+  .close-con {
+    width: 47px !important;
+  }
+}
+
+// 登录页 input框覆盖
+.loginBox {
+  .el-input {
+    border-bottom: 1px solid #E8EAEF;
+
+    & > input {
+      border-color: transparent !important;
+    }
+  }
+
+  .el-input--small .el-input__inner {
+    line-height: 20px;
+  }
+
+  .el-checkbox span {
+    font-size: 12px;
+    color: rgba(250, 250, 250, .8);
+    padding-left: 12px;
+  }
+
+  // 首页轮播配置
+  .el-carousel__indicators {
+    bottom: 20px !important;
+  }
+
+  .el-carousel__button {
+    width: 20px;
+    height: 4px;
+  }
+
+  .el-carousel__indicator {
+    padding: 12px 10px;
+  }
+}
+
+
+// ct页面要用到的公共样式
+.inputList, .checkboxList {
+  background-color: #fff;
+  margin: 20px;
+}
+
+.gj_table {
+  margin: 20px;
+  overflow-x: auto;
+}
+
+.gj_pagination {
+  margin-top: 10px;
+  text-align: right;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.checkboxList .el-radio {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.yh {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap; /*不换行*/
+  text-overflow: ellipsis; /*超出部分省略号表示*/
+}
+
+.specialSearch .el-input--suffix .el-input__inner {
+  padding-right: 15px;
+}
+
+// 头部 hover padding取消
+// .theme-header-icon.el-popover {
+//     padding: 0 !important;
+// }
+.elPopover-breakAll.el-popover {
+  white-space: normal;
+  word-break: break-all;
+
+  .el-popover__title {
+    margin-bottom: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+  }
+}
+
+// 左侧栏
+.sliderBar-container {
+  // 颜色修改hover
+  // .el-submenu__title:hover,.el-menu-item:hover  {
+  //     background: #1885d9!important;
+  // }
+  .el-submenu .el-menu-item, .el-menu-item, .el-submenu__title {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .el-submenu .el-menu-item {
+    padding: 0 0px 0 40px !important;
+  }
+
+  .el-submenu__title {
+    padding: 0 0px 0 20px !important;
+  }
+
+  .el-submenu i.el-submenu__icon-arrow {
+    right: 20px !important;
+  }
+
+  .el-menu-item {
+    padding: 0 0 0 0px !important;
+  }
+
+  // .el-submenu__title i {
+  //     color: #fff;
+  // }
+}
+
+.sliderBar-hintIcon { //左侧栏提示框宽度统一
+  width: 260px !important;
+}
+
+// 任务中心页面
+.phonelist-footer {
+  .el-card__body {
+    padding: 12px;
+  }
+}
+
+// 任务中心、通话记录 小型分页居中微调
+.phonelist_pagination .el-pagination__sizes, .right-Pagination .el-pagination__sizes {
+  margin-top: -3px;
+}
+
+.right-Pagination {
+  .el-pagination__jump {
+    margin-left: 0px;
+    margin-top: -3px;
+  }
+
+  .el-input__inner {
+    height: 28px !important;
+  }
+}
+
+
+// 任务中心  一键暂停、一键停止距离变长
+.phonelist_comfirm {
+  width: 430px !important;
+}
+
+// 任务中心弹窗样式修整
+.addPlan-container, .batchPlan-container, .batchJoin-container {
+  .phonelist-roleDivTable .el-table th {
+    padding: 0 !important;
+    font-size: 12px;
+  }
+
+  .el-select__tags {
+    .el-select__tags-text {
+      display: inline-block;
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .el-tag__close {
+      top: -5px !important;
+    }
+  }
+
+  .el-tabs__nav-wrap:after {
+    opacity: .4;
+  }
+}
+
+/**
+ * 话术市场 模板分享弹窗 
+ */
+.templateShare-container {
+  .el-select__tags {
+    .el-select__tags-text {
+      display: inline-block;
+      max-width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .el-tag__close {
+      top: -5px !important;
+    }
+  }
+}
+
+
+// 个人信息页面
+.myselfInfo-container {
+  .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
+    padding-left: 20px !important;
+  }
+}
+
+.userConfig-container {
+  .el-dialog__footer {
+    margin-top: -20px;
+  }
+}
+
+// 字符过长弹出的框
+.el-tooltip__popper {
+  word-break: break-all;
+}
+
+/* 表格两端线条不顶到头 */
+.ctTable .el-table__header-wrapper thead th {
+  background: #F1F8FF;
+  color: #303133;
+  border: 0;
+}
+
+// .ctTable .el-table__header-wrapper thead th.is-leaf:nth-last-of-type(1) {
+//     padding-right:18px;
+// }
+.ctTable .el-table__header-wrapper thead th:first-child {
+  padding-left: 8px;
+}
+
+.ctTable .el-table__body-wrapper tbody > .ctTr td:first-child, .ctTable .el-table__body-wrapper tbody > .ctTr td:nth-last-of-type(1) {
+  padding: 0 !important;
+  position: relative;
+  border: 0;
+}
+
+.ctTable .el-table__body-wrapper tbody > .ctTr td:first-child .cell {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ebeef5;
+  height: 100%;
+  margin-left: 18px;
+  padding: 0;
+}
+
+.ctTable .el-table__body-wrapper tbody > .ctTr td:last-child .cell {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ebeef5;
+  height: 100%;
+  margin-right: 18px;
+  padding: 0;
+}
+
+.audio-play-wapper {
+  .el-popover {
+    min-width: 66px !important;
+  }
+}
