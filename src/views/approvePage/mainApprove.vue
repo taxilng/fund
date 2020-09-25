@@ -511,9 +511,9 @@ export default {
         },
         closeChangelog () {
             this.changelogShadow = false;
-            // storage.set({
-            //     version: this.localVersion,
-            // });
+            storage.set({
+                version: this.localVersion,
+            });
         },
         sortList (type) {
             for (const key in this.sortType) {
