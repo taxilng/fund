@@ -48,7 +48,7 @@
                 部分新发基金或QDII基金可以搜索到，但可能无法获取估值情况
             </p>
             <div class="table-row" :class="tableHeight">
-                <table >
+                <table>
                     <thead>
                         <tr>
                             <th class="align-left">基金名称</th>
@@ -73,11 +73,11 @@
                                 涨跌幅
                                 <span :class="sortType.gszzl" class="down-arrow"></span>
                             </th>
-                            <th style="min-width:60px"  @click="sortList('gains')" v-if="showGains" class="pointer">
+                            <th style="min-width:60px" @click="sortList('gains')" v-if="showGains" class="pointer">
                                 估算收益
                                 <span :class="sortType.gains" class="down-arrow"></span>
                             </th>
-                            <th style="min-width:70px" v-if="!isEdit">更新时间</th>
+                            <th style="min-width:50px" v-if="!isEdit">更新时间</th>
                             <th style="text-align:center" v-if="
                   isEdit &&
                     (showAmount || showGains || showCost || showCostRate)
@@ -114,7 +114,7 @@
                             </td>
                             <td v-if="!isEdit">
                                 {{
-                  el.hasReplace ? el.gztime.substr(5, 5) : el.gztime.substr(5)
+                  el.hasReplace ? el.gztime.substr(5, 5) : el.gztime.substr(-5)
                 }}
                                 <span class="hasReplace-tip" v-if="el.hasReplace">✔</span>
                             </td>
@@ -343,7 +343,7 @@ export default {
                 this.checkInterval(true);
 
                 let ver = res.version ? res.version : "1.0.0";
-                console.log(22,ver, this.localVersion);
+                console.log(22, ver, this.localVersion);
                 if (ver != this.localVersion) {
                     this.changelog();
                 }
@@ -498,7 +498,7 @@ export default {
             }
         },
         option () {
-             this.$router.push('/option');
+            this.$router.push('/option');
         },
         reward () {
             this.rewardShadow = true;
@@ -880,6 +880,10 @@ export default {
                 this.indFundData = newIndDataItems;
             }
         },
+    },
+    destroyed () {
+        clearInterval(this.myVar);
+        clearInterval(this.myVar1);
     },
 };
 </script>
