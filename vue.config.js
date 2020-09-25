@@ -71,9 +71,12 @@ module.exports = {
     // webpack 链接 API，用于生成和修改 webapck 配置
     // https://github.com/mozilla-neutrino/webpack-chain
     chainWebpack: (config) => {
+        console.log(process.env.NODE_ENV);
+        if(process.env.NODE_ENV === "production"){
         config
             .plugin('webpack-bundle-analyzer')
             .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+        }
         // 因为是多页面，所以取消 chunks，每个页面只对应一个单独的 JS / CSS
         config.optimization
             .splitChunks({

@@ -2,7 +2,19 @@ import Vue from 'vue'
 import axios from 'axios'
 import App from './App.vue'
 import router from './router'
-import Element from 'element-ui'
+import {
+    Dialog,
+    Button,
+    RadioGroup,
+    Tabs,
+    TabPane,
+    Select,
+    Option,
+    Switch,
+    Radio,
+    Notification,
+    Message,
+} from 'element-ui'
 // import "./style/guiji_font/iconfont.js";
 // import "./style/receptionCenterFontIcon/iconfont.js";
 import './style/common.scss'
@@ -26,8 +38,18 @@ Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios;
 
-Vue.use(Element)
+Vue.use(Dialog)
+Vue.use(Button)
+Vue.use(RadioGroup)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Switch)
+Vue.use(Radio)
 
+Vue.prototype.$notify = Notification;
+Vue.prototype.$message = Message;
 
 new Vue({
     router,

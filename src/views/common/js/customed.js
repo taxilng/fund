@@ -1,4 +1,4 @@
-import echarts from "echarts";
+import echarts from "echarts/lib/echarts";
 echarts.registerTheme('customed', {
     "color": [
         "#409eff",
