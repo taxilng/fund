@@ -914,6 +914,8 @@ export default {
 <style lang="scss" scoped>
 .container {
     min-width: 300px;
+    max-width: 700px;
+    margin: 0 auto;
     min-height: 150px;
     overflow-y: auto;
     padding: 10px 7px;

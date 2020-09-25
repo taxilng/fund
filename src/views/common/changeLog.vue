@@ -100,6 +100,7 @@ export default {
 <style lang="scss" scoped>
 .changelog {
     /deep/ &.el-dialog {
+        max-width: 500px;
         margin-bottom: 15px;
         border-radius: 15px;
     }
