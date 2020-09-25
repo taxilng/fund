@@ -3,10 +3,10 @@
         <div class="content" v-loading="loading" :element-loading-background="
         darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)'
       ">
-            <p>qq群：{{ changelog.qqGroup }}</p>
-            <p>电报群：{{ changelog.tgGroup }}</p>
-            <p>微信群二维码</p>
-            <div ref="qrcode" id="qrcode"></div>
+            <!-- <p>qq群：{{ changelog.qqGroup }}</p> -->
+            <!-- <p>电报群：{{ changelog.tgGroup }}</p> -->
+            <!-- <p>微信群二维码</p>
+            <div ref="qrcode" id="qrcode"></div> -->
             <ul>
                 <li v-for="el in changelog.list" :key="el.version">
                     <h5>
@@ -30,7 +30,7 @@
 
 <script>
 var json = require("./changeLog.json");
-import QRCode from "qrcodejs2";
+// import QRCode from "qrcodejs2";
 export default {
     props: {
         top: {
@@ -43,7 +43,7 @@ export default {
         },
     },
     components: {
-        QRCode,
+        // QRCode,
     },
     data () {
         return {
@@ -66,29 +66,29 @@ export default {
             this.$axios.get(this.updateurl.gitee).then((res) => {
                 this.loading = false;
                 this.logList = res.list;
-                this.qrlink = res.qrcode;
+                // this.qrlink = res.qrcode;
                 this.changelog = res;
-                this.setQrcode();
+                // this.setQrcode();
             });
         },
         init () {
             this.centerDialogVisible = true;
             this.getChangelog();
         },
-        setQrcode () {
-            let that = this;
-            this.qrcode = new QRCode("qrcode", {
-                width: 160,
-                height: 160, // 高度
-                text: this.changelog.qrcode, // 二维码内容
-            });
-        },
+        // setQrcode () {
+        //     let that = this;
+        //     this.qrcode = new QRCode("qrcode", {
+        //         width: 160,
+        //         height: 160, // 高度
+        //         text: this.changelog.qrcode, // 二维码内容
+        //     });
+        // },
 
         close () {
-            if (this.qrcode) {
-                this.qrcode.clear();
-            }
-            this.$refs.qrcode.innerHTML = null;
+            // if (this.qrcode) {
+            //     this.qrcode.clear();
+            // }
+            // this.$refs.qrcode.innerHTML = null;
             this.centerDialogVisible = false;
 
             this.$emit("close", false);
