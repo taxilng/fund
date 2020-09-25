@@ -57,23 +57,23 @@
                             <th style="text-align:center" v-if="isEdit && (showCostRate || showCost)">
                                 成本价
                             </th>
-                            <th  @click="sortList('amount')" v-if="showAmount" class="pointer">
+                            <th style="min-width:50px" @click="sortList('amount')" v-if="showAmount" class="pointer">
                                 持有额
                                 <span :class="sortType.amount" class="down-arrow"></span>
                             </th>
-                            <th style="min-width:50px" @click="sortList('costGains')" v-if="showCost" class="pointer">
+                            <th style="min-width:60px" @click="sortList('costGains')" v-if="showCost" class="pointer">
                                 持有收益
                                 <span :class="sortType.costGains" class="down-arrow"></span>
                             </th>
-                            <th style="min-width:60px" @click="sortList('costGainsRate')" v-if="showCostRate" class="pointer">
+                            <th style="min-width:72px" @click="sortList('costGainsRate')" v-if="showCostRate" class="pointer">
                                 持有收益率
                                 <span :class="sortType.costGainsRate" class="down-arrow"></span>
                             </th>
-                            <th @click="sortList('gszzl')" class="pointer">
+                            <th style="min-width:60px" @click="sortList('gszzl')" class="pointer">
                                 涨跌幅
                                 <span :class="sortType.gszzl" class="down-arrow"></span>
                             </th>
-                            <th style="min-width:50px"  @click="sortList('gains')" v-if="showGains" class="pointer">
+                            <th style="min-width:60px"  @click="sortList('gains')" v-if="showGains" class="pointer">
                                 估算收益
                                 <span :class="sortType.gains" class="down-arrow"></span>
                             </th>
@@ -282,9 +282,8 @@ export default {
         };
     },
     mounted () {
-        setTimeout(() => {
-            console.log(this.dataList);
-        }, 2000);
+
+        console.log('home mounted');
         // storage.set({c:3},()=>{ console.log(444);})
         storage.get(
             [
@@ -449,6 +448,7 @@ export default {
         },
         checkInterval (isFirst) {
             chrome.runtime.sendMessage({ type: "DuringDate" }, (response) => {
+                // debugger
                 this.isDuringDate = response.farewell;
                 if (this.isLiveUpdate && this.isDuringDate) {
                     if (!isFirst) {
@@ -590,6 +590,7 @@ export default {
             });
         },
         getData () {
+            console.log('获取列表数据');
             let fundlist = this.fundListM.map((val) => val.code).join(",");
             let url =
                 "https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=50&plat=Android&appType=ttjj&product=EFund&Version=1&deviceid=" +
@@ -600,6 +601,7 @@ export default {
                 .get(url)
                 .then((res) => {
                     let data = res.Datas;
+                    console.log(1, data);
                     this.dataList = [];
                     let dataList = [];
 
@@ -654,7 +656,7 @@ export default {
                     this.dataList = dataList;
                     console.log(this.dataList);
                 })
-                .catch((error) => { });
+                .catch((error) => { console.log(error); });
         },
         changeNum (item, ind) {
             debounce(() => {
@@ -941,7 +943,7 @@ export default {
 }
 
 .table-row {
-    max-height: calc(100vh - 260px);
+    max-height: calc(100vh - 330px);
     overflow-y: auto;
 }
 

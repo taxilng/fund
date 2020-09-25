@@ -21,22 +21,35 @@ export function noop () { }
 export const storage = {
     get: function (name) {
         //支持数组和字符串 参数
+        const resultObj = {}
+        if (!name) {
+            Reflect.ownKeys(localStorage).forEach(function (key) {
+                let val = localStorage[key]
+                try {
+                    val = JSON.parse(localStorage[key])
+                } catch (error) {
+                    //do nothing
+                }
+                resultObj[key] = val
+            });
+        }
         if (typeof name === 'string') {
             name = [name]
         }
-        if (!Array.isArray(name)) {
-            return Promise.reject('Please pass in an array or string')
+        // if (!Array.isArray(name)) {
+        //     return Promise.reject('Please pass in an array or string')
+        // }
+        if (Array.isArray(name)) {
+            name.forEach(v => {
+                let val = localStorage.getItem(v)
+                try {
+                    val = JSON.parse(localStorage.getItem(v))
+                } catch (error) {
+                    //do nothing
+                }
+                resultObj[v] = val
+            })
         }
-        const resultObj = {}
-        name.forEach(v => {
-            let val = localStorage.getItem(v)
-            try {
-                val = JSON.parse(localStorage.getItem(v))
-            } catch (error) {
-                //do nothing
-            }
-            resultObj[v] = val
-        })
         return Promise.resolve(resultObj)
     },
     set: function (storageVals, fn = noop) {

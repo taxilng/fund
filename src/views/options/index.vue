@@ -284,7 +284,7 @@ export default {
                 );
         },
         exportConfig () {
-            storage.get(null, (res) => {
+            storage.get(null).then((res) => {
                 delete res.holiday;
                 this.configHref = "data:text/plain," + JSON.stringify(res);
                 setTimeout(() => {
@@ -302,9 +302,9 @@ export default {
             reader.onload = (event) => {
                 try {
                     let config = JSON.parse(event.target.result);
-                    console.log(22, config);
                     storage.set(config, (val) => {
                         this.initOption();
+                        chrome.runtime.sendMessage({ type: "refresh" });
                         this.$message({
                             message: "恭喜,导入配置成功！",
                             type: "success",

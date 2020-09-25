@@ -58,9 +58,9 @@ export default {
         };
     },
     mounted () {
-        setTimeout(() => {
-            console.log(11, this.centerDialogVisible);
-        }, 1000);
+        // setTimeout(() => {
+        //     console.log(11, this.centerDialogVisible);
+        // }, 1000);
      },
     methods: {
         getChangelog () {
