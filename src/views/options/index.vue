@@ -34,44 +34,35 @@
                         </el-switch>
                     </div>
                 </li>
-                <!-- <li>
-          <div class="list-title">
-            角标展示设置
-          </div>
-          <div class="select-row">
-            角标开关：
-            <el-radio-group
-              v-model="showBadge"
-              @change="changeOption($event, 'showBadge', true)"
-            >
-              <el-radio border :label="1">打开角标</el-radio>
-              <el-radio border :label="2">关闭角标</el-radio>
-            </el-radio-group>
-          </div>
-          <div v-if="showBadge == 1" class="select-row">
-            角标内容：
-            <el-radio-group
-              v-model="BadgeContent"
-              @change="changeOption($event, 'BadgeContent', true)"
-            >
-              <el-radio border :label="1">单个基金</el-radio>
-              <el-radio border :label="2">所有基金</el-radio>
-            </el-radio-group>
-          </div>
-          <div v-if="showBadge == 1" class="select-row">
-            角标类型：
-            <el-radio-group
-              v-model="BadgeType"
-              @change="changeOption($event, 'BadgeType', true)"
-            >
-              <el-radio border :label="1">日收益率</el-radio>
-              <el-radio border :label="2">日收益额</el-radio>
-            </el-radio-group>
-          </div>
-          <p style="margin-top:5px">
-            tips：若选择单个基金，请打开编辑按钮中的特别关注选项；若要计算收益额，需要先打开显示持有金额开关，在编辑中填写基金对应的持有额。
-          </p>
-        </li> -->
+                <li>
+                    <div class="list-title">
+                        角标展示设置
+                    </div>
+                    <div class="select-row">
+                        角标开关：
+                        <el-radio-group v-model="showBadge" @change="changeOption($event, 'showBadge', true)">
+                            <el-radio border :label="1">打开角标</el-radio>
+                            <el-radio border :label="2">关闭角标</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <div v-if="showBadge == 1" class="select-row">
+                        角标内容：
+                        <el-radio-group v-model="BadgeContent" @change="changeOption($event, 'BadgeContent', true)">
+                            <el-radio border :label="1">单个基金</el-radio>
+                            <el-radio border :label="2">所有基金</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <div v-if="showBadge == 1" class="select-row">
+                        角标类型：
+                        <el-radio-group v-model="BadgeType" @change="changeOption($event, 'BadgeType', true)">
+                            <el-radio border :label="1">日收益率</el-radio>
+                            <el-radio border :label="2">日收益额</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <p style="margin-top:5px">
+                        tips：若选择单个基金，请打开编辑按钮中的特别关注选项；若要计算收益额，需要先打开显示持有金额开关，在编辑中填写基金对应的持有额。
+                    </p>
+                </li>
 
                 <li>
                     <div class="list-title">

@@ -308,6 +308,8 @@ export default {
                 },
                 grid: {
                     top: 30,
+                    left: 44,
+                    right: 46,
                     bottom: 30,
                 },
                 xAxis: {

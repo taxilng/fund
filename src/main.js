@@ -12,6 +12,7 @@ import {
     Option,
     Switch,
     Radio,
+    Loading,
     Notification,
     Message,
 } from 'element-ui'
@@ -47,6 +48,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Switch)
 Vue.use(Radio)
+Vue.use(Loading)
 
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;

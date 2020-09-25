@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="更新日志" :custom-class="darkMode ? 'changelog darkMode' : 'changelog'" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="centerDialogVisible" :top="top + 'px'" width="400px" center>
+    <el-dialog title="更新日志" :custom-class="darkMode ? 'changelog darkMode' : 'changelog'" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="centerDialogVisible" :top="top + 'px'" width="100vw" left>
         <div class="content" v-loading="loading" :element-loading-background="
         darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)'
       ">
@@ -58,10 +58,8 @@ export default {
         };
     },
     mounted () {
-        // setTimeout(() => {
-        //     console.log(11, this.centerDialogVisible);
-        // }, 1000);
-     },
+
+    },
     methods: {
         getChangelog () {
             this.loading = true;

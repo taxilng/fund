@@ -157,7 +157,7 @@
         <div class="input-row">
             <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
           allGains >= 0 ? 'd=====(￣▽￣*)b 赞一个' : '∑(っ°Д°;)っ 大事不好啦'
-        " :value="'当日收益：' + allGains" />
+        " :value="`当日收益：${allGains}(${dailyYield})`" />
             <input v-if="showCost" class="btn" :class="allCostGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
           allCostGains >= 0
             ? 'd=====(￣▽￣*)b 赞一个'
@@ -282,7 +282,13 @@ export default {
         };
     },
     mounted () {
-
+        if (process.env.NODE_ENV === "development") {
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = "http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0";
+            document.body.appendChild(script);
+            var vConsole = new VConsole();
+        }
         console.log('home mounted');
         // storage.set({c:3},()=>{ console.log(444);})
         storage.get(
@@ -359,6 +365,21 @@ export default {
             });
             allGains = allGains.toFixed(1);
             return allGains;
+        },
+        allAmount () {
+            let allAmount = 0;
+            this.dataList.forEach((val) => {
+                allAmount += parseFloat(val.amount);
+            });
+            allAmount = allAmount.toFixed(1);
+            return allAmount;
+        },
+        dailyYield () {
+            if (this.allAmount) {
+                return `${(100 * this.allGains / this.allAmount).toFixed(2)}%`
+            } else {
+                return `0%`
+            }
         },
         allCostGains () {
             let allCostGains = 0;
@@ -903,7 +924,7 @@ export default {
 
 .detail-container {
     min-height: 450px;
-    min-width: 610px;
+    min-width: 300px;
 }
 
 .more-height {
@@ -916,10 +937,10 @@ export default {
 
 .changelog-container {
     min-height: 550px;
-    min-width: 500px;
+    min-width: 300px;
 }
 
-.table-more-height {
+.table-row.table-more-height {
     min-height: 160px;
     max-height: calc(100vh - 330px);
 }
@@ -948,7 +969,7 @@ export default {
 }
 
 .table-row {
-    height: calc(100vh - 160px);
+    max-height: calc(100vh - 160px);
     overflow-y: auto;
 }
 
@@ -1105,7 +1126,7 @@ tbody tr:hover {
 }
 
 .fundName {
-    max-width: 150px;
+    max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

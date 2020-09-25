@@ -502,7 +502,7 @@ var setBadge = (fundcode, Realtime, type) => {
             let allGains = 0;
             let textStr = null;
             if (type == 1) {
-                let val = res.data.Datas[0];
+                let val = res.Datas[0];
                 let data = {
                     fundcode: val.FCODE,
                     name: val.SHORTNAME,
@@ -540,7 +540,7 @@ var setBadge = (fundcode, Realtime, type) => {
 
 
                 if (BadgeType == 1) {
-                    textStr = data.gszzl;
+                    textStr = data.gszzl + '%';
                 } else {
                     if (num != 0) {
                         textStr = formatNum(sum);
@@ -550,7 +550,7 @@ var setBadge = (fundcode, Realtime, type) => {
                 }
 
             } else {
-                res.data.Datas.forEach((val) => {
+                res.Datas.forEach((val) => {
                     let slt = fundListM.filter(
                         (item) => item.code == val.FCODE
                     );
@@ -572,7 +572,7 @@ var setBadge = (fundcode, Realtime, type) => {
                     if (allAmount == 0 || allGains == 0) {
                         textStr = "0"
                     } else {
-                        textStr = (100 * allGains / allAmount).toFixed(2);
+                        textStr = (100 * allGains / allAmount).toFixed(2) + '%';
                     }
 
                 } else {
@@ -581,9 +581,9 @@ var setBadge = (fundcode, Realtime, type) => {
             }
 
 
-            // chrome.browserAction.setBadgeText({
-            //     text: textStr
-            // });
+            chrome.browserAction.setBadgeText({
+                text: textStr
+            });
             let color = Realtime ?
                 allGains >= 0 ?
                     "#F56C6C" :
@@ -620,9 +620,9 @@ var startInterval = (RealtimeFundcode, type = 1) => {
 
 var endInterval = () => {
     clearInterval(Interval);
-    // chrome.browserAction.setBadgeText({
-    //     text: ""
-    // });
+    chrome.browserAction.setBadgeText({
+        text: "自选基金"
+    });
 };
 var runStart = RealtimeFundcode => {
 
@@ -662,10 +662,10 @@ const getData = () => {
             } else {
                 getHoliday().then(res => {
                     storage.set({
-                        holiday: res.data
+                        holiday: res
                     },
                         () => {
-                            holiday = res.data;
+                            holiday = res;
                             runStart(RealtimeFundcode);
                         }
                     );
@@ -714,16 +714,16 @@ export const chrome = {
                     if (allAmount == 0 || allGains == 0) {
                         textStr = "0"
                     } else {
-                        textStr = (100 * allGains / allAmount).toFixed(2);
+                        textStr = (100 * allGains / allAmount).toFixed(2) + '%';
                     }
 
                 } else {
                     textStr = formatNum(allGains);
                 }
 
-                // chrome.browserAction.setBadgeText({
-                //     text: textStr
-                // });
+                chrome.browserAction.setBadgeText({
+                    text: textStr
+                });
                 let color = isDuringDate() ?
                     allGains >= 0 ?
                         "#F56C6C" :
@@ -756,14 +756,13 @@ export const chrome = {
             if (request.type == "refreshBadge") {
                 let textstr = null;
                 if (BadgeType == 1) {
-                    textstr = request.data.gszzl;
+                    textstr = request.data.gszzl + '%';
                 } else {
-
-                    textstr = formatNum(val.gains);
+                    textstr = formatNum(request.data.gains);
                 }
-                // chrome.browserAction.setBadgeText({
-                //     text: textstr
-                // });
+                chrome.browserAction.setBadgeText({
+                    text: textstr
+                });
                 let color = isDuringDate() ?
                     request.data.gszzl >= 0 ?
                         "#F56C6C" :
@@ -773,6 +772,11 @@ export const chrome = {
                 //     color: color
                 // });
             }
+        }
+    },
+    browserAction: {
+        setBadgeText: function (txtObj) {
+            document.title = txtObj.text
         }
     }
 }
