@@ -1,29 +1,16 @@
-# crm2.0
+# 自选基金助手
 
-## Project setup
-```
-npm install
-```
+[线上地址](http://120.26.91.101:8081/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 项目启动
+``` bash
+#安装依赖
+yarn 
 
-### Compiles and minifies for production
-```
-npm run build
-```
+#项目运行
+yarn dev
 
-### Run your tests
-```
-npm run test
-```
+#项目打包
+yarn build
 
-### Lints and fixes files
 ```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
