@@ -47,8 +47,8 @@
             <p v-if="isEdit" class="tips center">
                 部分新发基金或QDII基金可以搜索到，但可能无法获取估值情况
             </p>
-            <div class="table-row">
-                <table :class="tableHeight">
+            <div class="table-row" :class="tableHeight">
+                <table >
                     <thead>
                         <tr>
                             <th class="align-left">基金名称</th>
@@ -917,6 +917,7 @@ export default {
 
 .table-more-height {
     min-height: 160px;
+    max-height: calc(100vh - 330px);
 }
 .table-drag {
     cursor: move;
@@ -943,7 +944,7 @@ export default {
 }
 
 .table-row {
-    max-height: calc(100vh - 330px);
+    height: calc(100vh - 160px);
     overflow-y: auto;
 }
 
