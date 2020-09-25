@@ -287,7 +287,9 @@ export default {
             script.type = 'text/javascript';
             script.src = "http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0";
             document.body.appendChild(script);
-            var vConsole = new VConsole();
+            script.onload = function () {
+                var vConsole = new VConsole();
+            }
         }
         console.log('home mounted');
         // storage.set({c:3},()=>{ console.log(444);})
