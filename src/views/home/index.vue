@@ -53,19 +53,19 @@
                         <tr>
                             <th class="align-left">基金名称</th>
                             <th v-if="isEdit">基金代码</th>
-                            <th v-if="showGSZ && !isEdit">估算净值</th>
+                            <th style="min-width:50px" v-if="showGSZ && !isEdit">估算净值</th>
                             <th style="text-align:center" v-if="isEdit && (showCostRate || showCost)">
                                 成本价
                             </th>
-                            <th @click="sortList('amount')" v-if="showAmount" class="pointer">
+                            <th  @click="sortList('amount')" v-if="showAmount" class="pointer">
                                 持有额
                                 <span :class="sortType.amount" class="down-arrow"></span>
                             </th>
-                            <th @click="sortList('costGains')" v-if="showCost" class="pointer">
+                            <th style="min-width:50px" @click="sortList('costGains')" v-if="showCost" class="pointer">
                                 持有收益
                                 <span :class="sortType.costGains" class="down-arrow"></span>
                             </th>
-                            <th @click="sortList('costGainsRate')" v-if="showCostRate" class="pointer">
+                            <th style="min-width:60px" @click="sortList('costGainsRate')" v-if="showCostRate" class="pointer">
                                 持有收益率
                                 <span :class="sortType.costGainsRate" class="down-arrow"></span>
                             </th>
@@ -73,11 +73,11 @@
                                 涨跌幅
                                 <span :class="sortType.gszzl" class="down-arrow"></span>
                             </th>
-                            <th @click="sortList('gains')" v-if="showGains" class="pointer">
+                            <th style="min-width:50px"  @click="sortList('gains')" v-if="showGains" class="pointer">
                                 估算收益
                                 <span :class="sortType.gains" class="down-arrow"></span>
                             </th>
-                            <th v-if="!isEdit">更新时间</th>
+                            <th style="min-width:70px" v-if="!isEdit">更新时间</th>
                             <th style="text-align:center" v-if="
                   isEdit &&
                     (showAmount || showGains || showCost || showCostRate)
@@ -152,7 +152,7 @@
             <!-- <input class="btn" type="button" :value="isAdd ? '取消添加' : '添加'" @click="isAdd = !isAdd" /> -->
             <input class="btn" type="button" value="设置" @click="option" />
             <input class="btn" type="button" value="日志" @click="changelog" />
-            <input class="btn primary" type="button" title="φ(>ω<*)" value="打赏" @click="reward" />
+            <!-- <input class="btn primary" type="button" title="φ(>ω<*)" value="打赏" @click="reward" /> -->
         </div>
         <div class="input-row">
             <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
@@ -340,7 +340,6 @@ export default {
                 this.showBadge = res.showBadge ? res.showBadge : 1;
 
                 this.getIndFundData();
-                debugger
                 this.getData();
                 this.checkInterval(true);
 
@@ -397,7 +396,7 @@ export default {
                         num++;
                     }
                 });
-                className += "num-width-" + num;
+                // className += "num-width-" + num;
             }
             return className;
         },
@@ -885,7 +884,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-    min-width: 400px;
+    min-width: 300px;
     min-height: 150px;
     overflow-y: auto;
     padding: 10px 7px;
@@ -937,11 +936,12 @@ export default {
     min-width: 610px;
 }
 .num-width-5 {
-    min-width: 680px;
+    // min-width: 680px;
+    min-width: 100%;
 }
 
 .table-row {
-    max-height: 435px;
+    max-height: calc(100vh - 260px);
     overflow-y: auto;
 }
 

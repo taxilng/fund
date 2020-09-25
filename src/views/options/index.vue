@@ -309,6 +309,7 @@ export default {
                             message: "恭喜,导入配置成功！",
                             type: "success",
                             center: true,
+                            duration: 1000,
                         });
                         this.$refs.importInput.value = null;
                     });
@@ -318,6 +319,7 @@ export default {
                         message: "导入失败！",
                         type: "error",
                         center: true,
+                        duration: 1000,
                     });
                 }
             };
@@ -365,7 +367,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-    min-width: 630px;
+    min-width: 300px;
     min-height: 520px;
     text-align: center;
     padding: 15px 0;
@@ -376,7 +378,7 @@ export default {
 }
 
 .setting-list {
-    width: 600px;
+    // width: 600px;
     margin: 0 auto;
     text-align: left;
     padding: 0 10px 10px;
@@ -466,7 +468,7 @@ export default {
 
 .githubIcon {
     position: absolute;
-    top: -4px;
+    top: 4px;
     left: 12px;
 }
 .githubText {
@@ -487,6 +489,7 @@ export default {
 }
 
 .black {
+    display: inline-block;
     color: #24292e;
     border-color: #24292e;
 }

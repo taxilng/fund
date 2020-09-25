@@ -11,12 +11,11 @@ export const appRouter = [
     {
         path: "/",
         access: "/",
-        name: "首页",
-        component: () => import("@/views/approvePage/mainApprove"),
+        component: () => import("@/views/home"),
     },
     {
         path: "/option",
-        component: () => import("@/views/options/App")
+        component: () => import("@/views/options")
     },
 ];
 
