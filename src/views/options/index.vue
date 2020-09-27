@@ -114,10 +114,10 @@
                 </li>
                 <li>
                     <div class="list-title">请作者喝杯咖啡</div>
-                    <p style="line-height:34px">
+                    <!-- <p style="line-height:34px">
                         如果你觉得此插件对你有所帮助，或者想要支持一下我
                         <input class="btn primary" type="button" title="φ(>ω<*)" value="点击打赏" @click="reward" />
-                    </p>
+                    </p> -->
                     <p style="line-height:34px">
                         或者你也可以帮忙点一个star，点击查看源码→
                         <span title="点击查看项目源码" class="black icon-btn-row" @click="openGithub">
@@ -138,8 +138,8 @@
                         <input class="btn" type="button" value="更新日志" @click="changelog" />
                     </p>
                     <p style="line-height:34px">
-                        电报群：https://t.me/choose_funds_chat
-                        <input class="btn" type="button" value="点击跳转" @click="openTG" />
+                        QQ群：255649148
+                        <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=IqIeXL1L8aYnNyXZJbWWTMT3x3thfxPu&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="web前端韭菜鱼塘" title="web前端韭菜鱼塘"></a>
                     </p>
                     <change-log @close="closeChangelog" :darkMode="darkMode" ref="changelog" :top="40"></change-log>
                 </li>
@@ -339,10 +339,10 @@ export default {
             window.open("/rabtfunds/holiday.json");
         },
         openGithub () {
-            window.open("https://github.com/x2rr/funds");
+            window.open("https://github.com/taxilng/fundsForWeb");
         },
         openTG () {
-            window.open("https://t.me/choose_funds_chat");
+            window.open("https://qm.qq.com/cgi-bin/qm/qr?k=IqIeXL1L8aYnNyXZJbWWTMT3x3thfxPu&jump_from=webapi");
         },
         reward (data) {
             this.$refs.reward.init();
