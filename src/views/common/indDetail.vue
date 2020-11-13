@@ -585,7 +585,7 @@ export default {
 }
 
 .mini.shadow {
-  padding: 30px;
+  padding: 30px 5px;
   z-index: 1000;
 }
 
