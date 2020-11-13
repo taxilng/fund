@@ -13,7 +13,7 @@
     <table>
       <thead>
         <tr>
-          <th style="text-align: left;">股票名称（代码）</th>
+          <th style="text-align: left;">股票名称</th>
           <th>价格</th>
           <th>涨跌幅</th>
           <th>持仓占比</th>
@@ -23,7 +23,8 @@
       <tbody>
         <tr v-for="(el, ind) in dataList" :key="el.GPDM" @click="openPage(ind)">
           <td class="gpcode" style="text-align: left;">
-            {{ el.GPJC + "（" + el.GPDM + "）" }}
+            <div>{{ el.GPJC}}</div>
+            <div>{{"（" + el.GPDM + "）" }}</div>
           </td>
           <td>{{ dataListGp[ind].f2.toFixed(2) }}</td>
           <td :class="dataListGp[ind].f3 >= 0 ? 'up' : 'down'">
