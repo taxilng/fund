@@ -6,7 +6,7 @@
     ">
         <div>
             <div class="tab-row">
-                <div v-for="(el, index) in indFundData" :draggable="isEdit" class="tab-col" :class="drag" :key="el.f12" @dragstart="handleDragStart($event, el)" @dragover.prevent="handleDragOver($event, el)" @dragenter="handleDragEnter($event, el, index)" @dragend="handleDragEnd($event, el)">
+                <div v-for="(el, index) in indFundData" :draggable="isEdit" class="tab-col indFund" :class="drag" :key="el.f12" @click.stop="!isEdit && indDetail(el)" @dragstart="handleDragStart($event, el)" @dragover.prevent="handleDragOver($event, el)" @dragenter="handleDragEnter($event, el, index)" @dragend="handleDragEnd($event, el)">
                     <h5>
                         {{ el.f14 }}
                         <span v-if="isEdit" @click="dltIndFund(index)" class="dltBtn edit red btn">✖</span>
@@ -151,7 +151,7 @@
             <input class="btn" type="button" :value="isEdit ? '完成编辑' : '编辑'" @click="isEdit = !isEdit" />
             <!-- <input class="btn" type="button" :value="isAdd ? '取消添加' : '添加'" @click="isAdd = !isAdd" /> -->
             <input class="btn" type="button" value="设置" @click="option" />
-            <input class="btn" type="button" value="日志" @click="changelog" />
+            <!-- <input class="btn" type="button" value="日志" @click="changelog" /> -->
             <!-- <input class="btn primary" type="button" title="φ(>ω<*)" value="打赏" @click="reward" /> -->
         </div>
         <div class="input-row">
@@ -164,6 +164,8 @@
             : '∑(っ°Д°;)っ 大事不好啦'
         " :value="'总持有收益：' + allCostGains" />
         </div>
+        <ind-detail @close="closeCharts" :darkMode="darkMode" ref="indDetail">
+        </ind-detail>
         <!-- <charts @close="closeCharts" ref="charts"></charts> -->
         <fund-detail @close="closeCharts" :fund="sltFund" :darkMode="darkMode" ref="charts"></fund-detail>
         <reward @close="rewardShadow = false" ref="reward"></reward>
@@ -174,6 +176,7 @@
 <script>
 const { version } = require("../../../package.json");
 import reward from "../common/reward";
+import indDetail from "../common/indDetail";
 import fundDetail from "../common/fundDetail";
 import changeLog from "../common/changeLog";
 import { storage, chrome } from '@/untils/utils';
@@ -188,6 +191,7 @@ export default {
     components: {
         reward,
         fundDetail,
+        indDetail,
         changeLog,
     },
     data () {
@@ -461,6 +465,11 @@ export default {
                 return v.toString(16);
             });
         },
+        indDetail (val) {
+            // this.sltIndCode = val.f13 + "." + val.f12;
+            this.detailShadow = true;
+            this.$refs.indDetail.init(val);
+        },
         fundDetail (val) {
             this.sltFund = val;
             this.detailShadow = true;
@@ -470,6 +479,8 @@ export default {
             this.detailShadow = false;
         },
         checkInterval (isFirst) {
+            clearInterval(this.myVar);
+            clearInterval(this.myVar1);
             chrome.runtime.sendMessage({ type: "DuringDate" }, (response) => {
                 // debugger
                 this.isDuringDate = response.farewell;
@@ -528,8 +539,8 @@ export default {
             this.$refs.reward.init();
         },
         changelog () {
-            this.changelogShadow = true;
-            this.$refs.changelog.init();
+            // this.changelogShadow = true;
+            // this.$refs.changelog.init();
         },
         closeChangelog () {
             this.changelogShadow = false;
@@ -604,7 +615,7 @@ export default {
         getIndFundData () {
             let seciListStr = this.seciList.join(",");
             let url =
-                "https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&fields=f2,f3,f4,f12,f14&secids=" +
+                "https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&fields=f2,f3,f4,f12,f13,f14&secids=" +
                 seciListStr +
                 "&_=" +
                 new Date().getTime();
@@ -1098,6 +1109,9 @@ tbody tr:hover {
         border: 1px solid #dcdfe6;
         border-radius: 50%;
     }
+}
+.indFund {
+  cursor: pointer;
 }
 
 .tab-row:after,

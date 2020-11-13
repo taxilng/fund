@@ -6,12 +6,15 @@
                 <el-tab-pane lazy label="净值估算" name="first">
                     <charts :darkMode="darkMode" :fund="fund" ref="first"></charts>
                 </el-tab-pane>
-                <el-tab-pane lazy label="单位净值" name="second">
-                    <charts2 :darkMode="darkMode" :fund="fund" chartType="DWJZ" ref="second"></charts2>
+                <el-tab-pane lazy label="持仓明细" name="ccmx">
+                    <position-detail :darkMode="darkMode" @sltStock="sltStock" :fund="fund"> </position-detail>
                 </el-tab-pane>
-                <!-- <el-tab-pane lazy label="累计净值" name="third">
-                    <charts2 :darkMode="darkMode" :fund="fund" chartType="LJJZ" ref="third"></charts2>
+                <!-- <el-tab-pane lazy label="单位净值" name="second">
+                    <charts2 :darkMode="darkMode" :fund="fund" chartType="DWJZ" ref="second"></charts2>
                 </el-tab-pane> -->
+                <el-tab-pane lazy label="累计净值" name="third">
+                    <charts2 :darkMode="darkMode" :fund="fund" chartType="LJJZ" ref="third"></charts2>
+                </el-tab-pane>
                 <el-tab-pane lazy label="累计收益" name="fourth">
                     <charts2 :darkMode="darkMode" :fund="fund" chartType="LJSY" ref="fourth"></charts2>
                 </el-tab-pane>
@@ -21,16 +24,21 @@
                 <input class="btn" type="button" value="返回列表" @click="close" />
             </div>
         </div>
+        <ind-detail mini ref="indDetail" :darkMode="darkMode"></ind-detail>
     </div>
 </template>
 
 <script>
 import charts from "./charts";
 import charts2 from "./charts2";
+import positionDetail from "./positionDetail";
+import indDetail from "./indDetail";
 export default {
     components: {
         charts,
         charts2,
+        positionDetail,
+        indDetail
     },
     name: "fundDetail",
     props: {
@@ -61,6 +69,9 @@ export default {
         close () {
             this.boxShadow = false;
             this.$emit("close", false);
+        },
+        sltStock (val) {
+            this.$refs.indDetail.init(val);
         },
     },
 };
