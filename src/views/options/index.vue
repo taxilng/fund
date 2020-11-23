@@ -103,7 +103,7 @@
                     </div>
                     <div style="padding:8px 0 10px">
                         <input class="btn" type="button" value="导出配置" @click="exportConfig" />
-                        <a class="exportBtn" ref="configMsg" :href="configHref" download="自选基金助手配置文件.json"></a>
+                        <a class="exportBtn" ref="configMsg" :href="configHref" :download="`${timer}基金配置.json`"></a>
                         <a href="javascript:;" class="uploadFile btn">导入配置
                             <input ref="importInput" type="file" @change="importInput" />
                         </a>
@@ -174,10 +174,17 @@ export default {
             BadgeType: 1,
             changelogShadow: false,
             version,
+            timer: null,
         };
     },
     mounted () {
         this.initOption();
+         const date = new Date()
+        const year = date.getFullYear()
+        const month = `0${date.getMonth()+ 1}`.slice(-2)
+        const day = `0${date.getDate()}`.slice(-2)
+        this.timer = `${year}${month}${day}`
+        console.log(this.timer);
     },
     watch: {},
     computed: {
