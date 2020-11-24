@@ -154,7 +154,7 @@
             <!-- <input class="btn" type="button" value="日志" @click="changelog" /> -->
             <!-- <input class="btn primary" type="button" title="φ(>ω<*)" value="打赏" @click="reward" /> -->
         </div>
-        <div class="input-row">
+        <div class="input-row" style="position: relative;">
             <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
           allGains >= 0 ? 'd=====(￣▽￣*)b 赞一个' : '∑(っ°Д°;)っ 大事不好啦'
         " :value="`当日收益：${allGains}(${dailyYield})`" />
@@ -163,6 +163,9 @@
             ? 'd=====(￣▽￣*)b 赞一个'
             : '∑(っ°Д°;)っ 大事不好啦'
         " :value="'总持有收益：' + allCostGains" />
+            <div class="refresh" :class="{ isRefresh: isRefresh }" title="手动刷新数据" @click="refresh">
+                <i class="el-icon-refresh"></i>
+            </div>
         </div>
         <ind-detail @close="closeCharts" :darkMode="darkMode" ref="indDetail">
         </ind-detail>
@@ -283,6 +286,7 @@ export default {
             BadgeContent: 1,
             showBadge: 1,
             userId: null,
+            isRefresh: false,
         };
     },
     mounted () {
@@ -456,6 +460,13 @@ export default {
         },
     },
     methods: {
+        refresh () {
+            this.getData();
+            this.isRefresh = true;
+            setTimeout(() => {
+                this.isRefresh = false;
+            }, 1500);
+        },
         getGuid () {
             return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (
                 c
@@ -937,6 +948,33 @@ export default {
         sans-serif;
 }
 
+.refresh {
+    position: absolute;
+    right: 0px;
+    width: 18px;
+    bottom: 0;
+
+    cursor: pointer;
+    i {
+        color: #409eff;
+        font-size: 18px;
+        font-weight: bold;
+    }
+}
+
+.refresh.isRefresh {
+    animation: changDeg 1.5s linear 0s infinite;
+}
+
+@keyframes changDeg {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
 .detail-container {
     min-height: 450px;
     min-width: 300px;
@@ -1111,7 +1149,7 @@ tbody tr:hover {
     }
 }
 .indFund {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .tab-row:after,
@@ -1207,6 +1245,9 @@ tbody tr:hover {
 .container.darkMode {
     color: rgba($color: #ffffff, $alpha: 0.6);
     background-color: #121212;
+    .refresh {
+        color: rgba($color: #409eff, $alpha: 0.6);
+    }
     .btn {
         background-color: rgba($color: #ffffff, $alpha: 0.16);
         color: rgba($color: #ffffff, $alpha: 0.6);

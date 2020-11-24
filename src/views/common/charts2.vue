@@ -78,7 +78,7 @@ export default {
     this.init();
   },
   beforeDestroy() {
-    this.myChart.clear();
+    this.myChart && this.myChart.clear();
   },
   methods: {
     init() {
