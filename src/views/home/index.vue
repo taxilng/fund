@@ -144,6 +144,7 @@
         </div>
 
         <div class="input-row">
+            <input class="btn" type="button" @click="market" value="行情中心" />
             <input class="btn" v-if="isDuringDate" type="button" :value="isLiveUpdate ? '暂停更新' : '实时更新'" :title="
           isLiveUpdate ? '正在实时更新，点击暂停' : '已暂停，点击切换为实时更新'
         " @click="changeLiveUpdate" />
@@ -167,6 +168,7 @@
                 <i class="el-icon-refresh"></i>
             </div>
         </div>
+        <market :darkMode="darkMode" @close="closeCharts" ref="marketShadow"></market>
         <ind-detail @close="closeCharts" :darkMode="darkMode" ref="indDetail">
         </ind-detail>
         <!-- <charts @close="closeCharts" ref="charts"></charts> -->
@@ -183,6 +185,7 @@ import indDetail from "../common/indDetail";
 import fundDetail from "../common/fundDetail";
 import changeLog from "../common/changeLog";
 import { storage, chrome } from '@/untils/utils';
+import market from "../common/market";
 //防抖
 let timeout = null;
 function debounce (fn, wait = 700) {
@@ -196,6 +199,7 @@ export default {
         fundDetail,
         indDetail,
         changeLog,
+        market,
     },
     data () {
         return {
@@ -488,6 +492,10 @@ export default {
         },
         closeCharts () {
             this.detailShadow = false;
+        },
+        market () {
+            this.detailShadow = true;
+            this.$refs.marketShadow.init();
         },
         checkInterval (isFirst) {
             clearInterval(this.myVar);
@@ -967,12 +975,12 @@ export default {
 }
 
 @keyframes changDeg {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
 }
 
 .detail-container {
