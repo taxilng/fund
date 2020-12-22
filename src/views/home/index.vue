@@ -1030,10 +1030,14 @@ export default {
 }
 
 .table-row {
-    max-height: calc(100vh - 160px);
+    max-height: calc(100vh - 165px);
     overflow-y: auto;
 }
-
+@media screen and (max-width: 500px) {
+    .table-row {
+        height: calc(100vh - 165px);
+    }
+}
 .hasReplace {
     background-color: #409eff;
 }
