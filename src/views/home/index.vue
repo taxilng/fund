@@ -466,6 +466,7 @@ export default {
     methods: {
         refresh () {
             this.getData();
+            this.getIndFundData();
             this.isRefresh = true;
             setTimeout(() => {
                 this.isRefresh = false;
