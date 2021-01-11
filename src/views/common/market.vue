@@ -10,6 +10,12 @@
                 <el-tab-pane lazy label="行业板块资金流向" name="second">
                     <market-bar :darkMode="darkMode" ref="second"></market-bar>
                 </el-tab-pane>
+                <el-tab-pane lazy label="北向资金" name="thrid">
+                    <marketS2N :darkMode="darkMode" ref="thrid"></marketS2N>
+                </el-tab-pane>
+                <el-tab-pane lazy label="南向资金" name="fourth">
+                    <marketN2S :darkMode="darkMode" ref="fourth"></marketN2S>
+                </el-tab-pane>
 
             </el-tabs>
 
@@ -23,11 +29,15 @@
 <script>
 import marketLine from "./marketLine";
 import marketBar from "./marketBar";
+import marketS2N from "./marketS2N";
+import marketN2S from "./marketN2S";
 // import charts2 from "./charts2";
 export default {
     components: {
         marketLine,
-        marketBar
+        marketBar,
+        marketS2N,
+        marketN2S,
     },
     name: "market",
     props: {
