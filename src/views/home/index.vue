@@ -664,7 +664,7 @@ export default {
                             fundcode: val.FCODE,
                             name: val.SHORTNAME,
                             jzrq: val.PDATE,
-                            dwjz: val.NAV,
+                            dwjz: isNaN(val.NAV) ? null : val.NAV,
                             gsz: isNaN(val.GSZ) ? null : val.GSZ,
                             gszzl: isNaN(val.GSZZL) ? 0 : val.GSZZL,
                             gztime: val.GZTIME,
