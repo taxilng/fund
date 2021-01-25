@@ -6,13 +6,13 @@
           @click="checked = 'export'"
           :class="checked == 'export' ? 'checked' : ''"
         >
-          导出(JSON文本)
+          导出
         </button>
         <button
           @click="checked = 'import'"
           :class="checked == 'import' ? 'checked' : ''"
         >
-          导入(JSON文本)
+          导入
         </button>
       </div>
       <div class="tab-content" v-if="checked == 'export'">
