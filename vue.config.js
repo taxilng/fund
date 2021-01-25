@@ -157,13 +157,6 @@ module.exports = {
                     '^/rabt': ''
                 }
             },
-            // 'https://rabt.gitee.io': {
-            //     target: 'https://rabt.gitee.io/',
-            //     changeOrigin: true,   
-            //     pathRewrite: {
-            //         'https://rabt.gitee.io': ''
-            //     }
-            // },
         },
 
         //   before: app => {
