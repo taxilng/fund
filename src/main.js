@@ -2,7 +2,10 @@ import Vue from 'vue'
 import axios from 'axios'
 import App from './App.vue'
 import router from './router'
+import VueClipboard from "vue-clipboard2";
+
 import {
+    Input,
     Dialog,
     Button,
     RadioGroup,
@@ -40,6 +43,8 @@ Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios;
 
+Vue.use(VueClipboard)
+Vue.use(Input)
 Vue.use(Dialog)
 Vue.use(Button)
 Vue.use(RadioGroup)

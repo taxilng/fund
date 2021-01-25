@@ -102,11 +102,12 @@
                         基金配置信息导入与导出
                     </div>
                     <div style="padding:8px 0 10px">
-                        <input class="btn" type="button" value="导出配置" @click="exportConfig" />
+                        <input class="btn" type="button" value="导出配置文件" @click="exportConfig" />
                         <a class="exportBtn" ref="configMsg" :href="configHref" :download="`${timer}基金配置.json`"></a>
-                        <a href="javascript:;" class="uploadFile btn">导入配置
+                        <a href="javascript:;" class="uploadFile btn">导入配置文件
                             <input ref="importInput" type="file" @change="importInput" />
                         </a>
+                        <input class="btn" type="button" value="导入导出文本" @click="openConfigBox" />
                     </div>
                     <p>
                         tips：插件本身支持跟随浏览器账号自动同步，若想手动同步可使用导入导出功能。
@@ -142,6 +143,8 @@
                         <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=IqIeXL1L8aYnNyXZJbWWTMT3x3thfxPu&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="web前端韭菜鱼塘" title="web前端韭菜鱼塘"></a>
                     </p>
                     <change-log @close="closeChangelog" :darkMode="darkMode" ref="changelog" :top="40"></change-log>
+                    <config-box @success="successInput" :darkMode="darkMode" ref="configBox" :top="40">
+                    </config-box>
                 </li>
             </ul>
         </div>
@@ -151,12 +154,14 @@
 <script>
 import reward from "../common/reward";
 import changeLog from "../common/changeLog";
+import configBox from "../common/configBox";
 import { storage, chrome } from '@/untils/utils';
 const { version } = require("../../../package.json");
 export default {
     components: {
         reward,
         changeLog,
+        configBox,
     },
     data () {
         return {
@@ -179,9 +184,9 @@ export default {
     },
     mounted () {
         this.initOption();
-         const date = new Date()
+        const date = new Date()
         const year = date.getFullYear()
-        const month = `0${date.getMonth()+ 1}`.slice(-2)
+        const month = `0${date.getMonth() + 1}`.slice(-2)
         const day = `0${date.getDate()}`.slice(-2)
         this.timer = `${year}${month}${day}`
         console.log(this.timer);
@@ -322,6 +327,13 @@ export default {
                 }
             };
             reader.readAsText(files[0]);
+        },
+        successInput () {
+            this.initOption();
+            chrome.runtime.sendMessage({ type: "refresh" });
+        },
+        openConfigBox () {
+            this.$refs.configBox.init();
         },
         getHoliday () {
             this.disabled = true;

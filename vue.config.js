@@ -151,7 +151,7 @@ module.exports = {
                 }
             },
             '/rabt': {
-                target: 'https://rabt.gitee.io/',
+                target: 'https://x2rr.github.io/',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/rabt': ''
