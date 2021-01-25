@@ -174,7 +174,7 @@ export default {
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   padding: 12px 20px;
   font-size: 14px;
-  width: 150px;
+  max-width: 150px;
   position: relative;
   display: inline-block;
   outline: none;
