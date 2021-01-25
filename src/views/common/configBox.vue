@@ -144,7 +144,7 @@ export default {
 .config-box {
   background: #ffffff;
   border-radius: 15px;
-  width: 500px;
+  max-width: 500px;
   margin: 0 auto;
   text-align: center;
   line-height: 1;
