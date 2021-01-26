@@ -58,7 +58,13 @@ Vue.use(Loading)
 Vue.use(RadioButton)
 
 Vue.prototype.$notify = Notification;
-Vue.prototype.$message = Message;
+
+Vue.prototype.$message = function (params) {
+    const initParams = {
+        duration: 1000
+    }
+    Message({...initParams, ...params})
+};
 
 new Vue({
     router,
