@@ -28,6 +28,7 @@
             </div>
         </div>
         <ind-detail mini ref="indDetail" :darkMode="darkMode"></ind-detail>
+        <manager-detail ref="managerDetail" :darkMode="darkMode"> </manager-detail>
     </div>
 </template>
 
@@ -37,6 +38,7 @@ import charts2 from "./charts2";
 import positionDetail from "./positionDetail";
 import indDetail from "./indDetail";
 import fundInfo from "../common/fundInfo";
+import managerDetail from "../common/managerDetail";
 export default {
     components: {
         charts,
@@ -44,6 +46,7 @@ export default {
         positionDetail,
         indDetail,
         fundInfo,
+        managerDetail,
     },
     name: "fundDetail",
     props: {
