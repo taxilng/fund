@@ -67,8 +67,11 @@ export default {
       loading: false,
     };
   },
-
-  watch: {},
+  watch: {
+    fund(){
+        this.init()
+    }
+  },
   computed: {
     defaultColor() {
       return this.darkMode ? "rgba(255,255,255,0.6)" : "#ccc";

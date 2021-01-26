@@ -172,7 +172,7 @@
         <ind-detail @close="closeCharts" :darkMode="darkMode" ref="indDetail">
         </ind-detail>
         <!-- <charts @close="closeCharts" ref="charts"></charts> -->
-        <fund-detail @close="closeCharts" :fund="sltFund" :darkMode="darkMode" ref="charts"></fund-detail>
+        <fund-detail @close="closeCharts" :curfund="sltFund" :fundList="dataList" :darkMode="darkMode" ref="charts"></fund-detail>
         <reward @close="rewardShadow = false" ref="reward"></reward>
         <change-log @close="closeChangelog" :darkMode="darkMode" ref="changelog" :top="40"></change-log>
     </div>
@@ -294,15 +294,15 @@ export default {
         };
     },
     mounted () {
-        if (process.env.NODE_ENV === "development") {
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = "http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0";
-            document.body.appendChild(script);
-            script.onload = function () {
-                var vConsole = new VConsole();
-            }
-        }
+        // if (process.env.NODE_ENV === "development") {
+        //     const script = document.createElement('script');
+        //     script.type = 'text/javascript';
+        //     script.src = "http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0";
+        //     document.body.appendChild(script);
+        //     script.onload = function () {
+        //         var vConsole = new VConsole();
+        //     }
+        // }
         console.log('home mounted');
         // storage.set({c:3},()=>{ console.log(444);})
         storage.get(

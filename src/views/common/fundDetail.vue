@@ -24,7 +24,9 @@
             </el-tabs>
 
             <div class="tab-row">
+                <input class="btn" type="button" value="上一个" @click="previous(-1)" />
                 <input class="btn" type="button" value="返回列表" @click="close" />
+                <input class="btn" type="button" value="下一个" @click="previous(1)" />
             </div>
         </div>
         <ind-detail mini ref="indDetail" :darkMode="darkMode"></ind-detail>
@@ -54,20 +56,56 @@ export default {
             type: Boolean,
             default: false,
         },
-        fund: {
+        curfund: {
             type: Object,
+            required: true,
+        },
+        fundList: {
+            type: Array,
             required: true,
         },
     },
     data () {
         return {
+            fund: {},
             activeName: "first",
             boxShadow: false,
         };
     },
-    watch: {},
+    watch: {
+        curfund (val) {
+            this.fund = val
+        }
+    },
     mounted () { },
     methods: {
+        previous (type) {
+            console.log(this.fund);
+            console.log(this.fundList);
+            this.fundList.some((v, i) => {
+                if (v.fundcode === this.fund.fundcode) {
+                    if (i === 0 && type === -1) {
+                        this.$message({
+                            message: "已经是第一条",
+                            type: "warning",
+                            center: true,
+                        });
+                        return true
+                    }
+                    if (i + 1 === this.fundList.length && type === 1) {
+                        this.$message({
+                            message: "已经是最后一条",
+                            type: "warning",
+                            center: true,
+                        });
+                        return true
+                    }
+                    this.fund = this.fundList[i + type]
+                    console.log(23,this.fund);
+                    return true
+                }
+            })
+        },
         handleClick (tab, event) {
             this.activeName = tab.name;
         },
