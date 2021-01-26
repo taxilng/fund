@@ -15,11 +15,11 @@
             <table>
               <thead>
                 <tr>
-                  <th>起始期</th>
-                  <th>截止期</th>
-                  <th>基金经理</th>
-                  <th>任职期</th>
-                  <th>任职涨幅</th>
+                  <th style="min-width: 70px">起始期</th>
+                  <th style="min-width: 70px">截止期</th>
+                  <th style="min-width: 50px">基金经理</th>
+                  <th style="min-width: 50px">任职期</th>
+                  <th style="min-width: 40px">任职涨幅</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,7 +44,7 @@
               <div class="info-row">
                 <p>姓名：{{ el.MGRNAME }}</p>
                 <p>上任日期：{{ el.FEMPDATE }}</p>
-                <p>管理年限：{{ el.DAYS }}</p>
+                <p>管理年限：{{ el.DAYS }}天</p>
               </div>
             </div>
             <div class="manager-resume">{{ el.RESUME }}</div>
@@ -167,6 +167,7 @@ h5 {
   font-size: 15px;
 }
 .table-row {
+  overflow-x: auto;
   padding: 5px 10px;
 }
 table {
