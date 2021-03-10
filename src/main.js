@@ -19,6 +19,8 @@ import {
     Notification,
     Message,
     RadioButton,
+    Form,
+    FormItem,
 } from 'element-ui'
 // import "./style/guiji_font/iconfont.js";
 // import "./style/receptionCenterFontIcon/iconfont.js";
@@ -56,6 +58,8 @@ Vue.use(Switch)
 Vue.use(Radio)
 Vue.use(Loading)
 Vue.use(RadioButton)
+Vue.use(Form)
+Vue.use(FormItem)
 
 Vue.prototype.$notify = Notification;
 

@@ -3,6 +3,30 @@
         <div>
             <ul class="setting-list">
                 <li>
+                    <div>账号信息</div>
+                    <template v-if="userInfo.username">
+                        <div class="btn-row">
+                            <span>欢迎登陆，{{userInfo.username}}</span>
+                            <el-button type="danger" size="mini" style="margin-left: 20px;" @click="logout" :loading="logoutLoading">退出</el-button>
+                        </div>
+                        <div class="btn-row">
+                            <el-button type="primary" size="mini" icon="el-icon-download" @click="getUserInfo" :loading="getUserInfoLoading">从云端同步</el-button>
+                            <el-button type="primary" size="mini" icon="el-icon-upload" @click="updateUser" :loading="updateUserLoading">备份到云端</el-button>
+                        </div>
+                        <p>
+                            tips：同步与备份数据会覆盖之前的数据，考虑到网络请求压力，目前跨设备同步需要手动点击同步备份按钮。
+                        </p>
+                    </template>
+                    <template v-else>
+                        <div style="padding: 15px;">
+                            <button class="btn" @click="login">登陆/注册</button>
+                        </div>
+                        <p>
+                            tips：登录账号后可以更加方便的进行跨设备跨平台同步个人信息。
+                        </p>
+                    </template>
+                </li>
+                <li>
                     <div class="list-title">
                         节假日信息
                         <button :disabled="disabled" @click="getHoliday" title="点击更新节假日信息" class="btn">
@@ -148,10 +172,12 @@
                 </li>
             </ul>
         </div>
+        <login :darkMode="darkMode" :show.sync="loginDialog" @init="initOption"></login>
     </div>
 </template>
 
 <script>
+import login from "./login";
 import reward from "../common/reward";
 import changeLog from "../common/changeLog";
 import configBox from "../common/configBox";
@@ -162,6 +188,7 @@ export default {
         reward,
         changeLog,
         configBox,
+        login,
     },
     data () {
         return {
@@ -180,6 +207,12 @@ export default {
             changelogShadow: false,
             version,
             timer: null,
+            loginDialog: false,
+            userInfo: {},
+            url: "https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center",
+            updateUserLoading: false,
+            getUserInfoLoading: false,
+            logoutLoading: false,
         };
     },
     mounted () {
@@ -200,6 +233,105 @@ export default {
         },
     },
     methods: {
+        logout () {
+            storage.get('token').then(res => {
+                this.logoutLoading = true;
+                this.$axios.post(this.url, {
+                    action: 'logout',
+                    uniIdToken: res.token,
+                }).then((res) => {
+                    console.log(11, res);
+                    if (res && res.code === 0) {
+                        this.$message({
+                            message: "退出登录成功！",
+                            type: "success",
+                            center: true,
+                        });
+                        storage.set({
+                            userInfo: {},
+                            token: null,
+                        });
+                        this.initOption()
+                    }
+                }).finally(() => {
+                    this.logoutLoading = false;
+                });
+            });
+        },
+        getUserInfo () {
+            storage.get('token').then(res => {
+                this.getUserInfoLoading = true;
+                this.$axios.post(this.url, {
+                    action: 'getUserInfo',
+                    params: {
+                        field: ['config_data']
+                    },
+                    uniIdToken: res.token,
+                }).then((res) => {
+                    console.log(11, res);
+                    if (res && res.code === 0) {
+                        if (res.userInfo && res.userInfo.config_data) {
+                            const data = JSON.parse(res.userInfo.config_data)
+                            storage.set(data, () => {
+                                chrome.runtime.sendMessage({ type: "refresh" });
+                            })
+                            this.initOption()
+                            this.$message({
+                                message: "获取云端数据成功！",
+                                type: "success",
+                                center: true,
+                            });
+                        } else {
+                            this.$message({
+                                message: "云端暂无配置信息,请先备份数据到云端！",
+                                type: "warning",
+                                center: true,
+                            });
+                        }
+                    } else {
+                        this.$message({
+                            message: "云端暂无配置信息,请先备份数据到云端！",
+                            type: "warning",
+                            center: true,
+                        });
+                    }
+                }).finally(() => {
+                    this.getUserInfoLoading = false;
+                });
+            });
+        },
+        updateUser () {
+            storage.get(null).then(res => {
+                console.log('123', res);
+                const uniIdToken = res.token
+                delete res.holiday;
+                delete res.token;
+                delete res.userInfo;
+                const config_data = JSON.stringify(res);
+                this.updateUserLoading = true;
+                this.$axios.post(this.url, {
+                    action: 'updateUser',
+                    params: {
+                        config_data
+                    },
+                    uniIdToken,
+                }).then((res) => {
+                    console.log(11, res);
+                    if (res && res.code === 0) {
+                        this.$message({
+                            message: "备份到云端成功！",
+                            type: "success",
+                            center: true,
+                        });
+                    }
+                }).finally(() => {
+                    this.updateUserLoading = false;
+                });
+            });
+        },
+        login () {
+            this.loginDialog = true
+        },
         changelog () {
             this.changelogShadow = true;
             this.$refs.changelog.init();
@@ -242,6 +374,7 @@ export default {
                     "showBadge",
                     "BadgeContent",
                     "BadgeType",
+                    "userInfo",
                 ])
                 .then(
                     (res) => {
@@ -283,6 +416,11 @@ export default {
                         this.showBadge = res.showBadge ? res.showBadge : 1;
                         this.BadgeContent = res.BadgeContent ? res.BadgeContent : 1;
                         this.BadgeType = res.BadgeType ? res.BadgeType : 1;
+
+                        // console.log('mi', res);
+                        if (res.userInfo) {
+                            this.userInfo = res.userInfo
+                        }
                     }
                 );
         },
@@ -393,6 +531,9 @@ export default {
     text-align: left;
     padding: 0 10px 10px;
     border-radius: 8px;
+    .btn-row {
+        padding: 7px 30px;
+    }
 }
 
 .setting-list li {
