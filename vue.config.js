@@ -157,6 +157,13 @@ module.exports = {
                     '^/rabt': ''
                 }
             },
+            '/bspapp': {
+                target: 'https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center/',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/bspapp': ''
+                }
+            },
         },
 
         //   before: app => {
