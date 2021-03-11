@@ -71,7 +71,7 @@ export default {
                     { required: true, message: '验证码不能为空', trigger: 'onbur' }
                 ],
             },
-            url: "https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center",
+            url: "/bspapp",
             loading: false,
             registerLoading: false,
             loginLoading: false,

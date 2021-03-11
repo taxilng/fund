@@ -151,21 +151,18 @@
                             </svg>
                             <input class="btn black githubText" type="button" value="源代码" />
                         </span>
+                        <img @click="openGitee" class="gitee" src="@/assets/img/logo-black.svg" alt="">
                     </p>
                     <reward :top="50" ref="reward"></reward>
                 </li>
                 <li>
-                    <div class="list-title">
+                    <!-- <div class="list-title">
                         关于插件
                     </div>
                     <p style="line-height:34px">
                         当前版本：v{{ version }}
                         <input class="btn" type="button" value="更新日志" @click="changelog" />
-                    </p>
-                    <p style="line-height:34px">
-                        QQ群：255649148
-                        <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=IqIeXL1L8aYnNyXZJbWWTMT3x3thfxPu&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="web前端韭菜鱼塘" title="web前端韭菜鱼塘"></a>
-                    </p>
+                    </p> -->
                     <change-log @close="closeChangelog" :darkMode="darkMode" ref="changelog" :top="40"></change-log>
                     <config-box @success="successInput" :darkMode="darkMode" ref="configBox" :top="40">
                     </config-box>
@@ -209,7 +206,7 @@ export default {
             timer: null,
             loginDialog: false,
             userInfo: {},
-            url: "https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center",
+            url: "/bspapp",
             updateUserLoading: false,
             getUserInfoLoading: false,
             logoutLoading: false,
@@ -496,7 +493,10 @@ export default {
             window.open("/rabtfunds/holiday.json");
         },
         openGithub () {
-            window.open("https://github.com/taxilng/fundsForWeb");
+            window.open("https://github.com/taxilng/fund");
+        },
+        openGitee () {
+            window.open("https://gitee.com/taxilng/fund");
         },
         openTG () {
             window.open("https://qm.qq.com/cgi-bin/qm/qr?k=IqIeXL1L8aYnNyXZJbWWTMT3x3thfxPu&jump_from=webapi");
@@ -695,5 +695,15 @@ export default {
     /deep/ .el-radio {
         color: rgba($color: #ffffff, $alpha: 0.6);
     }
+}
+
+.gitee {
+    width: 60px;
+    border: 1px solid #000;
+    padding: 5px;
+    vertical-align: top;
+    margin-top: 2px;
+    border-radius: 3px;
+    cursor: pointer;
 }
 </style>
