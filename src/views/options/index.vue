@@ -490,7 +490,7 @@ export default {
             this.$router.push('/')
         },
         openHoliday () {
-            window.open("/rabtfunds/holiday.json");
+            window.open("/rabt/funds/holiday.json");
         },
         openGithub () {
             window.open("https://github.com/taxilng/fund");
