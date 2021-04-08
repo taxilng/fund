@@ -4,7 +4,7 @@
         ? { width: containerWidth + 'px', height: containerHeight + 'px' }
         : ''
     ">
-        <div>
+        <div class="main-row">
             <div class="tab-row">
                 <div v-for="(el, index) in indFundData" :draggable="isEdit" class="tab-col indFund" :class="drag" :key="el.f12" @click.stop="!isEdit && indDetail(el)" @dragstart="handleDragStart($event, el)" @dragover.prevent="handleDragOver($event, el)" @dragenter="handleDragEnter($event, el, index)" @dragend="handleDragEnd($event, el)">
                     <h5>
@@ -159,14 +159,15 @@
             <input class="btn" type="button" value="设置" @click="option" />
             <!-- <input class="btn" type="button" value="日志" @click="changelog" /> -->
             <!-- <input class="btn primary" type="button" title="φ(>ω<*)" value="打赏" @click="reward" /> -->
-        </div>
-        <div class="input-row" style="position: relative;">
-            <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :value="`日收益：${allGains}(${dailyYield})`" />
-            <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '(' + allCostGains[1] + '%)'}`" />
-            <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
             <div class="refresh" :class="{ isRefresh: isRefresh }" title="手动刷新数据" @click="refresh">
                 <i class="el-icon-refresh"></i>
             </div>
+        </div>
+        <div class="input-row" style="position: relative;">
+            <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" @click="refresh" :value="`日收益：${allGains}(${dailyYield})`" />
+            <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '(' + allCostGains[1] + '%)'}`" />
+            <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
+
         </div>
         <market :darkMode="darkMode" @close="closeCharts" ref="marketShadow"></market>
         <ind-detail @close="closeCharts" :darkMode="darkMode" ref="indDetail">
@@ -979,11 +980,10 @@ export default {
 }
 
 .refresh {
-    position: absolute;
-    right: 0px;
-    width: 18px;
-    bottom: 0;
-
+    // position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
     cursor: pointer;
     i {
         color: #409eff;
