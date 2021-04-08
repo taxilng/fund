@@ -108,8 +108,13 @@
                         </el-switch>
                     </div>
                     <div class="select-row">
-                        <span>显示持有收益</span>
+                        <span>显示单个持有收益</span>
                         <el-switch v-model="showCost" @change="changeOption($event, 'showCost')">
+                        </el-switch>
+                    </div>
+                    <div class="select-row">
+                        <span>显示总持有收益</span>
+                        <el-switch v-model="showAllCost" @change="changeOption($event, 'showAllCost')">
                         </el-switch>
                     </div>
                     <div class="select-row">
@@ -196,6 +201,7 @@ export default {
             showAmount: false,
             showGains: false,
             showCost: false,
+            showAllCost: false,
             showCostRate: false,
             darkMode: false,
             showBadge: 1,
@@ -365,6 +371,7 @@ export default {
                     "showAmount",
                     "showGains",
                     "showCost",
+                    "showAllCost",
                     "showCostRate",
                     "showGSZ",
                     "darkMode",
@@ -408,6 +415,7 @@ export default {
                         }
                         this.showGSZ = res.showGSZ ? res.showGSZ : false;
                         this.showCost = res.showCost ? res.showCost : false;
+                        this.showAllCost = res.showAllCost ? res.showAllCost : false;
                         this.showCostRate = res.showCostRate ? res.showCostRate : false;
                         this.darkMode = res.darkMode ? res.darkMode : false;
                         this.showBadge = res.showBadge ? res.showBadge : 1;
@@ -560,7 +568,7 @@ export default {
     padding-left: 20px;
     & > span {
         display: inline-block;
-        width: 120px;
+        width: 130px;
         margin-right: 3px;
         text-align: right;
     }

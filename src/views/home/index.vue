@@ -158,12 +158,12 @@
         <div class="input-row" style="position: relative;">
             <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
           allGains >= 0 ? 'd=====(￣▽￣*)b 赞一个' : '∑(っ°Д°;)っ 大事不好啦'
-        " :value="`当日收益：${allGains}(${dailyYield})`" />
-            <input v-if="showCost" class="btn" :class="allCostGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
-          allCostGains >= 0
+        " :value="`日收益：${allGains}(${dailyYield})`" />
+            <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
+          allCostGains[0] >= 0
             ? 'd=====(￣▽￣*)b 赞一个'
             : '∑(っ°Д°;)っ 大事不好啦'
-        " :value="'总持有收益：' + allCostGains" />
+        " :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '（' + allCostGains[1] + '%）'}`" />
             <div class="refresh" :class="{ isRefresh: isRefresh }" title="手动刷新数据" @click="refresh">
                 <i class="el-icon-refresh"></i>
             </div>
@@ -218,6 +218,7 @@ export default {
             showGains: false,
             showAmount: false,
             showCost: false,
+            showAllCost: false,
             showCostRate: false,
             showGSZ: false,
             fundList: ["001618"],
@@ -316,6 +317,7 @@ export default {
                 "darkMode",
                 "isLiveUpdate",
                 "showCost",
+                "showAllCost",
                 "showCostRate",
                 "showGSZ",
                 "version",
@@ -353,6 +355,7 @@ export default {
                 this.RealtimeFundcode = res.RealtimeFundcode;
                 this.isLiveUpdate = res.isLiveUpdate ? res.isLiveUpdate : false;
                 this.showCost = res.showCost ? res.showCost : false;
+                this.showAllCost = res.showAllCost ? res.showAllCost : false;
                 this.showCostRate = res.showCostRate ? res.showCostRate : false;
                 this.showGSZ = res.showGSZ ? res.showGSZ : false;
                 this.BadgeContent = res.BadgeContent ? res.BadgeContent : 1;
@@ -397,11 +400,17 @@ export default {
         },
         allCostGains () {
             let allCostGains = 0;
+            let allNum = 0;
             this.dataList.forEach((val) => {
                 allCostGains += parseFloat(val.costGains);
+                allNum += parseFloat(val.amount);
             });
-            allCostGains = allCostGains.toFixed(1);
-            return allCostGains;
+            allCostGains = allCostGains.toFixed(2);
+            let allCostGainsRate = (
+                (allCostGains * 100) /
+                (allNum - allCostGains)
+            ).toFixed(2);
+            return [allCostGains, allCostGainsRate];
         },
         containerClass () {
             let className = "";
