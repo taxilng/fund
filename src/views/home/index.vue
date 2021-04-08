@@ -61,6 +61,10 @@
                                 持有额
                                 <span :class="sortType.amount" class="down-arrow"></span>
                             </th>
+                            <th style="min-width:50px" @click="sortList('amount')" v-if="showProportion" class="pointer">
+                                持仓占比
+                                <span :class="sortType.amount" class="down-arrow"></span>
+                            </th>
                             <th style="min-width:60px" @click="sortList('costGains')" v-if="showCost" class="pointer">
                                 持有收益
                                 <span :class="sortType.costGains" class="down-arrow"></span>
@@ -102,6 +106,7 @@
                             </td>
 
                             <td v-if="showAmount">{{ el.amount }}</td>
+                            <td v-if="showProportion">{{ el.proportion + '%' }}</td>
                             <td v-if="showCost" :class="el.costGains >= 0 ? 'up' : 'down'">
                                 {{ el.costGains }}
                             </td>
@@ -164,7 +169,7 @@
             ? 'd=====(￣▽￣*)b 赞一个'
             : '∑(っ°Д°;)っ 大事不好啦'
         " :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '（' + allCostGains[1] + '%）'}`" />
-         <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
+            <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
             <div class="refresh" :class="{ isRefresh: isRefresh }" title="手动刷新数据" @click="refresh">
                 <i class="el-icon-refresh"></i>
             </div>
@@ -218,6 +223,7 @@ export default {
             checked: "wepay",
             showGains: false,
             showAmount: false,
+            showProportion: false,
             showCost: false,
             showAllCost: false,
             showTotalAssets: false,
@@ -313,6 +319,7 @@ export default {
                 "RealtimeFundcode",
                 "fundListM",
                 "showAmount",
+                "showProportion",
                 "showGains",
                 "fundList",
                 "seciList",
@@ -354,6 +361,7 @@ export default {
                 this.darkMode = res.darkMode ? res.darkMode : false;
                 this.seciList = res.seciList ? res.seciList : this.seciList;
                 this.showAmount = res.showAmount ? res.showAmount : false;
+                this.showProportion = res.showProportion ? res.showProportion : false;
                 this.showGains = res.showGains ? res.showGains : false;
                 this.RealtimeFundcode = res.RealtimeFundcode;
                 this.isLiveUpdate = res.isLiveUpdate ? res.isLiveUpdate : false;
@@ -672,6 +680,7 @@ export default {
                     this.dataList = [];
                     let dataList = [];
 
+
                     data.forEach((val) => {
                         let data = {
                             fundcode: val.FCODE,
@@ -719,9 +728,14 @@ export default {
                             });
                         }
                     }
-
-                    this.dataList = dataList;
-                    console.log(this.dataList);
+                    //总额
+                    let allAmount = dataList.reduce((total, cur) => {
+                        return total + parseFloat(cur.amount);
+                    }, 0);
+                    allAmount = allAmount.toFixed(1);
+                    // console.log('ming', allAmount);
+                    this.dataList = dataList.map(v => ({ ...v, proportion: (v.amount / allAmount * 100).toFixed(0) }));
+                    console.log(5, this.dataList);
                 })
                 .catch((error) => { console.log(error); });
         },
