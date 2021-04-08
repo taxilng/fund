@@ -166,7 +166,7 @@
                             </svg>
                             <input class="btn black githubText" type="button" value="源代码" />
                         </span>
-                        <img @click="openGitee" class="gitee" src="@/assets/img/logo-black.svg" alt="">
+                        <img @click="openGitee" class="gitee" :src="darkMode ? giteeLogo1 : giteeLogo2" alt="">
                     </p>
                     <reward :top="50" ref="reward"></reward>
                 </li>
@@ -204,6 +204,8 @@ export default {
     },
     data () {
         return {
+            giteeLogo1: require('@/assets/img/logo.svg'),
+            giteeLogo2: require('@/assets/img/logo-black.svg'),
             configHref: null,
             holiday: null,
             disabled: false,
