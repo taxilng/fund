@@ -61,7 +61,7 @@
                                 持有额
                                 <span :class="sortType.amount" class="down-arrow"></span>
                             </th>
-                            <th style="min-width:50px" @click="sortList('amount')" v-if="showProportion" class="pointer">
+                            <th style="min-width:60px" @click="sortList('amount')" v-if="showProportion" class="pointer">
                                 持仓占比
                                 <span :class="sortType.amount" class="down-arrow"></span>
                             </th>
