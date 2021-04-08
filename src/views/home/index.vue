@@ -161,14 +161,8 @@
             <!-- <input class="btn primary" type="button" title="φ(>ω<*)" value="打赏" @click="reward" /> -->
         </div>
         <div class="input-row" style="position: relative;">
-            <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
-          allGains >= 0 ? 'd=====(￣▽￣*)b 赞一个' : '∑(っ°Д°;)っ 大事不好啦'
-        " :value="`日收益：${allGains}(${dailyYield})`" />
-            <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" :title="
-          allCostGains[0] >= 0
-            ? 'd=====(￣▽￣*)b 赞一个'
-            : '∑(っ°Д°;)っ 大事不好啦'
-        " :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '（' + allCostGains[1] + '%）'}`" />
+            <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" :value="`日收益：${allGains}(${dailyYield})`" />
+            <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '(' + allCostGains[1] + '%)'}`" />
             <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
             <div class="refresh" :class="{ isRefresh: isRefresh }" title="手动刷新数据" @click="refresh">
                 <i class="el-icon-refresh"></i>
@@ -734,7 +728,7 @@ export default {
                     }, 0);
                     allAmount = allAmount.toFixed(1);
                     // console.log('ming', allAmount);
-                    this.dataList = dataList.map(v => ({ ...v, proportion: (v.amount / allAmount * 100).toFixed(0) }));
+                    this.dataList = dataList.map(v => ({ ...v, proportion: (v.amount / allAmount * 100).toFixed(2) }));
                     console.log(5, this.dataList);
                 })
                 .catch((error) => { console.log(error); });
