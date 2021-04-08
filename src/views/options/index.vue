@@ -703,6 +703,9 @@ export default {
     /deep/ .el-radio {
         color: rgba($color: #ffffff, $alpha: 0.6);
     }
+    .gitee {
+        border: 1px solid rgba(255, 255, 255, 0.6);
+    }
 }
 
 .gitee {
