@@ -164,6 +164,7 @@
             ? 'd=====(￣▽￣*)b 赞一个'
             : '∑(っ°Д°;)っ 大事不好啦'
         " :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '（' + allCostGains[1] + '%）'}`" />
+         <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
             <div class="refresh" :class="{ isRefresh: isRefresh }" title="手动刷新数据" @click="refresh">
                 <i class="el-icon-refresh"></i>
             </div>
@@ -219,6 +220,7 @@ export default {
             showAmount: false,
             showCost: false,
             showAllCost: false,
+            showTotalAssets: false,
             showCostRate: false,
             showGSZ: false,
             fundList: ["001618"],
@@ -318,6 +320,7 @@ export default {
                 "isLiveUpdate",
                 "showCost",
                 "showAllCost",
+                "showTotalAssets",
                 "showCostRate",
                 "showGSZ",
                 "version",
@@ -356,6 +359,7 @@ export default {
                 this.isLiveUpdate = res.isLiveUpdate ? res.isLiveUpdate : false;
                 this.showCost = res.showCost ? res.showCost : false;
                 this.showAllCost = res.showAllCost ? res.showAllCost : false;
+                this.showTotalAssets = res.showTotalAssets ? res.showTotalAssets : false;
                 this.showCostRate = res.showCostRate ? res.showCostRate : false;
                 this.showGSZ = res.showGSZ ? res.showGSZ : false;
                 this.BadgeContent = res.BadgeContent ? res.BadgeContent : 1;
@@ -1107,7 +1111,7 @@ tbody tr:hover {
     border-radius: 3px;
     font-size: 12px;
     color: #000000;
-    margin: 0 3px;
+    margin: 0 3px 3px;
     outline: none;
     border: 1px solid #dcdfe6;
 }

@@ -118,6 +118,11 @@
                         </el-switch>
                     </div>
                     <div class="select-row">
+                        <span>显示总资产</span>
+                        <el-switch v-model="showTotalAssets" @change="changeOption($event, 'showTotalAssets')">
+                        </el-switch>
+                    </div>
+                    <div class="select-row">
                         <span>显示持有收益率</span>
                         <el-switch v-model="showCostRate" @change="changeOption($event, 'showCostRate')">
                         </el-switch>
@@ -202,6 +207,7 @@ export default {
             showGains: false,
             showCost: false,
             showAllCost: false,
+            showTotalAssets: false,
             showCostRate: false,
             darkMode: false,
             showBadge: 1,
@@ -372,6 +378,7 @@ export default {
                     "showGains",
                     "showCost",
                     "showAllCost",
+                    "showTotalAssets",
                     "showCostRate",
                     "showGSZ",
                     "darkMode",
@@ -416,6 +423,7 @@ export default {
                         this.showGSZ = res.showGSZ ? res.showGSZ : false;
                         this.showCost = res.showCost ? res.showCost : false;
                         this.showAllCost = res.showAllCost ? res.showAllCost : false;
+                        this.showTotalAssets = res.showTotalAssets ? res.showTotalAssets : false;
                         this.showCostRate = res.showCostRate ? res.showCostRate : false;
                         this.darkMode = res.darkMode ? res.darkMode : false;
                         this.showBadge = res.showBadge ? res.showBadge : 1;
