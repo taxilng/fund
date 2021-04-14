@@ -164,7 +164,7 @@
             </div>
         </div>
         <div class="input-row" style="position: relative;">
-            <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" @click="refresh" :value="`日收益：${allGains}(${dailyYield})`" />
+            <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" @click="earningsDayShow" :value="`日收益：${allGains}(${dailyYield})`" />
             <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '(' + allCostGains[1] + '%)'}`" />
             <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
 
@@ -174,6 +174,7 @@
         </ind-detail>
         <!-- <charts @close="closeCharts" ref="charts"></charts> -->
         <fund-detail @close="closeCharts" :curfund="sltFund" :fundList="dataList" :darkMode="darkMode" ref="charts"></fund-detail>
+        <earnings-day @close="earningsDayDialogShow = false"  :earningsDayDialogShow="earningsDayDialogShow" :fundList="dataList" :allAmount="allAmount" :darkMode="darkMode"></earnings-day>
         <reward @close="rewardShadow = false" ref="reward"></reward>
         <change-log @close="closeChangelog" :darkMode="darkMode" ref="changelog" :top="40"></change-log>
     </div>
@@ -184,6 +185,7 @@ const { version } = require("../../../package.json");
 import reward from "../common/reward";
 import indDetail from "../common/indDetail";
 import fundDetail from "../common/fundDetail";
+import earningsDay from "../common/earningsDay";
 import changeLog from "../common/changeLog";
 import { storage, chrome } from '@/untils/utils';
 import market from "../common/market";
@@ -198,12 +200,14 @@ export default {
     components: {
         reward,
         fundDetail,
+        earningsDay,
         indDetail,
         changeLog,
         market,
     },
     data () {
         return {
+            earningsDayDialogShow: false,
             isEdit: false,
             fundcode: "",
             isAdd: false,
@@ -506,6 +510,9 @@ export default {
             this.sltFund = val;
             this.detailShadow = true;
             this.$refs.charts.init();
+        },
+        earningsDayShow () {
+            this.earningsDayDialogShow = true
         },
         closeCharts () {
             this.detailShadow = false;
