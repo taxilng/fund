@@ -80,9 +80,9 @@ export default {
                             .map((item) => item.split(","))
                             .map(y => (y[2] * amount).toFixed(2))
                         // console.log('dia', dataList);
-                        if (amountList.length) {
+                        if (amountList.length && dataList.length) {
                             amountList = amountList.map((v, i) => Number(v) + Number(dataList[i]))
-                        } else {
+                        } else if(amountList.length === 0){
                             amountList = dataList
                         }
                     }
