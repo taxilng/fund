@@ -63,8 +63,9 @@ export default {
             this.activeName = tab.name;
         },
         init () {
-            // console.log('mi', this.fundList);
+            console.log('mi', this.fundList);
             const fundCodeList = this.fundList
+                .filter(v => Number(v.amount))
                 .map(v => {
                     let url = `/FundMApi/FundVarietieValuationDetail.ashx?FCODE=${v.fundcode}&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
                     return this.$axios.get(url)
