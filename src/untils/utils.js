@@ -507,7 +507,7 @@ var setBadge = (fundcode, Realtime, type) => {
                     fundcode: val.FCODE,
                     name: val.SHORTNAME,
                     jzrq: val.PDATE,
-                    dwjz: val.NAV,
+                    dwjz: isNaN(val.NAV) ? null : val.NAV,
                     gsz: isNaN(val.GSZ) ? null : val.GSZ,
                     gszzl: isNaN(val.GSZZL) ? 0 : val.GSZZL,
                     gztime: val.GZTIME,
@@ -525,7 +525,7 @@ var setBadge = (fundcode, Realtime, type) => {
                 let num = data.num ? data.num : 0;
 
                 if (val.PDATE == val.GZTIME.substr(0, 10)) {
-                    data.gsz = val.NAV;
+                    data.gsz = isNaN(val.NAV) ? null : val.NAV;
                     data.gszzl = isNaN(val.NAVCHGRT) ? 0 : val.NAVCHGRT;
                     sum = (
                         (data.dwjz - data.dwjz / (1 + data.gszzl * 0.01)) *
@@ -555,17 +555,20 @@ var setBadge = (fundcode, Realtime, type) => {
                         (item) => item.code == val.FCODE
                     );
                     let num = slt[0].num ? slt[0].num : 0;
-                    allAmount += val.NAV * num;
-                    var sum = 0;
-                    if (val.PDATE == val.GZTIME.substr(0, 10)) {
-                        sum = (val.NAV - val.NAV / (1 + val.NAVCHGRT * 0.01)) * num
-                    } else {
-                        let gsz = isNaN(val.GSZ) ? null : val.GSZ
-                        if (gsz) {
-                            sum = (gsz - val.NAV) * num
+                    let NAV = isNaN(val.NAV) ? null : val.NAV;
+                    if (NAV) {
+                        allAmount += NAV * num;
+                        var sum = 0;
+                        if (val.PDATE == val.GZTIME.substr(0, 10)) {
+                            sum = (NAV - NAV / (1 + val.NAVCHGRT * 0.01)) * num
+                        } else {
+                            let gsz = isNaN(val.GSZ) ? null : val.GSZ
+                            if (gsz) {
+                                sum = (gsz - NAV) * num
+                            }
                         }
+                        allGains += sum;
                     }
-                    allGains += sum;
 
                 });
                 if (BadgeType == 1) {
@@ -579,7 +582,6 @@ var setBadge = (fundcode, Realtime, type) => {
                     textStr = formatNum(allGains);
                 }
             }
-
 
             chrome.browserAction.setBadgeText({
                 text: textStr
@@ -694,19 +696,23 @@ export const chrome = {
                     let slt = fundListM.filter(
                         (item) => item.code == val.FCODE
                     );
-                    let num = slt[0].num ? slt[0].num : 0;
-                    allAmount += val.NAV * num;
-                    var sum = 0;
-                    if (val.PDATE == val.GZTIME.substr(0, 10)) {
-                        sum = (val.NAV - val.NAV / (1 + val.NAVCHGRT * 0.01)) * num
-                    } else {
-                        let gsz = isNaN(val.GSZ) ? null : val.GSZ;
-                        if (gsz) {
-                            sum = (gsz - val.NAV) * num;
+                    let NAV = isNaN(val.NAV) ? null : val.NAV;
+                    if (NAV) {
+                        let num = slt[0].num ? slt[0].num : 0;
+                        allAmount += NAV * num;
+                        var sum = 0;
+                        if (val.PDATE == val.GZTIME.substr(0, 10)) {
+                            sum = (NAV - NAV / (1 + val.NAVCHGRT * 0.01)) * num
+                        } else {
+                            let gsz = isNaN(val.GSZ) ? null : val.GSZ;
+                            if (gsz) {
+                                sum = (gsz - NAV) * num;
+                            }
+
                         }
+                        allGains += sum;
 
                     }
-                    allGains += sum;
 
                 });
                 let textStr = null;
@@ -720,7 +726,6 @@ export const chrome = {
                 } else {
                     textStr = formatNum(allGains);
                 }
-
                 chrome.browserAction.setBadgeText({
                     text: textStr
                 });
@@ -754,14 +759,14 @@ export const chrome = {
                 getData();
             }
             if (request.type == "refreshBadge") {
-                let textstr = null;
+                let textStr = null;
                 if (BadgeType == 1) {
-                    textstr = request.data.gszzl + '%';
+                    textStr = request.data.gszzl + '%';
                 } else {
-                    textstr = formatNum(request.data.gains);
+                    textStr = formatNum(request.data.gains);
                 }
                 chrome.browserAction.setBadgeText({
-                    text: textstr
+                    text: textStr
                 });
                 let color = isDuringDate() ?
                     request.data.gszzl >= 0 ?
