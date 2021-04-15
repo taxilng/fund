@@ -81,14 +81,14 @@ export default {
                             .map(y => (y[2] * amount).toFixed(2))
                         console.log('dia', dataList);
                         if (amountList.length) {
-                            amountList = amountList.map((v, i) => Number(v) + Number(dataList[i] || 0))
+                            amountList = amountList.map((v, i) => Number(v) + Number(dataList[i]))
                         } else {
                             amountList = dataList
                         }
                     }
                 })
                 console.log('amountList', amountList);
-                this.fundAmount = amountList.map(v => (v / 100).toFixed(1))
+                this.fundAmount = amountList.filter(v => !isNaN(v)).map(v => (v / 100).toFixed(1))
                 console.log('fundAmount', this.fundAmount);
             })
         },
