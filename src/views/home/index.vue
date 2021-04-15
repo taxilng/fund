@@ -311,7 +311,7 @@ export default {
         //         var vConsole = new VConsole();
         //     }
         // }
-        console.log('home mounted');
+        // console.log('home mounted');
         // storage.set({c:3},()=>{ console.log(444);})
         storage.get(
             [
@@ -377,7 +377,7 @@ export default {
                 this.checkInterval(true);
 
                 let ver = res.version ? res.version : "1.0.0";
-                console.log(22, ver, this.localVersion);
+                // console.log(22, ver, this.localVersion);
                 if (ver != this.localVersion) {
                     this.changelog();
                 }
@@ -667,7 +667,7 @@ export default {
             });
         },
         getData () {
-            console.log('获取列表数据');
+            // console.log('获取列表数据');
             let fundlist = this.fundListM.map((val) => val.code).join(",");
             let url =
                 "https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=50&plat=Android&appType=ttjj&product=EFund&Version=1&deviceid=" +
@@ -678,7 +678,7 @@ export default {
                 .get(url)
                 .then((res) => {
                     let data = res.Datas;
-                    console.log(1, data);
+                    // console.log(1, data);
                     this.dataList = [];
                     let dataList = [];
 
@@ -737,7 +737,7 @@ export default {
                     allAmount = allAmount.toFixed(1);
                     // console.log('ming', allAmount);
                     this.dataList = dataList.map(v => ({ ...v, proportion: (v.amount / allAmount * 100).toFixed(2) }));
-                    console.log(5, this.dataList);
+                    // console.log(5, this.dataList);
                 })
                 .catch((error) => { console.log(error); });
         },

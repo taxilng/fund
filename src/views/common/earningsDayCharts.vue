@@ -433,7 +433,7 @@ export default {
             this.option.series[0].data = this.fundAmount
             this.option.series[1].data = this.fundAmount
             let aa = this.handle_num(this.fundAmount);
-            console.log('aa', aa);
+            // console.log('aa', aa);
             // this.DWJZ = res.Expansion.DWJZ;
             this.option.yAxis[0].min = -aa;
             this.option.yAxis[0].max = aa;

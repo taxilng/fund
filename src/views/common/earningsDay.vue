@@ -54,9 +54,9 @@ export default {
         },
     },
     mounted () { 
-        setTimeout(() => {
-            console.log('allAmount', this.allAmount);
-        }, 1000);
+        // setTimeout(() => {
+        //     console.log('allAmount', this.allAmount);
+        // }, 1000);
     },
     methods: {
         handleClick (tab, event) {
@@ -79,7 +79,7 @@ export default {
                         let dataList = v.Datas
                             .map((item) => item.split(","))
                             .map(y => (y[2] * amount).toFixed(2))
-                        console.log('dia', dataList);
+                        // console.log('dia', dataList);
                         if (amountList.length) {
                             amountList = amountList.map((v, i) => Number(v) + Number(dataList[i]))
                         } else {
@@ -87,9 +87,9 @@ export default {
                         }
                     }
                 })
-                console.log('amountList', amountList);
+                // console.log('amountList', amountList);
                 this.fundAmount = amountList.filter(v => !isNaN(v)).map(v => (v / 100).toFixed(1))
-                console.log('fundAmount', this.fundAmount);
+                // console.log('fundAmount', this.fundAmount);
             })
         },
         close () {
