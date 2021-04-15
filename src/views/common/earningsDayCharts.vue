@@ -427,7 +427,7 @@ export default {
         handle_num (data) {
             var _aa = Math.abs(Math.max.apply(null, data)).toFixed(2);
             var _bb = Math.abs(Math.min.apply(null, data)).toFixed(2);
-            return _aa - _bb ? _aa : _bb;
+            return _aa - _bb > 0 ? _aa : _bb;
         },
         getData () {
             this.option.series[0].data = this.fundAmount

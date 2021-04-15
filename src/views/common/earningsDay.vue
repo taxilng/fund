@@ -63,7 +63,7 @@ export default {
             this.activeName = tab.name;
         },
         init () {
-            console.log('mi', this.fundList);
+            // console.log('mi', this.fundList);
             const fundCodeList = this.fundList
                 .map(v => {
                     let url = `/FundMApi/FundVarietieValuationDetail.ashx?FCODE=${v.fundcode}&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
@@ -78,17 +78,18 @@ export default {
                         const amount = curFund.amount
                         let dataList = v.Datas
                             .map((item) => item.split(","))
-                            .map(y => y[2] * amount)
-                        // console.log('dia', dataList);
+                            .map(y => (y[2] * amount).toFixed(2))
+                        console.log('dia', dataList);
                         if (amountList.length) {
-                            amountList = amountList.map((v, i) => v + dataList[i])
+                            amountList = amountList.map((v, i) => Number(v) + Number(dataList[i] || 0))
                         } else {
                             amountList = dataList
                         }
                     }
                 })
-                // console.log('amountList', amountList.map(v => (v / 100).toFixed(1)));
+                console.log('amountList', amountList);
                 this.fundAmount = amountList.map(v => (v / 100).toFixed(1))
+                console.log('fundAmount', this.fundAmount);
             })
         },
         close () {
