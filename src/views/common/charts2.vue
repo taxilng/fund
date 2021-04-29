@@ -1,23 +1,20 @@
 <template>
-  <div
-    class="box"
-    v-loading="loading"
-    :element-loading-background="
+    <div class="box" v-loading="loading" :element-loading-background="
       darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)'
-    "
-  >
-    <div class="main-echarts" ref="mainCharts"></div>
-    <div>
-      <el-radio-group size="mini" v-model="sltTimeRange" @change="changeTimeRange">
-        <el-radio-button label="y">月</el-radio-button>
-        <el-radio-button label="3y">季</el-radio-button>
-        <el-radio-button label="6y">半年</el-radio-button>
-        <el-radio-button label="n">一年</el-radio-button>
-        <el-radio-button label="3n">三年</el-radio-button>
-        <el-radio-button label="5n">五年</el-radio-button>
-      </el-radio-group>
+    ">
+        <div class="subtitle" :class="upRate.slice(0, -1) >= 0 ? 'up' : 'down'">本基金涨幅 {{upRate}}</div>
+        <div class="main-echarts" ref="mainCharts"></div>
+        <div>
+            <el-radio-group size="mini" v-model="sltTimeRange" @change="changeTimeRange">
+                <el-radio-button label="y">月</el-radio-button>
+                <el-radio-button label="3y">季</el-radio-button>
+                <el-radio-button label="6y">半年</el-radio-button>
+                <el-radio-button label="n">一年</el-radio-button>
+                <el-radio-button label="3n">三年</el-radio-button>
+                <el-radio-button label="5n">五年</el-radio-button>
+            </el-radio-group>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -32,205 +29,216 @@ require("echarts/lib/component/tooltip");
 require("echarts/lib/component/legend");
 
 export default {
-  name: "chatrs",
-  props: {
-    darkMode: {
-      type: Boolean,
-      default: false,
-    },
-    fund: {
-      type: Object,
-      required: true,
-    },
-    chartType: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      chartEL: null,
-      myChart: null,
-      minVal: null,
-      maxVal: null,
-      interVal: null,
-      sltTimeRange: "y",
-      chartTypeList: {
-        // DWJZ: {
-        //   name: "单位净值",
-        // },
-        LJJZ: {
-          name: "累计净值",
+    name: "chatrs",
+    props: {
+        darkMode: {
+            type: Boolean,
+            default: false,
         },
-      },
-      option: {},
-      loading: false,
-    };
-  },
-  watch: {
-    fund(){
-        this.init()
-    }
-  },
-  computed: {
-    defaultColor() {
-      return this.darkMode ? "rgba(255,255,255,0.6)" : "#ccc";
+        fund: {
+            type: Object,
+            required: true,
+        },
+        chartType: {
+            type: String,
+            required: true,
+        },
     },
-  },
-  mounted() {
-    this.init();
-  },
-  beforeDestroy() {
-    this.myChart && this.myChart.clear();
-  },
-  methods: {
-    init() {
-      this.chartEL = this.$refs.mainCharts;
-      this.myChart = echarts.init(
-        this.chartEL,
-        this.darkMode ? "dark" : "customed"
-      );
-      this.option = {
-        tooltip: {
-          trigger: "axis",
-          formatter: (p) => {
-            return `时间：${p[0].name}<br />${
-              this.chartTypeList[this.chartType].name
-            }：${p[0].value}`;
-          },
-        },
-        grid: {
-          top: 30,
-          left: 50,
-          right:0,
-          bottom: 30,
-        },
-        xAxis: {
-          type: "category",
-          data: [],
-          axisLabel: {},
-        },
-        yAxis: {
-          type: "value",
-          scale: true,
-          axisLabel: {
-            color: this.defaultColor,
-            formatter: (val) => {
-              return val.toFixed(2) + "%";
+    data () {
+        return {
+            upRate: '',
+            chartEL: null,
+            myChart: null,
+            minVal: null,
+            maxVal: null,
+            interVal: null,
+            sltTimeRange: "y",
+            chartTypeList: {
+                // DWJZ: {
+                //   name: "单位净值",
+                // },
+                LJJZ: {
+                    name: "累计净值",
+                },
             },
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              type: "dashed",
-              color: this.defaultColor,
-            },
-          },
-          data: [],
+            option: {},
+            loading: false,
+        };
+    },
+    watch: {
+        fund () {
+            this.init()
+        }
+    },
+    computed: {
+        defaultColor () {
+            return this.darkMode ? "rgba(255,255,255,0.6)" : "#ccc";
         },
-        series: [
-          {
-            type: "line",
-            data: [],
-          },
-        ],
-      };
-      this.getData();
     },
-    changeTimeRange(val) {
-      this.getData();
+    mounted () {
+        this.init();
     },
-    handle_num_range(data) {
-      var _aa = Math.max.apply(null, data);
-      var _bb = Math.min.apply(null, data);
-      return [_aa, _bb];
+    beforeDestroy () {
+        this.myChart && this.myChart.clear();
     },
-    getData() {
-      this.loading = true;
-      if (this.chartType == "LJSY") {
-        let url = `/FundMApi/FundYieldDiagramNew.ashx?FCODE=${
-          this.fund.fundcode
-        }&RANGE=${
-          this.sltTimeRange
-        }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
-        this.$axios.get(url).then((res) => {
-          this.loading = false;
-          let dataList = res.Datas;
-          if (dataList) {
-            this.option.legend = {
-              show: true,
+    methods: {
+        init () {
+            this.chartEL = this.$refs.mainCharts;
+            this.myChart = echarts.init(
+                this.chartEL,
+                this.darkMode ? "dark" : "customed"
+            );
+            this.option = {
+                tooltip: {
+                    trigger: "axis",
+                    formatter: (p) => {
+                        return `时间：${p[0].name}<br />${this.chartTypeList[this.chartType].name
+                            }：${p[0].value}`;
+                    },
+                },
+                grid: {
+                    top: 30,
+                    left: 50,
+                    right: 0,
+                    bottom: 30,
+                },
+                xAxis: {
+                    type: "category",
+                    data: [],
+                    axisLabel: {},
+                },
+                yAxis: {
+                    type: "value",
+                    scale: true,
+                    axisLabel: {
+                        color: this.defaultColor,
+                        formatter: (val) => {
+                            return val.toFixed(2) + "%";
+                        },
+                    },
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            type: "dashed",
+                            color: this.defaultColor,
+                        },
+                    },
+                    data: [],
+                },
+                series: [
+                    {
+                        type: "line",
+                        data: [],
+                    },
+                ],
             };
-            this.option.tooltip.formatter = (p) => {
-              let str =
-                p.length > 1 ? `<br />${p[1].seriesName}：${p[1].value}%` : "";
-              return `时间：${p[0].name}<br />${p[0].seriesName}：${p[0].value}%${str}`;
-            };
-            this.option.series = [
-              {
-                type: "line",
-                name: "涨幅",
-                data: dataList.map((item) => +item.YIELD),
-              },
-              {
-                type: "line",
-                name: res.Expansion.INDEXNAME,
-                data: dataList.map((item) => +item.INDEXYIED),
-              },
-            ];
-            this.option.xAxis.data = dataList.map((item) => item.PDATE);
-            this.myChart.setOption(this.option);
-          }
-        });
-      } else {
-        let url = `/FundMApi/FundNetDiagram.ashx?FCODE=${
-          this.fund.fundcode
-        }&RANGE=${
-          this.sltTimeRange
-        }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
-        this.$axios.get(url).then((res) => {
-          this.loading = false;
-          let dataList = res.Datas;
-          const firstDWJZ = res.Datas[0].DWJZ
-          this.option.series = [
-            // {
-            //   type: "line",
-            //   name: "单位净值",
-            //   data: dataList.map((item) => +item.DWJZ),
-            // },
-            {
-              type: "line",
-              name: "累计净值",
-              data: dataList.map((item) => +item.LJJZ),
-            },
-          ];
-          this.option.tooltip.formatter = (p) => {
-              console.log('p', p);
-            let str =
-              p.length > 1 ? `<br />${p[1].seriesName}：${p[1].value}` : "";
-            return `时间：${p[0].name}
+            this.getData();
+        },
+        changeTimeRange (val) {
+            this.getData();
+        },
+        handle_num_range (data) {
+            var _aa = Math.max.apply(null, data);
+            var _bb = Math.min.apply(null, data);
+            return [_aa, _bb];
+        },
+        getData () {
+            this.loading = true;
+            if (this.chartType == "LJSY") {
+                let url = `/FundMApi/FundYieldDiagramNew.ashx?FCODE=${this.fund.fundcode
+                    }&RANGE=${this.sltTimeRange
+                    }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
+                this.$axios.get(url).then((res) => {
+                    this.loading = false;
+                    let dataList = res.Datas;
+
+                    if (dataList) {
+                        this.option.legend = {
+                            show: true,
+                        };
+                        this.option.tooltip.formatter = (p) => {
+                            let str =
+                                p.length > 1 ? `<br />${p[1].seriesName}：${p[1].value}%` : "";
+                            return `时间：${p[0].name}<br />${p[0].seriesName}：${p[0].value}%${str}`;
+                        };
+                        this.option.series = [
+                            {
+                                type: "line",
+                                name: "涨幅",
+                                data: dataList.map((item) => +item.YIELD),
+                            },
+                            {
+                                type: "line",
+                                name: res.Expansion.INDEXNAME,
+                                data: dataList.map((item) => +item.INDEXYIED),
+                            },
+                        ];
+                        this.option.xAxis.data = dataList.map((item) => item.PDATE);
+                        this.myChart.setOption(this.option);
+                    }
+                });
+            } else {
+                let url = `/FundMApi/FundNetDiagram.ashx?FCODE=${this.fund.fundcode
+                    }&RANGE=${this.sltTimeRange
+                    }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
+                this.$axios.get(url).then((res) => {
+                    this.loading = false;
+                    let dataList = res.Datas;
+                    //   console.log('dataList', dataList);
+                    const firstDWJZ = res.Datas[0].DWJZ
+                    const lastDWJZ = res.Datas[res.Datas.length - 1].DWJZ
+                    this.upRate = `${((lastDWJZ - firstDWJZ) / firstDWJZ * 100).toFixed(2)}%`
+                    //   console.log('upRate', this.upRate);
+                    this.option.series = [
+                        // {
+                        //   type: "line",
+                        //   name: "单位净值",
+                        //   data: dataList.map((item) => +item.DWJZ),
+                        // },
+                        {
+                            type: "line",
+                            name: "累计净值",
+                            data: dataList.map((item) => +item.LJJZ),
+                        },
+                    ];
+                    this.option.tooltip.formatter = (p) => {
+                        //   console.log('p', p);
+                        let str =
+                            p.length > 1 ? `<br />${p[1].seriesName}：${p[1].value}` : "";
+                        return `时间：${p[0].name}
             
             <br />日增长率：${dataList[p[0].dataIndex].JZZZL}%
-            <br />涨幅${((dataList[p[0].dataIndex].DWJZ- firstDWJZ) / firstDWJZ * 100).toFixed(2)}%`;
-          };
-        //   this.option.legend = {
-        //     show: true,
-        //   };
-          this.option.xAxis.data = dataList.map((item) => item.FSRQ);
-          this.myChart.setOption(this.option);
-        });
-      }
+            <br />涨幅${((dataList[p[0].dataIndex].DWJZ - firstDWJZ) / firstDWJZ * 100).toFixed(2)}%`;
+                    };
+                    //   this.option.legend = {
+                    //     show: true,
+                    //   };
+                    this.option.xAxis.data = dataList.map((item) => item.FSRQ);
+                    this.myChart.setOption(this.option);
+                });
+            }
+        },
     },
-  },
 };
 </script>
 
 <style lang="scss" scoped>
+.subtitle {
+    text-align: left;
+    margin: 10px 0 0 20px;
+    &.up {
+        color: #f56c6c;
+    }
+    &.down {
+        color: #4eb61b;
+    }
+}
 .box {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 .main-echarts {
-  width: 100%;
-  height: 232px;
+    width: 100%;
+    height: 232px;
 }
 </style>
