@@ -314,9 +314,9 @@ export default {
                     },
                 },
                 grid: {
-                    top: 30,
+                    top: 20,
                     left: 50,
-                    right: 46,
+                    right: 50,
                     bottom: 30,
                 },
                 xAxis: {

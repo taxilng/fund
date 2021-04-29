@@ -2,11 +2,12 @@
     <div v-if="boxShadow" class="shadow" :class="darkMode ? 'darkMode' : ''">
         <div class="content-box">
             <h5>当日收益曲线</h5>
-            <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-                <el-tab-pane lazy label="净值估算" name="first">
-                    <charts :darkMode="darkMode" :fundAmount="fundAmount" :allAmount="allAmount" ref="first"></charts>
-                </el-tab-pane>
-            </el-tabs>
+            <div class="subtitle" :class="latestAmout >= 0 ? 'up' : 'down'">当前收益 {{latestAmout}} &nbsp;&nbsp;&nbsp;&nbsp; 收益率 {{latestRate}}</div>
+            <!-- <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+                <el-tab-pane lazy label="净值估算" name="first"> -->
+            <charts :darkMode="darkMode" :fundAmount="fundAmount" :allAmount="allAmount" ref="first"></charts>
+            <!-- </el-tab-pane>
+            </el-tabs> -->
 
             <div class="tab-row">
                 <input class="btn" type="button" value="返回列表" @click="close" />
@@ -47,13 +48,22 @@ export default {
             boxShadow: false,
         };
     },
+    computed: {
+        latestAmout () {
+            return this.fundAmount[this.fundAmount.length - 1]
+        },
+        latestRate () {
+            return `${(this.latestAmout / this.allAmount * 100).toFixed(2)}%`
+        },
+
+    },
     watch: {
         earningsDayDialogShow (val) {
             this.boxShadow = val
             this.init()
         },
     },
-    mounted () { 
+    mounted () {
         // setTimeout(() => {
         //     console.log('allAmount', this.allAmount);
         // }, 1000);
@@ -63,7 +73,7 @@ export default {
             this.activeName = tab.name;
         },
         init () {
-            console.log('mi', this.fundList);
+            // console.log('mi', this.fundList);
             const fundCodeList = this.fundList
                 .filter(v => Number(v.amount))
                 .map(v => {
@@ -83,14 +93,14 @@ export default {
                         // console.log('dia', dataList);
                         if (amountList.length && dataList.length) {
                             amountList = amountList.map((v, i) => Number(v) + Number(dataList[i]))
-                        } else if(amountList.length === 0){
+                        } else if (amountList.length === 0) {
                             amountList = dataList
                         }
                     }
                 })
                 // console.log('amountList', amountList);
                 this.fundAmount = amountList.filter(v => !isNaN(v)).map(v => (v / 100).toFixed(1))
-                // console.log('fundAmount', this.fundAmount);
+                console.log('fundAmount', this.fundAmount);
             })
         },
         close () {
@@ -122,6 +132,16 @@ export default {
     text-align: center;
     line-height: 1;
     vertical-align: middle;
+    .subtitle {
+        text-align: left;
+        margin: 0 0 0 20px;
+        &.up {
+            color: #f56c6c;
+        }
+        &.down {
+            color: #4eb61b;
+        }
+    }
     h5 {
         margin: 0;
         padding: 13px;
