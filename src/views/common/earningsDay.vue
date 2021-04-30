@@ -2,7 +2,10 @@
     <div v-if="boxShadow" class="shadow" :class="darkMode ? 'darkMode' : ''">
         <div class="content-box">
             <h5>当日收益曲线</h5>
-            <div class="subtitle" :class="latestAmout >= 0 ? 'up' : 'down'">当前收益 {{latestAmout}} &nbsp;&nbsp;&nbsp;&nbsp; 收益率 {{latestRate}}</div>
+            <div class="subtitle" :class="latestAmout >= 0 ? 'up' : 'down'">
+               <span>当前收益：{{latestAmout}} ({{latestRate}})</span>
+               <span style="margin-left:20px;"> 波动：{{wave.difference}}（{{wave.differenceRate}}）</span>
+            </div>
             <!-- <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
                 <el-tab-pane lazy label="净值估算" name="first"> -->
             <charts :darkMode="darkMode" :fundAmount="fundAmount" :allAmount="allAmount" ref="first"></charts>
@@ -55,7 +58,19 @@ export default {
         latestRate () {
             return `${(this.latestAmout / this.allAmount * 100).toFixed(2)}%`
         },
-
+        wave() {
+            const max = Math.max.apply(Math, this.fundAmount)
+            const min = Math.min.apply(Math, this.fundAmount)
+            let difference = 0
+            if(isFinite(max)) {
+                difference = (max - min).toFixed(2)
+            }
+            console.log('difference',difference,max, this.fundAmount);
+            return {
+                difference,
+                differenceRate: `${(difference / this.allAmount * 100).toFixed(2)}%`
+            }
+        }
     },
     watch: {
         earningsDayDialogShow (val) {
