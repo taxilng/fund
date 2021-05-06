@@ -80,8 +80,8 @@ export default {
     mounted () { },
     methods: {
         previous (type) {
-            console.log(this.fund);
-            console.log(this.fundList);
+            // console.log(this.fund);
+            // console.log(this.fundList);
             this.fundList.some((v, i) => {
                 if (v.fundcode === this.fund.fundcode) {
                     if (i === 0 && type === -1) {
@@ -101,7 +101,7 @@ export default {
                         return true
                     }
                     this.fund = this.fundList[i + type]
-                    console.log(23,this.fund);
+                    // console.log(23,this.fund);
                     return true
                 }
             })

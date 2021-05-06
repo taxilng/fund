@@ -98,7 +98,7 @@ export default {
                 },
                 grid: {
                     top: 30,
-                    left: 50,
+                    left: 40,
                     right: 0,
                     bottom: 30,
                 },
@@ -113,7 +113,7 @@ export default {
                     axisLabel: {
                         color: this.defaultColor,
                         formatter: (val) => {
-                            return val.toFixed(2) + "%";
+                            return val + "%";
                         },
                     },
                     splitLine: {
@@ -185,9 +185,10 @@ export default {
                     this.loading = false;
                     let dataList = res.Datas;
                     //   console.log('dataList', dataList);
+                    const firstLJJZ = res.Datas[0].LJJZ
                     const firstDWJZ = res.Datas[0].DWJZ
-                    const lastDWJZ = res.Datas[res.Datas.length - 1].DWJZ
-                    this.upRate = `${((lastDWJZ - firstDWJZ) / firstDWJZ * 100).toFixed(2)}%`
+                    const lastLJJZ = res.Datas[res.Datas.length - 1].LJJZ
+                    this.upRate = `${((lastLJJZ - firstLJJZ) / firstDWJZ * 100).toFixed(2)}%`
                     //   console.log('upRate', this.upRate);
                     this.option.series = [
                         // {
@@ -198,7 +199,7 @@ export default {
                         {
                             type: "line",
                             name: "累计净值",
-                            data: dataList.map((item) => +item.LJJZ),
+                            data: dataList.map((item) => (item.LJJZ - firstLJJZ)/firstDWJZ * 100),
                         },
                     ];
                     this.option.tooltip.formatter = (p) => {
@@ -206,9 +207,8 @@ export default {
                         let str =
                             p.length > 1 ? `<br />${p[1].seriesName}：${p[1].value}` : "";
                         return `时间：${p[0].name}
-            
-            <br />日增长率：${dataList[p[0].dataIndex].JZZZL}%
-            <br />涨幅${((dataList[p[0].dataIndex].DWJZ - firstDWJZ) / firstDWJZ * 100).toFixed(2)}%`;
+                        <br />日增长率：${dataList[p[0].dataIndex].JZZZL}%
+                        <br />涨幅${((dataList[p[0].dataIndex].LJJZ - firstLJJZ) / firstDWJZ * 100).toFixed(2)}%`;
                     };
                     //   this.option.legend = {
                     //     show: true,

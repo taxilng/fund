@@ -65,7 +65,7 @@ export default {
             if(isFinite(max)) {
                 difference = (max - min).toFixed(2)
             }
-            console.log('difference',difference,max, this.fundAmount);
+            // console.log('difference',difference,max, this.fundAmount);
             return {
                 difference,
                 differenceRate: `${(difference / this.allAmount * 100).toFixed(2)}%`
@@ -115,7 +115,7 @@ export default {
                 })
                 // console.log('amountList', amountList);
                 this.fundAmount = amountList.filter(v => !isNaN(v)).map(v => (v / 100).toFixed(1))
-                console.log('fundAmount', this.fundAmount);
+                // console.log('fundAmount', this.fundAmount);
             })
         },
         close () {
