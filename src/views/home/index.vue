@@ -101,7 +101,7 @@
                             </td>
                             <td v-if="isEdit">{{ el.fundcode }}</td>
                             <td v-if="showGSZ && !isEdit">{{ el.gsz }}</td>
-                            <td v-if="isEdit && showCost">
+                            <td v-if="isEdit && (showCost || showCostRate)">
                                 <input class="btn num" placeholder="持仓成本价" v-model="el.cost" @input="changeCost(el, index)" type="text" />
                             </td>
 
