@@ -93,7 +93,7 @@ export default {
         },
         init () {
             this.loading = true;
-            console.log('mi', this.fundList);
+            // console.log('mi', this.fundList);
             const fundCodeList = this.fundList
                 .filter(v => Number(v.amount))
                 .map(v => {
@@ -102,6 +102,8 @@ export default {
                 })
             Promise.all(fundCodeList).then(res => {
                 // console.log('zhja', res);
+                const maxlength = Math.max.apply(Math, res.map(v => v.Datas.length))
+                console.log('maxlength', maxlength);
                 let amountList = []
                 res.forEach(v => {
                     const curFund = this.fundList.find(x => x.fundcode === v.Expansion.FCODE)
@@ -111,6 +113,14 @@ export default {
                             .map((item) => item.split(","))
                             .map(y => (y[2] * amount).toFixed(2))
                         // console.log('dia', dataList);
+                        // 拿不到的数据，以最新的净值来估算
+                        if(dataList.length < maxlength) {
+                            const lastGSZZL = v.Expansion.GSZZL
+                            const estimatedRevenue = (lastGSZZL * amount).toFixed(2)
+                            const extraArray = new Array(maxlength - dataList.length).fill(estimatedRevenue)
+                            dataList = [...dataList, ... extraArray]
+                            console.log('额外补充的', extraArray);
+                        }
                         if (amountList.length && dataList.length) {
                             amountList = amountList.map((v, i) => Number(v) + Number(dataList[i]))
                         } else if (amountList.length === 0) {
