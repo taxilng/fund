@@ -1,6 +1,6 @@
 <template>
     <div v-if="boxShadow" class="shadow" :class="darkMode ? 'darkMode' : ''">
-        <div class="content-box">
+        <div class="content-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.8)">
             <h5>当日收益曲线</h5>
             <div class="subtitle" :class="latestAmout >= 0 ? 'up' : 'down'">
                <span>当前收益：{{latestAmout}} ({{latestRate}})</span>
@@ -14,6 +14,7 @@
 
             <div class="tab-row">
                 <input class="btn" type="button" value="返回列表" @click="close" />
+                <input class="btn" type="button" value="刷新" @click="init" />
             </div>
         </div>
     </div>
@@ -46,6 +47,7 @@ export default {
     },
     data () {
         return {
+            loading: false,
             fundAmount: [],
             activeName: "first",
             boxShadow: false,
@@ -75,7 +77,9 @@ export default {
     watch: {
         earningsDayDialogShow (val) {
             this.boxShadow = val
-            this.init()
+            if(val) {
+                this.init()
+            }
         },
     },
     mounted () {
@@ -88,7 +92,8 @@ export default {
             this.activeName = tab.name;
         },
         init () {
-            // console.log('mi', this.fundList);
+            this.loading = true;
+            console.log('mi', this.fundList);
             const fundCodeList = this.fundList
                 .filter(v => Number(v.amount))
                 .map(v => {
@@ -116,6 +121,8 @@ export default {
                 // console.log('amountList', amountList);
                 this.fundAmount = amountList.filter(v => !isNaN(v)).map(v => (v / 100).toFixed(1))
                 // console.log('fundAmount', this.fundAmount);
+            }).finally(() => {
+                this.loading = false;
             })
         },
         close () {
