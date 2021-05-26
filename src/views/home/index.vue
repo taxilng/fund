@@ -165,7 +165,7 @@
         </div>
         <div class="input-row" style="position: relative;">
             <input v-if="showGains" class="btn" :class="allGains >= 0 ? 'btn-up' : 'btn-down'" type="button" @click="earningsDayShow" :value="`日收益：${allGains}(${dailyYield})`" />
-            <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '(' + allCostGains[1] + '%)'}`" />
+            <input v-if="showAllCost" class="btn" :class="allCostGains[0] >= 0 ? 'btn-up' : 'btn-down'" type="button" @click="holdingIncomeShow" :value="`持有收益：${parseFloat(allCostGains[0]).toLocaleString('zh', { minimumFractionDigits: 1,})}${isNaN(allCostGains[1]) ? '' : '(' + allCostGains[1] + '%)'}`" />
             <input v-if="showTotalAssets" class="btn" type="button" :value="`总资产：${allAmount}`" />
 
         </div>
@@ -175,6 +175,7 @@
         <!-- <charts @close="closeCharts" ref="charts"></charts> -->
         <fund-detail @close="closeCharts" :curfund="sltFund" :fundList="dataList" :darkMode="darkMode" ref="charts"></fund-detail>
         <earnings-day @close="earningsDayDialogShow = false"  :earningsDayDialogShow="earningsDayDialogShow" :fundList="dataList" :allAmount="allAmount" :darkMode="darkMode"></earnings-day>
+        <holding-income @close="holdingIncomeDialogShow = false"  :earningsDayDialogShow="holdingIncomeDialogShow" :fundList="dataList" :allCostGains="allCostGains[0]" :darkMode="darkMode"></holding-income>
         <reward @close="rewardShadow = false" ref="reward"></reward>
         <change-log @close="closeChangelog" :darkMode="darkMode" ref="changelog" :top="40"></change-log>
     </div>
@@ -186,6 +187,7 @@ import reward from "../common/reward";
 import indDetail from "../common/indDetail";
 import fundDetail from "../common/fundDetail";
 import earningsDay from "../common/earningsDay";
+import holdingIncome from "../common/holdingIncome";
 import changeLog from "../common/changeLog";
 import { storage, chrome } from '@/untils/utils';
 import market from "../common/market";
@@ -201,6 +203,7 @@ export default {
         reward,
         fundDetail,
         earningsDay,
+        holdingIncome,
         indDetail,
         changeLog,
         market,
@@ -208,6 +211,7 @@ export default {
     data () {
         return {
             earningsDayDialogShow: false,
+            holdingIncomeDialogShow: false,
             isEdit: false,
             fundcode: "",
             isAdd: false,
@@ -513,6 +517,9 @@ export default {
         },
         earningsDayShow () {
             this.earningsDayDialogShow = true
+        },
+        holdingIncomeShow () {
+            this.holdingIncomeDialogShow = true
         },
         closeCharts () {
             this.detailShadow = false;
