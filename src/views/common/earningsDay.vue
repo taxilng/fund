@@ -2,9 +2,13 @@
     <div v-if="boxShadow" class="shadow" :class="darkMode ? 'darkMode' : ''">
         <div class="content-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.8)">
             <h5>当日收益曲线</h5>
-            <div class="subtitle" :class="latestAmout >= 0 ? 'up' : 'down'">
-               <span>当前收益：{{latestAmout}} ({{latestRate}})</span>
-               <span style="margin-left:20px;"> 波动：{{wave.difference}}（{{wave.differenceRate}}）</span>
+            <div class="subtitle">
+                <span>当前收益：</span><span :class="latestAmout >= 0 ? 'up' : 'down'">{{latestAmout}} ({{latestRate}})</span>
+                <span style="margin-left:20px;"> 波动：{{wave.difference}}（{{wave.differenceRate}}）</span>
+                <div style="margin-top:10px;">
+                    <span>最高：</span> <span :class="wave.max >= 0 ? 'up' : 'down'">{{wave.max}}({{wave.maxRate}})</span>
+                    <span style="margin-left:20px;">最低：</span> <span :class="wave.min >= 0 ? 'up' : 'down'">{{wave.min}}({{wave.minRate}})</span>
+                </div>
             </div>
             <!-- <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
                 <el-tab-pane lazy label="净值估算" name="first"> -->
@@ -60,24 +64,28 @@ export default {
         latestRate () {
             return `${(this.latestAmout / this.allAmount * 100).toFixed(2)}%`
         },
-        wave() {
+        wave () {
             const max = Math.max.apply(Math, this.fundAmount)
             const min = Math.min.apply(Math, this.fundAmount)
             let difference = 0
-            if(isFinite(max)) {
+            if (isFinite(max)) {
                 difference = (max - min).toFixed(2)
             }
             // console.log('difference',difference,max, this.fundAmount);
             return {
                 difference,
-                differenceRate: `${(difference / this.allAmount * 100).toFixed(2)}%`
+                differenceRate: `${(difference / this.allAmount * 100).toFixed(2)}%`,
+                max,
+                maxRate: `${(max / this.allAmount * 100).toFixed(2)}%`,
+                min,
+                minRate: `${(min / this.allAmount * 100).toFixed(2)}%`,
             }
         }
     },
     watch: {
         earningsDayDialogShow (val) {
             this.boxShadow = val
-            if(val) {
+            if (val) {
                 this.init()
             }
         },
@@ -114,11 +122,11 @@ export default {
                             .map(y => (y[2] * amount).toFixed(2))
                         // console.log('dia', dataList);
                         // 拿不到的数据，以最新的净值来估算
-                        if(dataList.length < maxlength) {
+                        if (dataList.length < maxlength) {
                             const lastGSZZL = v.Expansion.GSZZL
                             const estimatedRevenue = (lastGSZZL * amount).toFixed(2)
                             const extraArray = new Array(maxlength - dataList.length).fill(estimatedRevenue)
-                            dataList = [...dataList, ... extraArray]
+                            dataList = [...dataList, ...extraArray]
                             console.log('额外补充的', extraArray);
                         }
                         if (amountList.length && dataList.length) {
@@ -167,10 +175,10 @@ export default {
     .subtitle {
         text-align: left;
         margin: 0 0 0 20px;
-        &.up {
+        .up {
             color: #f56c6c;
         }
-        &.down {
+        .down {
             color: #4eb61b;
         }
     }

@@ -1,5 +1,10 @@
 <template>
-    <div class="main-echarts" ref="mainCharts"></div>
+    <div>
+        <div class="subtitle">
+            <span>估算涨幅：</span> <span :class="lastGSZZL >= 0 ? 'up' : 'down'">{{lastGSZZL}}%</span>
+        </div>
+        <div class="main-echarts" ref="mainCharts"></div>
+    </div>
 </template>
 
 <script>
@@ -27,6 +32,7 @@ export default {
     },
     data () {
         return {
+            lastGSZZL: 0,
             chartEL: null,
             myChart: null,
             minVal: null,
@@ -281,7 +287,7 @@ export default {
         };
     },
     watch: {
-        fund(){
+        fund () {
             this.init()
         }
     },
@@ -430,6 +436,7 @@ export default {
             let url = `/FundMApi/FundVarietieValuationDetail.ashx?FCODE=${this.fund.fundcode
                 }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
             this.$axios.get(url).then((res) => {
+                this.lastGSZZL = res.Expansion.GSZZL
                 let dataList = res.Datas.map((item) => item.split(","));
                 this.option.series[0].data = dataList.map((item) =>
                     (+item[2]).toFixed(2)
@@ -456,5 +463,15 @@ export default {
 .main-echarts {
     width: 100%;
     height: 240px;
+}
+.subtitle {
+    margin-top: 5px;
+    text-align: left;
+    .up {
+        color: #f56c6c;
+    }
+    .down {
+        color: #4eb61b;
+    }
 }
 </style>
