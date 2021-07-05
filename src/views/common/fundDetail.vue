@@ -111,6 +111,7 @@ export default {
         },
         init () {
             this.boxShadow = true;
+            this.fund = this.curfund
         },
         close () {
             this.boxShadow = false;
