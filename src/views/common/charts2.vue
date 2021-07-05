@@ -145,16 +145,26 @@ export default {
         getData () {
             this.loading = true;
             if (this.chartType == "LJSY") {
-                let url = `/FundMApi/FundYieldDiagramNew.ashx?FCODE=${this.fund.fundcode
-                    }&RANGE=${this.sltTimeRange
-                    }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
-                this.$axios.get(url).then((res) => {
+                let url = `https://dataapi.1234567.com.cn/dataapi/fund/FundVPageAcc`;
+                this.$axios.get(url, {
+                    params: {
+                        INDEXCODE: '000300',
+                        CODE: this.fund.fundcode,
+                        FCODE: this.fund.fundcode,
+                        RANGE: this.sltTimeRange,
+                        deviceid: 'wap',
+                        product: 'EFund',
+                    }
+                }).then((res) => {
                     this.loading = false;
-                    let dataList = res.Datas;
-
+                    console.log('res', res);
+                    let dataList = res.data;
+                    this.upRate = res.expansion.syl || dataList[dataList.length - 1].yield
+                    console.log('sdas');
                     if (dataList) {
                         this.option.legend = {
                             show: true,
+                            selected:{'沪深300':false,}
                         };
                         this.option.tooltip.formatter = (p) => {
                             let str =
@@ -165,15 +175,15 @@ export default {
                             {
                                 type: "line",
                                 name: "涨幅",
-                                data: dataList.map((item) => +item.YIELD),
+                                data: dataList.map((item) => +item.yield),
                             },
                             {
                                 type: "line",
-                                name: res.Expansion.INDEXNAME,
-                                data: dataList.map((item) => +item.INDEXYIED),
+                                name: '沪深300',
+                                data: dataList.map((item) => +item.indexYield),
                             },
                         ];
-                        this.option.xAxis.data = dataList.map((item) => item.PDATE);
+                        this.option.xAxis.data = dataList.map((item) => item.pdate);
                         this.myChart.setOption(this.option);
                     }
                 });
@@ -199,7 +209,7 @@ export default {
                         {
                             type: "line",
                             name: "累计净值",
-                            data: dataList.map((item) => (item.LJJZ - firstLJJZ)/firstDWJZ * 100),
+                            data: dataList.map((item) => (item.LJJZ - firstLJJZ) / firstDWJZ * 100),
                         },
                     ];
                     this.option.tooltip.formatter = (p) => {

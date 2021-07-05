@@ -12,12 +12,12 @@
                 <!-- <el-tab-pane lazy label="单位净值" name="second">
                     <charts2 :darkMode="darkMode" :fund="fund" chartType="DWJZ" ref="second"></charts2>
                 </el-tab-pane> -->
-                <el-tab-pane lazy label="累计净值" name="third">
+                <el-tab-pane lazy label="历史净值" name="third">
                     <charts2 :darkMode="darkMode" :fund="fund" chartType="LJJZ" ref="third"></charts2>
                 </el-tab-pane>
-                <!-- <el-tab-pane lazy label="累计收益" name="fourth">
+                <el-tab-pane lazy label="累计收益" name="fourth">
                     <charts2 :darkMode="darkMode" :fund="fund" chartType="LJSY" ref="fourth"></charts2>
-                </el-tab-pane> -->
+                </el-tab-pane>
                 <el-tab-pane lazy label="基金概况" name="info">
                     <fund-info :darkMode="darkMode" :fund="fund" ref="info" @showManager="showManager"></fund-info>
                 </el-tab-pane>
