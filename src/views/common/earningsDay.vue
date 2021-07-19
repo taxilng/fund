@@ -111,7 +111,7 @@ export default {
             Promise.all(fundCodeList).then(res => {
                 // console.log('zhja', res);
                 const maxlength = Math.max.apply(Math, res.map(v => v.Datas.length))
-                console.log('maxlength', maxlength);
+                // console.log('maxlength', maxlength);
                 let amountList = []
                 res.forEach(v => {
                     const curFund = this.fundList.find(x => x.fundcode === v.Expansion.FCODE)
@@ -127,7 +127,7 @@ export default {
                             const estimatedRevenue = (lastGSZZL * amount).toFixed(2)
                             const extraArray = new Array(maxlength - dataList.length).fill(estimatedRevenue)
                             dataList = [...dataList, ...extraArray]
-                            console.log('额外补充的', extraArray);
+                            // console.log('额外补充的', extraArray);
                         }
                         if (amountList.length && dataList.length) {
                             amountList = amountList.map((v, i) => Number(v) + Number(dataList[i]))

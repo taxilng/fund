@@ -193,7 +193,7 @@ export default {
                         let str =
                             p.length > 1 ? `<br />${p[1].seriesName}：${p[1].value}%` : "";
                         // console.log('提示', p);
-                        return `时间2：${p[0].name}<br />
+                        return `时间：${p[0].name}<br />
                         ${p[0].seriesName}：${p[0].value}%
                         <br />日增长率：${result[p[0].dataIndex].JZZZL}%
                         ${str}`;

@@ -168,7 +168,7 @@ export default {
             Promise.all(fundCodeList)
                 .then((res) => {
                     this.loading = false;
-                    console.log('res', res);
+                    // console.log('res', res);
                     const maxlength = Math.max.apply(Math, res.map(v => v.data.length))
                     let amountList = []
                     res.forEach(v => {
@@ -195,7 +195,7 @@ export default {
                     const PriceDifference = 0
                     const fundAmount = amountList.filter(v => !isNaN(v)).map(v => ((v - PriceDifference) / 100).toFixed(1))
                     this.lastProfit = fundAmount[fundAmount.length - 1]
-                    console.log('fundAmount', fundAmount, amountList);
+                    // console.log('fundAmount', fundAmount, amountList);
                     this.option.series = [
                         {
                             type: "line",
