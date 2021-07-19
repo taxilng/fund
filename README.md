@@ -15,6 +15,65 @@ yarn build
 
 ```
 
+## nginx配置
+```bash
+server {
+        listen       81;
+        server_name  _;
+        charset utf-8;
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+            root /home/fundsForWeb;
+            index  index.html index.htm;
+        }
+
+        location /FundMApi/ {
+            proxy_pass https://fundmobapi.eastmoney.com;
+            proxy_read_timeout 1500;  # 秒
+            proxy_connect_timeout 1500;
+            send_timeout 1500;
+            proxy_ssl_session_reuse off;
+            proxy_ssl_ciphers HIGH:!DH:!MD5;
+        }
+        location /fundsuggest/ {
+            proxy_pass https://fundsuggest.eastmoney.com/;
+            proxy_read_timeout 1500;  # 秒
+            proxy_connect_timeout 1500;
+            send_timeout 1500;
+            proxy_ssl_session_reuse off;
+            proxy_ssl_ciphers HIGH:!DH:!MD5;
+        }
+        location /rabt/ {
+            proxy_pass https://x2rr.github.io/;
+            proxy_read_timeout 1500;  # 秒
+            proxy_connect_timeout 1500;
+            send_timeout 1500;
+            proxy_ssl_session_reuse off;
+            proxy_ssl_ciphers HIGH:!DH:!MD5;
+        }
+        location /bspapp {
+            proxy_pass https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center/;
+            proxy_read_timeout 1500;  # 秒
+            proxy_connect_timeout 1500;
+            send_timeout 1500;
+            proxy_ssl_session_reuse off;
+            proxy_ssl_ciphers HIGH:!DH:!MD5;
+        }
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+```
+
 ## 更新日志
 ---
 ### 2021.07.19
