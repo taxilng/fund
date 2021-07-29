@@ -2,7 +2,7 @@
     <div class="box" v-loading="loading" :element-loading-background="
       darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)'
     ">
-        <div class="subtitle" :class="upRate.slice(0, -1) >= 0 ? 'up' : 'down'">本基金涨幅 {{upRate}}</div>
+        <div class="subtitle" :class="upRate.slice(0, -1) >= 0 ? 'up' : 'down'">本基金涨幅 {{upRate}}%</div>
         <div class="main-echarts" ref="mainCharts"></div>
         <div>
             <el-radio-group size="mini" v-model="sltTimeRange" @change="changeTimeRange">
