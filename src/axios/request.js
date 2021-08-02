@@ -1,10 +1,9 @@
 import axios from 'axios'
-import router from '@/router/index'
 import Vue from "vue";
 const vueObj = new Vue();
 
 // 请求超时 TODO 性能优化后 修改至 30000
-axios.defaults.timeout = 600000;
+axios.defaults.timeout = 5000;
 //axios.defaults.withCredentials=true;
 let isClose = true;
 // 添加一个请求拦截器
