@@ -109,7 +109,9 @@ export default {
                 xAxis: {
                     type: "category",
                     data: [],
-                    axisLabel: {},
+                    axisLabel: {
+                        showMaxLabel: false,
+                    },
                 },
                 yAxis: {
                     type: "value",
@@ -163,7 +165,7 @@ export default {
                 })
             }
             const ljjz = () => {
-                let url = `/FundMApi/FundNetDiagram.ashx?`;
+                let url = `/FundMApi/FundNetDiagram.ashx`;
                 return this.$axios.get(url, {
                     params: {
                         FCODE: this.fund.fundcode,
@@ -176,19 +178,41 @@ export default {
                     }
                 })
             }
-            this.$axios.all([ljsy(), ljjz()]).then(
+            const jzgs = () => {
+                let url = `/FundMApi/FundVarietieValuationDetail.ashx`;
+                return this.$axios.get(url, {
+                    params: {
+                        FCODE: this.fund.fundcode,
+                        deviceid: 'Wap',
+                        plat: 'Wap',
+                        product: 'EFund',
+                        version: '2.0.0',
+                        _: new Date().getTime(),
+                    }
+                })
+            }
+            this.$axios.all([ljsy(), ljjz(), jzgs()]).then(
                 // this.$axios.spread((res1, res2) => {
                 //     console.log('xina', res1, res2);
                 // })
                 res => {
                     this.loading = false;
-                    const [data1, data2] = res
-                    // console.log('xin', data1, data2);
+                    const [data1, data2, data3] = res
+                    // console.log('xin', data1, data2, data3);
                     this.upRate = data1.expansion.syl || data1.data[data1.data.length - 1].yield
                     const result = data1.data.map(v => {
                         const { JZZZL } = data2.Datas.find(x => x.FSRQ === v.pdate) || {}
                         return { ...v, JZZZL }
                     })
+                    const flag = result.some(v => v.pdate === data3.Expansion.GZTIME.slice(0, 10))
+                    if(!flag) {
+                        result.push({
+                            pdate: data3.Expansion.GZTIME.slice(0, 10) + '（估）',
+                            JZZZL: data3.Expansion.GSZZL,
+                            yield: (Number(this.upRate) + Number(data3.Expansion.GSZZL)).toFixed(2),
+                        })
+                    }
+                    // console.log('result', result);
                     this.option.tooltip.formatter = (p) => {
                         let str =
                             p.length > 1 ? `<br />${p[1].seriesName}：${p[1].value}%` : "";
