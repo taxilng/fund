@@ -201,7 +201,7 @@ export default {
                     // console.log('xin', data1, data2, data3);
                     this.upRate = data1.expansion.syl || data1.data[data1.data.length - 1].yield
                     const result = data1.data.map(v => {
-                        const { JZZZL } = data2.Datas.find(x => x.FSRQ === v.pdate) || {}
+                        const { JZZZL } = data2.Datas.find(x => x.FSRQ === v.pdate) || { JZZZL: 0 }
                         return { ...v, JZZZL }
                     })
                     const flag = result.some(v => v.pdate === data3.Expansion.GZTIME.slice(0, 10))
