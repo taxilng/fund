@@ -139,6 +139,10 @@ module.exports = {
         // https: true,
         hotOnly: false,
         proxy: {   //代理
+            '/api/qt/': {
+                target: 'http://push2.eastmoney.com/',
+                changeOrigin: true,
+            },
             '/FundMApi': {
                 target: 'https://fundmobapi.eastmoney.com/',
                 changeOrigin: true,
