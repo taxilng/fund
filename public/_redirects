@@ -1,0 +1,6 @@
+/api/qt/*	http://push2.eastmoney.com/api/qt/:splat 200
+/FundMApi/*  https://fundmobapi.eastmoney.com/FundMApi/:splat  200
+/fundsuggest/*  https://fundsuggest.eastmoney.com/:splat  200
+/rabt/*  https://x2rr.github.io/:splat  200
+/bspapp/*  https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center/:splat  200
+/FundSearch/*  https://fundsuggest.eastmoney.com/FundSearch/:splat  200
