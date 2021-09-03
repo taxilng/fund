@@ -3,7 +3,7 @@ import Vue from "vue";
 const vueObj = new Vue();
 
 // 请求超时 TODO 性能优化后 修改至 30000
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 30000;
 //axios.defaults.withCredentials=true;
 let isClose = true;
 // 添加一个请求拦截器
@@ -45,7 +45,7 @@ axios.interceptors.response.use(
   },
   error => {
     if(String(error).indexOf("timeout") > -1) {
-      vueObj.$notify.close("reqTimeoutHint");
+      vueObj.$notify.closeAll();
       vueObj.$notify.error({
           name: "reqTimeoutHint",
           title: '请求超时'
