@@ -303,6 +303,7 @@ export default {
     },
     methods: {
         init () {
+            // console.log('this.allAmount.length', this.allAmount, this.allAmount.length);
             this.chartEL = this.$refs.mainCharts;
             this.myChart = echarts.init(this.chartEL, this.darkMode ? "dark" : "customed");
             this.option = {
@@ -315,7 +316,7 @@ export default {
                 },
                 grid: {
                     top: 20,
-                    left: 50,
+                    left: this.allAmount.length * 6 + 10,
                     right: 50,
                     bottom: 30,
                 },

@@ -1,24 +1,26 @@
 <template>
     <div v-if="boxShadow" class="shadow" :class="darkMode ? 'darkMode' : ''">
         <div class="content-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.8)">
-            <h5>当日收益曲线</h5>
-            <div class="subtitle">
-                <span>当前收益：</span><span :class="latestAmout >= 0 ? 'up' : 'down'">{{latestAmout}} ({{latestRate}})</span>
-                <span style="margin-left:20px;"> 波动：{{wave.difference}}（{{wave.differenceRate}}）</span>
-                <div style="margin-top:10px;">
-                    <span>最高：</span> <span :class="wave.max >= 0 ? 'up' : 'down'">{{wave.max}}({{wave.maxRate}})</span>
-                    <span style="margin-left:20px;">最低：</span> <span :class="wave.min >= 0 ? 'up' : 'down'">{{wave.min}}({{wave.minRate}})</span>
+            <div id="copyImage">
+                <h5>当日收益曲线</h5>
+                <div class="subtitle">
+                    <span>当前收益：</span><span :class="latestAmout >= 0 ? 'up' : 'down'">{{latestAmout}} ({{latestRate}})</span>
+                    <span style="margin-left:20px;"> 波动：{{wave.difference}}（{{wave.differenceRate}}）</span>
+                    <div style="margin-top:10px;">
+                        <span>最高：</span> <span :class="wave.max >= 0 ? 'up' : 'down'">{{wave.max}}({{wave.maxRate}})</span>
+                        <span style="margin-left:20px;">最低：</span> <span :class="wave.min >= 0 ? 'up' : 'down'">{{wave.min}}({{wave.minRate}})</span>
+                    </div>
                 </div>
-            </div>
-            <!-- <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+                <!-- <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
                 <el-tab-pane lazy label="净值估算" name="first"> -->
-            <charts :darkMode="darkMode" :fundAmount="fundAmount" :allAmount="allAmount" ref="first"></charts>
-            <!-- </el-tab-pane>
+                <charts :darkMode="darkMode" :fundAmount="fundAmount" :allAmount="allAmount" ref="first"></charts>
+                <!-- </el-tab-pane>
             </el-tabs> -->
-
+            </div>
             <div class="tab-row">
                 <input class="btn" type="button" value="返回列表" @click="close" />
                 <input class="btn" type="button" value="刷新" @click="init" />
+                <input class="btn" type="button" value="复制图片" @click="copy" />
             </div>
         </div>
     </div>
@@ -26,6 +28,7 @@
 
 <script>
 import charts from "./earningsDayCharts";
+import html2canvas from 'html2canvas';
 export default {
     components: {
         charts,
@@ -96,6 +99,16 @@ export default {
         // }, 1000);
     },
     methods: {
+        copy () {
+            html2canvas(document.querySelector('#copyImage')).then(function (canvas) {
+                console.log('can', canvas);
+                canvas.toBlob((blob) => {
+                    console.log('233,', blob);
+                    const clipboardItem = new ClipboardItem({ 'image/png': blob });
+                    navigator.clipboard.write([clipboardItem]);
+                }, 'image/png');
+            });
+        },
         handleClick (tab, event) {
             this.activeName = tab.name;
         },
@@ -228,7 +241,7 @@ export default {
 }
 
 .shadow.darkMode {
-    .content-box {
+    .content-box, #copyImage {
         background-color: #373737;
     }
     .btn {
