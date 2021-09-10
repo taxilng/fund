@@ -20,7 +20,7 @@
             <div class="tab-row">
                 <input class="btn" type="button" value="返回列表" @click="close" />
                 <input class="btn" type="button" value="刷新" @click="init" />
-                <input class="btn" type="button" :value="isMobile? '复制文字': '复制图片'" @click="copy" />
+                <input class="btn" type="button" :value="isCopyPic? '复制图片': '复制文字'" @click="copy" />
             </div>
         </div>
     </div>
@@ -69,6 +69,9 @@ export default {
                 return false; // PC端
             }
         },
+        isCopyPic() {
+            return !this.isMobile && navigator.clipboard
+        },
         latestAmout () {
             return this.fundAmount[this.fundAmount.length - 1]
         },
@@ -110,7 +113,7 @@ export default {
         copy () {
             const that = this
 
-            if (navigator.clipboard && !this.isMobile) {
+            if (this.isCopyPic) {
                 html2canvas(document.querySelector('#copyImage')).then(function (canvas) {
                     canvas.toBlob((blob) => {
                         const clipboardItem = new ClipboardItem({ 'image/png': blob });
