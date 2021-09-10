@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import ClipboardJS from 'clipboard'
 import charts from "./earningsDayCharts";
 import html2canvas from 'html2canvas';
 export default {
@@ -100,14 +101,36 @@ export default {
     },
     methods: {
         copy () {
-            html2canvas(document.querySelector('#copyImage')).then(function (canvas) {
-                console.log('can', canvas);
-                canvas.toBlob((blob) => {
-                    console.log('233,', blob);
-                    const clipboardItem = new ClipboardItem({ 'image/png': blob });
-                    navigator.clipboard.write([clipboardItem]);
-                }, 'image/png');
-            });
+
+            if (navigator.clipboard) {
+                html2canvas(document.querySelector('#copyImage')).then(function (canvas) {
+                    console.log('can', canvas);
+                    canvas.toBlob((blob) => {
+                        console.log('233,', blob);
+                        const clipboardItem = new ClipboardItem({ 'image/png': blob });
+                        navigator.clipboard.write([clipboardItem]);
+                    }, 'image/png');
+
+                });
+            } else {
+                var clipboard = new ClipboardJS('.btn', {
+                    target: function () {
+                        return document.querySelector('#copyImage')
+                    }
+                });
+                clipboard.on('success', function (e) {
+                    console.info('Action:', e.action);
+                    console.info('Text:', e.text);
+                    console.info('Trigger:', e.trigger);
+
+                    e.clearSelection();
+                });
+
+                clipboard.on('error', function (e) {
+                    console.error('Action:', e.action);
+                    console.error('Trigger:', e.trigger);
+                });
+            }
         },
         handleClick (tab, event) {
             this.activeName = tab.name;
@@ -241,7 +264,8 @@ export default {
 }
 
 .shadow.darkMode {
-    .content-box, #copyImage {
+    .content-box,
+    #copyImage {
         background-color: #373737;
     }
     .btn {
