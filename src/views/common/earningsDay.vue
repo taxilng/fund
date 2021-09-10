@@ -20,7 +20,7 @@
             <div class="tab-row">
                 <input class="btn" type="button" value="返回列表" @click="close" />
                 <input class="btn" type="button" value="刷新" @click="init" />
-                <input class="btn" type="button" value="复制图片" @click="copy" />
+                <input class="btn" type="button" :value="isMobile? '复制文字': '复制图片'" @click="copy" />
             </div>
         </div>
     </div>
@@ -62,6 +62,13 @@ export default {
         };
     },
     computed: {
+        isMobile () {
+            if (window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+                return true; // 移动端
+            } else {
+                return false; // PC端
+            }
+        },
         latestAmout () {
             return this.fundAmount[this.fundAmount.length - 1]
         },
@@ -101,16 +108,18 @@ export default {
     },
     methods: {
         copy () {
+            const that = this
 
-            if (navigator.clipboard) {
+            if (navigator.clipboard && !this.isMobile) {
                 html2canvas(document.querySelector('#copyImage')).then(function (canvas) {
-                    console.log('can', canvas);
                     canvas.toBlob((blob) => {
-                        console.log('233,', blob);
                         const clipboardItem = new ClipboardItem({ 'image/png': blob });
                         navigator.clipboard.write([clipboardItem]);
                     }, 'image/png');
-
+                    that.$notify.closeAll();
+                    that.$notify.success({
+                        title: '复制图片成功'
+                    });
                 });
             } else {
                 var clipboard = new ClipboardJS('.btn', {
@@ -119,10 +128,13 @@ export default {
                     }
                 });
                 clipboard.on('success', function (e) {
+                    that.$notify.closeAll();
+                    that.$notify.success({
+                        title: '复制文字成功'
+                    });
                     console.info('Action:', e.action);
                     console.info('Text:', e.text);
                     console.info('Trigger:', e.trigger);
-
                     e.clearSelection();
                 });
 
