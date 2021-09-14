@@ -178,6 +178,7 @@
         <holding-income @close="holdingIncomeDialogShow = false"  :earningsDayDialogShow="holdingIncomeDialogShow" :fundList="dataList" :allCostGains="allCostGains[0]" :darkMode="darkMode"></holding-income>
         <reward @close="rewardShadow = false" ref="reward"></reward>
         <change-log @close="closeChangelog" :darkMode="darkMode" ref="changelog" :top="40"></change-log>
+        <tips :addDialog.sync="addDialog"></tips>
     </div>
 </template>
 
@@ -191,6 +192,7 @@ import holdingIncome from "../common/holdingIncome";
 import changeLog from "../common/changeLog";
 import { storage, chrome } from '@/untils/utils';
 import market from "../common/market";
+import tips from "./tips";
 //防抖
 let timeout = null;
 function debounce (fn, wait = 700) {
@@ -207,9 +209,11 @@ export default {
         indDetail,
         changeLog,
         market,
+        tips,
     },
     data () {
         return {
+            addDialog: false,
             earningsDayDialogShow: false,
             holdingIncomeDialogShow: false,
             isEdit: false,
@@ -306,6 +310,10 @@ export default {
         };
     },
     mounted () {
+        console.log(233, Date.now(), localStorage.getItem('popupTimeout'));
+        if(Date.now() > localStorage.getItem('popupTimeout')) {
+            this.addDialog = true
+        }
         // if (process.env.NODE_ENV === "development") {
         //     const script = document.createElement('script');
         //     script.type = 'text/javascript';

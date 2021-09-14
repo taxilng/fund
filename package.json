@@ -24,8 +24,6 @@
     "js-md5": "^0.7.3",
     "jssip": "^3.3.11",
     "less": "^3.9.0",
-    "lodash": "^4.17.14",
-    "moment": "^2.24.0",
     "nprogress": "^0.2.0",
     "sortablejs": "^1.10.0-rc3",
     "svg-sprite-loader": "4.1.3",
