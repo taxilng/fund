@@ -157,6 +157,7 @@
             <input class="btn" type="button" :value="isEdit ? '完成编辑' : '编辑'" @click="isEdit = !isEdit" />
             <!-- <input class="btn" type="button" :value="isAdd ? '取消添加' : '添加'" @click="isAdd = !isAdd" /> -->
             <input class="btn" type="button" value="设置" @click="option" />
+            <input class="btn" type="button" value="新网站" @click="addDialog = true" />
             <!-- <input class="btn" type="button" value="日志" @click="changelog" /> -->
             <!-- <input class="btn primary" type="button" title="φ(>ω<*)" value="打赏" @click="reward" /> -->
             <div class="refresh" :class="{ isRefresh: isRefresh }" title="手动刷新数据" @click="refresh">
