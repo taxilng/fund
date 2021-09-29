@@ -20,7 +20,7 @@
             <div class="tab-row">
                 <input class="btn" type="button" value="返回列表" @click="close" />
                 <input class="btn" type="button" value="刷新" @click="init" />
-                <input class="btn" type="button" :value="isCopyPic? '复制图片': '复制文字'" @click="copy" />
+                <input class="btn copy" type="button" :value="isCopyPic? '复制图片': '复制文字'" @click="copy" />
             </div>
         </div>
     </div>
@@ -125,7 +125,7 @@ export default {
                     });
                 });
             } else {
-                var clipboard = new ClipboardJS('.btn', {
+                var clipboard = new ClipboardJS('.copy', {
                     target: function () {
                         return document.querySelector('#copyImage')
                     }
