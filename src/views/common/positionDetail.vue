@@ -133,7 +133,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .box {
   width: 100%;
   height: 100%;
@@ -166,7 +166,7 @@ table {
 }
 
 .darkMode table tr:nth-child(even) {
-  background-color: rgba($color: #ffffff, $alpha: 0.05);
+  background-color: rgba( 255, 255, 255,  0.05);
 }
 .up {
   color: #f56c6c;

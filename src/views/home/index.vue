@@ -987,7 +987,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .container {
     min-width: 300px;
     max-width: 700px;
@@ -1300,112 +1300,112 @@ tbody tr:hover {
 
 //暗黑主题
 .container.darkMode {
-    color: rgba($color: #ffffff, $alpha: 0.6);
+    color: rgba( 255, 255, 255,  0.6);
     background-color: #121212;
     .refresh {
-        color: rgba($color: #409eff, $alpha: 0.6);
+        color: rgba(64, 158, 255, 0.6);
     }
     .btn {
-        background-color: rgba($color: #ffffff, $alpha: 0.16);
-        color: rgba($color: #ffffff, $alpha: 0.6);
-        border: 1px solid rgba($color: #ffffff, $alpha: 0.6);
+        background-color: rgba( 255, 255, 255,  0.16);
+        color: rgba( 255, 255, 255,  0.6);
+        border: 1px solid rgba( 255, 255, 255,  0.6);
     }
     .primary {
-        border: 1px solid rgba($color: #409eff, $alpha: 0.6);
-        background-color: rgba($color: #409eff, $alpha: 0.6);
+        border: 1px solid rgba(64, 158, 255, 0.6);
+        background-color: rgba(64, 158, 255, 0.6);
     }
     /deep/ .el-input__inner {
-        background-color: rgba($color: #ffffff, $alpha: 0.16);
-        color: rgba($color: #ffffff, $alpha: 0.6);
+        background-color: rgba( 255, 255, 255,  0.16);
+        color: rgba( 255, 255, 255,  0.6);
     }
     /deep/ .el-select__input {
-        color: rgba($color: #ffffff, $alpha: 0.6);
+        color: rgba( 255, 255, 255,  0.6);
     }
 
     /deep/ tbody tr:hover {
-        background-color: rgba($color: #ffffff, $alpha: 0.08);
+        background-color: rgba( 255, 255, 255,  0.08);
     }
 
     .slt {
-        border: 1px solid rgba($color: #67c23a, $alpha: 0.6);
-        background-color: rgba($color: #67c23a, $alpha: 0.6);
+        border: 1px solid rgba(103, 194, 58, 0.6);
+        background-color: rgba(103, 194, 58, 0.6);
     }
 
     .btn.red {
-        border: 1px solid rgba($color: #f56c6c, $alpha: 0.6);
-        background-color: rgba($color: #f56c6c, $alpha: 0.6);
+        border: 1px solid rgba(245, 108, 108, 0.6);
+        background-color: rgba(245, 108, 108, 0.6);
     }
 
     .btn-up {
-        border: 1px solid rgba($color: #f56c6c, $alpha: 0.6);
-        background-color: rgba($color: #f56c6c, $alpha: 0.6);
+        border: 1px solid rgba(245, 108, 108, 0.6);
+        background-color: rgba(245, 108, 108, 0.6);
     }
 
     .btn-down {
-        border: 1px solid rgba($color: #4eb61b, $alpha: 0.6);
-        background-color: rgba($color: #4eb61b, $alpha: 0.6);
+        border: 1px solid rgba(78, 182, 27, 0.6);
+        background-color: rgba(78, 182, 27, 0.6);
     }
 
     .tab-col {
-        background-color: rgba($color: #ffffff, $alpha: 0.09);
+        background-color: rgba( 255, 255, 255,  0.09);
         border-radius: 5px;
     }
 
     table {
-        background-color: rgba($color: #ffffff, $alpha: 0.12);
+        background-color: rgba( 255, 255, 255,  0.12);
         border-radius: 5px;
     }
 
     ::placeholder {
-        color: rgba($color: #ffffff, $alpha: 0.38);
+        color: rgba( 255, 255, 255,  0.38);
     }
 
     /deep/ .el-select .el-input.is-focus .el-input__inner {
-        border-color: rgba($color: #409eff, $alpha: 0.6);
+        border-color: rgba(64, 158, 255, 0.6);
     }
 
     /deep/ .el-select .el-tag {
-        background-color: rgba($color: #ffffff, $alpha: 0.14);
-        color: rgba($color: #ffffff, $alpha: 0.6);
+        background-color: rgba( 255, 255, 255,  0.14);
+        color: rgba( 255, 255, 255,  0.6);
     }
 
     /deep/ .el-select-dropdown {
         background-color: #383838;
-        border: 1px solid rgba($color: #ffffff, $alpha: 0.38);
+        border: 1px solid rgba( 255, 255, 255,  0.38);
         .popper__arrow::after {
             border-bottom-color: #383838;
         }
         .el-scrollbar {
-            background-color: rgba($color: #ffffff, $alpha: 0.16);
+            background-color: rgba( 255, 255, 255,  0.16);
         }
         .el-select-dropdown__item {
-            color: rgba($color: #ffffff, $alpha: 0.6);
+            color: rgba( 255, 255, 255,  0.6);
         }
 
         .el-select-dropdown__item.hover,
         .el-select-dropdown__item:hover {
-            background-color: rgba($color: #ffffff, $alpha: 0.08);
+            background-color: rgba( 255, 255, 255,  0.08);
         }
         .el-select-dropdown__item.selected {
-            color: rgba($color: #409eff, $alpha: 0.6);
-            background-color: rgba($color: #ffffff, $alpha: 0.08);
+            color: rgba(64, 158, 255, 0.6);
+            background-color: rgba( 255, 255, 255,  0.08);
         }
         .el-select-dropdown__item.selected::after {
-            color: rgba($color: #409eff, $alpha: 0.6);
+            color: rgba(64, 158, 255, 0.6);
         }
     }
 
     /deep/ .el-switch__label.is-active {
-        color: rgba($color: #409eff, $alpha: 0.87);
+        color: rgba(64, 158, 255, 0.87);
     }
     /deep/ .el-switch__label {
-        color: rgba($color: #ffffff, $alpha: 0.6);
+        color: rgba( 255, 255, 255,  0.6);
     }
 
     /deep/ .hasReplace-tip {
-        color: rgba($color: #ffffff, $alpha: 0.6);
-        border: 1px solid rgba($color: #409eff, $alpha: 0.6);
-        background-color: rgba($color: #409eff, $alpha: 0.6);
+        color: rgba( 255, 255, 255,  0.6);
+        border: 1px solid rgba(64, 158, 255, 0.6);
+        background-color: rgba(64, 158, 255, 0.6);
     }
 }
 </style>

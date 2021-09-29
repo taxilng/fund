@@ -97,7 +97,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .changelog {
     /deep/ &.el-dialog {
         max-width: 500px;
@@ -172,26 +172,26 @@ export default {
     /deep/ &.el-dialog {
         background-color: #373737;
         .el-dialog__header .el-dialog__title {
-            color: rgba($color: #ffffff, $alpha: 0.6);
+            color: rgba(255, 255, 255, 0.6);
         }
         .el-dialog__body {
-            color: rgba($color: #ffffff, $alpha: 0.6);
+            color: rgba(255, 255, 255, 0.6);
         }
     }
     .btn {
-        background-color: rgba($color: #ffffff, $alpha: 0.16);
-        color: rgba($color: #ffffff, $alpha: 0.6);
-        border: 1px solid rgba($color: #ffffff, $alpha: 0.6);
+        background-color: rgba(255, 255, 255, 0.16);
+        color: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.6);
     }
     .primary {
-        border: 1px solid rgba($color: #409eff, $alpha: 0.6);
-        background-color: rgba($color: #409eff, $alpha: 0.6);
+        border: 1px solid rgba(64, 158, 255, 0.6);
+        background-color: rgba(64, 158, 255, 0.6);
     }
 
     .el-button--primary {
-        border: 1px solid rgba($color: #409eff, $alpha: 0.6);
-        background-color: rgba($color: #409eff, $alpha: 0.6);
-        color: rgba($color: #ffffff, $alpha: 0.6);
+        border: 1px solid rgba(64, 158, 255, 0.6);
+        background-color: rgba(64, 158, 255, 0.6);
+        color: rgba(255, 255, 255, 0.6);
     }
 }
 </style>

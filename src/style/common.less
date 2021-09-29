@@ -1,5 +1,4 @@
-@import './variables.scss';
-@import './transition.scss';
+@import './transition.less';
 body,
 div,
 span,
@@ -321,7 +320,6 @@ select:-webkit-autofill {
 .zhouqi_bottom {
   position: absolute;
   width: calc(100% - 30px);
-  width: -webkit-模板市场 calc(100% - 30px);
   bottom: 15px;
   left: 15px;
   z-index: 10;
@@ -431,18 +429,17 @@ select:-webkit-autofill {
   }
 }
 
-$modifyColor: #3f9fff;
-$deleteColor: #f56c6c;
-$commonColor: #666666;
-$commonColor33: #333333;
-$commonColor99: #999999;
-$commonColor3366: #606266;
-$tableHeaderColor: #363636;
-@mixin colorText($text_color) {
-  color: $text_color;
+@deleteColor: #f56c6c;
+@commonColor: #666666;
+@commonColor33: #333333;
+@commonColor99: #999999;
+@commonColor3366: #606266;
+@tableHeaderColor: #363636;
+.mixin-colorText(@text_color) {
+  color: @text_color;
 }
 .deleteText {
-  @include colorText($deleteColor);
+  .mixin-colorText(@deleteColor);
   cursor: pointer;
   font-size: 12px;
 }
@@ -528,14 +525,14 @@ $tableHeaderColor: #363636;
   margin-top: 30px;
 }
 .textColor66 {
-  @include colorText($commonColor);
+  @include colorText(@commonColor);
 }
 .textColor33 {
-  // @include colorText($commonColor33);
-  @include colorText($commonColor3366);
+  // @include colorText(@commonColor33);
+  @include colorText(@commonColor3366);
 }
 .textColor99 {
-  @include colorText($commonColor99);
+  @include colorText(@commonColor99);
 }
 
 // 页面底部模块

@@ -243,7 +243,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .subtitle {
     text-align: left;
     margin: 10px 0 0 20px;

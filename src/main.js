@@ -24,9 +24,10 @@ import {
 } from 'element-ui'
 // import "./style/guiji_font/iconfont.js";
 // import "./style/receptionCenterFontIcon/iconfont.js";
-import './style/common.scss'
+import 'element-ui/lib/theme-chalk/index.css';
+import './style/common.less'
 // import './style/iconfont.css'
-import './style/element-variables.scss'
+import './style/element-variables.less'
 import '@/axios/request'
 // 引入svg组件
 // Vue.component('svg-icon', SvgIcon)

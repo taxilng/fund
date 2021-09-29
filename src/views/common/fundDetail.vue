@@ -127,7 +127,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .shadow {
     position: fixed;
     width: 100%;
@@ -198,37 +198,37 @@ export default {
         background-color: #373737;
     }
     .btn {
-        background-color: rgba($color: #ffffff, $alpha: 0.16);
-        color: rgba($color: #ffffff, $alpha: 0.6);
-        border: 1px solid rgba($color: #ffffff, $alpha: 0.6);
+        background-color: rgba(255, 255, 255,0.16);
+        color: rgba(255, 255, 255,0.6);
+        border: 1px solid rgba(255, 255, 255,0.6);
     }
 
     /deep/ .el-tabs--border-card {
         background-color: #373737;
-        border: 1px solid rgba($color: #ffffff, $alpha: 0.37);
+        border: 1px solid rgba(255, 255, 255,0.37);
         .el-tabs__header {
-            background-color: rgba($color: #ffffff, $alpha: 0.16);
-            border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.37);
+            background-color: rgba(255, 255, 255,0.16);
+            border-bottom: 1px solid rgba(255, 255, 255,0.37);
 
             .el-tabs__item.is-active {
-                background-color: rgba($color: #409eff, $alpha: 0.6);
-                color: rgba($color: #ffffff, $alpha: 0.6);
-                border-right-color: rgba($color: #ffffff, $alpha: 0.37);
-                border-left-color: rgba($color: #ffffff, $alpha: 0.37);
+                background-color: rgba(64, 158, 255, 0.6);
+                color: rgba(255, 255, 255,0.6);
+                border-right-color: rgba(255, 255, 255,0.37);
+                border-left-color: rgba(255, 255, 255,0.37);
             }
         }
     }
 
     /deep/ .el-radio-button--mini .el-radio-button__inner {
-        background-color: rgba($color: #ffffff, $alpha: 0.16);
-        color: rgba($color: #ffffff, $alpha: 0.6);
-        border: 1px solid rgba($color: #ffffff, $alpha: 0.37);
+        background-color: rgba(255, 255, 255,0.16);
+        color: rgba(255, 255, 255,0.6);
+        border: 1px solid rgba(255, 255, 255,0.37);
     }
 
     /deep/ .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-        background-color: rgba($color: #409eff, $alpha: 0.6);
-        color: rgba($color: #ffffff, $alpha: 0.6);
-        border-color: rgba($color: #409eff, $alpha: 0.37);
+        background-color: rgba(64, 158, 255, 0.6);
+        color: rgba(255, 255, 255,0.6);
+        border-color: rgba(64, 158, 255, 0.37);
     }
 }
 </style>

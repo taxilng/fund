@@ -200,7 +200,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 /deep/.el-dialog__body {
     padding: 0px 20px;
 }

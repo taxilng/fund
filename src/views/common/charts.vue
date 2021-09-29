@@ -459,7 +459,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .main-echarts {
     width: 100%;
     height: 240px;

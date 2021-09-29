@@ -66,7 +66,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .shadow {
   position: fixed;
   width: 100%;
@@ -178,28 +178,28 @@ export default {
 }
 
 .darkMode .reward-box {
-  color: rgba($color: #ffffff, $alpha: 0.6);
+  color: rgba( 255, 255, 255,  0.6);
   background-color: #373737;
   .btn {
-    background-color: rgba($color: #ffffff, $alpha: 0.16);
-    color: rgba($color: #ffffff, $alpha: 0.6);
-    border: 1px solid rgba($color: #ffffff, $alpha: 0.6);
+    background-color: rgba( 255, 255, 255,  0.16);
+    color: rgba( 255, 255, 255,  0.6);
+    border: 1px solid rgba( 255, 255, 255,  0.6);
   }
   .success {
-    border: 1px solid rgba($color: #4eb61b, $alpha: 0.6);
-    background-color: rgba($color: #4eb61b, $alpha: 0.6);
+    border: 1px solid rgba(78, 182, 27, 0.6);
+    background-color: rgba(78, 182, 27, 0.6);
   }
 
   button {
-    background-color: rgba($color: #ffffff, $alpha: 0.16);
-    color: rgba($color: #ffffff, $alpha: 0.6);
-    border: 1px solid rgba($color: #ffffff, $alpha: 0.38);
+    background-color: rgba( 255, 255, 255,  0.16);
+    color: rgba( 255, 255, 255,  0.6);
+    border: 1px solid rgba( 255, 255, 255,  0.38);
   }
 
   button.checked {
-    color: rgba($color: #ffffff, $alpha: 0.6);
-    border: 1px solid rgba($color: #409eff, $alpha: 0.38);
-    background-color: rgba($color: #409eff, $alpha: 0.6);
+    color: rgba( 255, 255, 255,  0.6);
+    border: 1px solid rgba(64, 158,  0.38);
+    background-color: rgba(64, 158,  0.6);
   }
 }
 </style>

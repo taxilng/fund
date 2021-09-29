@@ -132,7 +132,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .box {
   width: 100%;
   height: 100%;
@@ -180,7 +180,7 @@ export default {
 }
 
 .darkMode .content-box > div:nth-child(even) {
-  background-color: rgba($color: #ffffff, $alpha: 0.05);
+  background-color: rgba( 255, 255, 255,  0.05);
 }
 
 .shadow {
@@ -224,9 +224,9 @@ export default {
     background-color: #373737;
   }
   .btn {
-    background-color: rgba($color: #ffffff, $alpha: 0.16);
-    color: rgba($color: #ffffff, $alpha: 0.6);
-    border: 1px solid rgba($color: #ffffff, $alpha: 0.6);
+    background-color: rgba( 255, 255, 255,  0.16);
+    color: rgba( 255, 255, 255,  0.6);
+    border: 1px solid rgba( 255, 255, 255,  0.6);
   }
 }
 .tab-row {
