@@ -686,7 +686,7 @@ export default {
             // console.log('获取列表数据');
             let fundlist = this.fundListM.map((val) => val.code).join(",");
             let url =
-                "https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=50&plat=Android&appType=ttjj&product=EFund&Version=1&deviceid=" +
+                "/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=50&plat=Android&appType=ttjj&product=EFund&Version=1&deviceid=" +
                 this.userId +
                 "&Fcodes=" +
                 fundlist;
