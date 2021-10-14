@@ -86,7 +86,7 @@ export default {
 
     getData() {
       this.loading = true;
-      let url = `https://fundmobapi.eastmoney.com/FundMNewApi/FundMNInverstPosition?FCODE=${
+      let url = `/FundMNewApi/FundMNInverstPosition?FCODE=${
         this.fund.fundcode
       }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&Uid=&_=${new Date().getTime()}`;
       this.$axios.get(url).then((res) => {
