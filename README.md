@@ -1,10 +1,8 @@
 # 自选基金助手
 
-[阿里云(2021.11.06到期)](http://39.100.236.137:81/)
+[网站netlify](https://fundsforweb.netlify.app)
 
-[新网站netlify](https://fundsforweb.netlify.app)
-
-[新阿里云](http://120.26.91.101:8088/)
+[阿里云](http://120.26.91.101:8088/)
 
 ## 项目启动
 ``` bash
