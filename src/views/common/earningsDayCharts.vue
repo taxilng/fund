@@ -25,7 +25,7 @@ export default {
             required: true,
         },
         allAmount: {
-            type: String,
+            type: [String, Number],
             default: '1',
         },
     },
@@ -160,7 +160,6 @@ export default {
                 "11:28",
                 "11:29",
                 "11:30",
-                "13:00",
                 "13:01",
                 "13:02",
                 "13:03",

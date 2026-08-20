@@ -6,6 +6,7 @@ import VueClipboard from "vue-clipboard2";
 
 import {
     Input,
+    InputNumber,
     Dialog,
     Button,
     RadioGroup,
@@ -48,6 +49,7 @@ Vue.prototype.$axios = axios;
 
 Vue.use(VueClipboard)
 Vue.use(Input)
+Vue.use(InputNumber)
 Vue.use(Dialog)
 Vue.use(Button)
 Vue.use(RadioGroup)

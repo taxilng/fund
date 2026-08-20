@@ -16,21 +16,6 @@ axios.interceptors.request.use(
     }else{
       res.params = res.params || {};
     }
-    // if(localStorage.getItem('loginToken')) {
-    //   res.headers.common['Authorization'] = localStorage.getItem('loginToken');
-    // }
-    // if(localStorage.getItem('userId')) {
-    //     res.headers.common['userId'] = localStorage.getItem('userId');
-    // }
-    // if(process.env.NODE_ENV === "development"){
-    //     res.headers.common['userId'] = 1;
-    //     res.headers.common['orgCode'] = "1.336.";
-    //     res.headers.common['orgId'] = 1;
-    //     res.headers.common['isDesensitization'] = 1;
-    //     res.headers.common['authLevel'] = 3;
-    //     res.headers.common['ApiKey'] = 123456;
-    //     res.headers.common['isSuperAdmin'] = true;
-    // }
     return res;
   },
   err => {

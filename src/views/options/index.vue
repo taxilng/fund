@@ -28,113 +28,80 @@
                 </li>
                 <li>
                     <div class="list-title">
-                        节假日信息
-                        <button :disabled="disabled" @click="getHoliday" title="点击更新节假日信息" class="btn">
-                            更新
-                        </button>
-                        <button @click="goBack" class="btn">
-                            返回主页
-                        </button>
-                        <span class="loading" v-if="disabled">更新中。。。</span>
-                    </div>
-                    <p>
-                        <span v-if="holiday">
-                            当前版本：v{{
-                holiday.version
-              }}&nbsp;&nbsp;&nbsp;&nbsp;最后节假日日期：{{ holiday.lastDate }}
-                        </span>
-                    </p>
-                    <p>
-                        tips：更新节假日信息，可以在节假日暂停更新估值，节假日信息会不定时更新。
-                        <a href="#" @click="openHoliday">查看最新版</a>
-                    </p>
-                </li>
-                <li>
-                    <div class="list-title">
                         主题设置
                     </div>
                     <div class="select-row">
+                        <button @click="goBack" class="btn">
+                            返回主页
+                        </button>
                         <el-switch v-model="darkMode" @change="changeDarkMode" active-color="#484848" inactive-color="#13ce66" inactive-text="标准模式" active-text="暗色模式">
                         </el-switch>
                     </div>
                 </li>
                 <li>
-                    <div class="list-title">
-                        角标展示设置
-                    </div>
-                    <div class="select-row">
-                        角标开关：
-                        <el-radio-group v-model="showBadge" @change="changeOption($event, 'showBadge', true)">
-                            <el-radio border :label="1">打开角标</el-radio>
-                            <el-radio border :label="2">关闭角标</el-radio>
-                        </el-radio-group>
-                    </div>
-                    <div v-if="showBadge == 1" class="select-row">
-                        角标内容：
-                        <el-radio-group v-model="BadgeContent" @change="changeOption($event, 'BadgeContent', true)">
-                            <el-radio border :label="1">单个基金</el-radio>
-                            <el-radio border :label="2">所有基金</el-radio>
-                        </el-radio-group>
-                    </div>
-                    <div v-if="showBadge == 1" class="select-row">
-                        角标类型：
-                        <el-radio-group v-model="BadgeType" @change="changeOption($event, 'BadgeType', true)">
-                            <el-radio border :label="1">日收益率</el-radio>
-                            <el-radio border :label="2">日收益额</el-radio>
-                        </el-radio-group>
-                    </div>
-                    <p style="margin-top:5px">
-                        tips：若选择单个基金，请打开编辑按钮中的特别关注选项；若要计算收益额，需要先打开显示持有金额开关，在编辑中填写基金对应的持有额。
-                    </p>
-                </li>
-
-                <li>
-                    <div class="list-title">
-                        基金列表展示内容设置
-                    </div>
-                    <div class="select-row">
-                        <span>显示估算净值</span>
-                        <el-switch v-model="showGSZ" @change="changeOption($event, 'showGSZ')">
-                        </el-switch>
-                    </div>
-                    <div class="select-row">
-                        <span>显示持有金额</span>
-                        <el-switch v-model="showAmount" @change="changeOption($event, 'showAmount')">
-                        </el-switch>
-                    </div>
-                    <div class="select-row">
-                        <span>显示估值收益</span>
-                        <el-switch v-model="showGains" @change="changeOption($event, 'showGains')">
-                        </el-switch>
-                    </div>
-                    <div class="select-row">
-                        <span>显示单个持有收益</span>
-                        <el-switch v-model="showCost" @change="changeOption($event, 'showCost')">
-                        </el-switch>
-                    </div>
-                    <div class="select-row">
-                        <span>显示总持有收益</span>
-                        <el-switch v-model="showAllCost" @change="changeOption($event, 'showAllCost')">
-                        </el-switch>
-                    </div>
-                    <div class="select-row">
-                        <span>显示总资产</span>
-                        <el-switch v-model="showTotalAssets" @change="changeOption($event, 'showTotalAssets')">
-                        </el-switch>
-                    </div>
-                    <div class="select-row">
-                        <span>显示持仓占比</span>
-                        <el-switch v-model="showProportion" @change="changeOption($event, 'showProportion')">
-                        </el-switch>
-                    </div>
-                    <div class="select-row">
-                        <span>显示持有收益率</span>
-                        <el-switch v-model="showCostRate" @change="changeOption($event, 'showCostRate')">
-                        </el-switch>
-                    </div>
-                    <p>
-                        tips：在编辑设置里，输入持有份额可计算当日估值收益。输入持仓成本可计算累计持有收益。
-                    </p>
+                  <div class="list-title">
+                    基金列表展示内容设置
+                  </div>
+                  <div>
+                    历史收益 <el-input-number v-model="historicalRevenueAmount" size="small" :controls="false"></el-input-number>
+                    <el-button style="margin-left: 10px;" type="primary" size="small" @click="confirmHistoricalReturn">确认</el-button>
+                  </div>
+                  <div class="subtitle">表格列</div> <hr>
+                  <div class="select-row">
+                      <span>显示估算净值</span>
+                      <el-switch v-model="showGSZ" @change="changeOption($event, 'showGSZ')">
+                      </el-switch>
+                  </div>
+                  <div class="select-row">
+                      <span>显示持有金额</span>
+                      <el-switch v-model="showAmount" @change="changeOption($event, 'showAmount')">
+                      </el-switch>
+                  </div>
+                  <div class="select-row">
+                      <span>显示单个估值收益</span>
+                      <el-switch v-model="showGains" @change="changeOption($event, 'showGains')">
+                      </el-switch>
+                  </div>
+                  <div class="select-row">
+                    <span>显示单个持有收益</span>
+                    <el-switch v-model="showCost" @change="changeOption($event, 'showCost')">
+                    </el-switch>
+                  </div>
+                  <div class="select-row">
+                    <span>显示持仓占比</span>
+                    <el-switch v-model="showProportion" @change="changeOption($event, 'showProportion')">
+                    </el-switch>
+                  </div>
+                  <div class="select-row">
+                      <span>显示持有收益率</span>
+                      <el-switch v-model="showCostRate" @change="changeOption($event, 'showCostRate')">
+                      </el-switch>
+                  </div>
+                  <div class="subtitle">底部总体展示</div> 
+                  <hr>
+                  <div class="select-row">
+                      <span>显示总估值收益</span>
+                      <el-switch v-model="showAllGains" @change="changeOption($event, 'showAllGains')">
+                      </el-switch>
+                  </div>
+                  <div class="select-row">
+                      <span>显示总持有收益</span>
+                      <el-switch v-model="showAllCost" @change="changeOption($event, 'showAllCost')">
+                      </el-switch>
+                  </div>
+                  <div class="select-row">
+                      <span>显示总收益</span>
+                      <el-switch v-model="showTotalRevenue" @change="changeOption($event, 'showTotalRevenue')">
+                      </el-switch>
+                  </div>
+                  <div class="select-row">
+                      <span>显示总资产</span>
+                      <el-switch v-model="showTotalAssets" @change="changeOption($event, 'showTotalAssets')">
+                      </el-switch>
+                  </div>
+                  <p>
+                      tips：在编辑设置里，输入持有份额可计算当日估值收益。输入持仓成本可计算累计持有收益。
+                  </p>
                 </li>
                 <li>
                     <div class="list-title">
@@ -204,23 +171,22 @@ export default {
     },
     data () {
         return {
+            historicalRevenueAmount: 0,
             giteeLogo1: require('@/assets/img/logo.svg'),
             giteeLogo2: require('@/assets/img/logo-black.svg'),
             configHref: null,
-            holiday: null,
             disabled: false,
             showGSZ: false,
             showAmount: false,
             showGains: false,
+            showAllGains: false,
             showCost: false,
             showAllCost: false,
+            showTotalRevenue: false,
             showTotalAssets: false,
             showProportion: false,
             showCostRate: false,
             darkMode: false,
-            showBadge: 1,
-            BadgeContent: 1,
-            BadgeType: 1,
             changelogShadow: false,
             version,
             timer: null,
@@ -250,6 +216,9 @@ export default {
         },
     },
     methods: {
+        confirmHistoricalReturn() {
+          storage.set({ historicalRevenueAmount: this.historicalRevenueAmount ?? 0 });
+        },
         logout () {
             storage.get('token').then(res => {
                 this.logoutLoading = true;
@@ -285,12 +254,12 @@ export default {
                     },
                     uniIdToken: res.token,
                 }).then((res) => {
-                    console.log(11, res);
                     if (res && res.code === 0) {
                         if (res.userInfo && res.userInfo.config_data) {
                             const data = JSON.parse(res.userInfo.config_data)
+                            console.log('服务器返回值', data);
                             storage.set(data, () => {
-                                chrome.runtime.sendMessage({ type: "refresh" });
+                                chrome.runtime.sendMessage({ type: "refreshOption" });
                             })
                             this.initOption()
                             this.$message({
@@ -380,21 +349,20 @@ export default {
         initOption () {
             storage.get(
                 [
-                    "holiday",
                     "showNum",
                     "showAmount",
                     "showGains",
+                    "showAllGains",
                     "showCost",
                     "showAllCost",
+                    "showTotalRevenue",
                     "showTotalAssets",
                     "showProportion",
                     "showCostRate",
                     "showGSZ",
                     "darkMode",
-                    "showBadge",
-                    "BadgeContent",
-                    "BadgeType",
                     "userInfo",
+                    "historicalRevenueAmount",
                 ])
                 .then(
                     (res) => {
@@ -423,22 +391,17 @@ export default {
                             this.showAmount = res.showAmount ? res.showAmount : false;
                             this.showGains = res.showGains ? res.showGains : false;
                         }
-
-                        if (res.holiday) {
-                            this.holiday = res.holiday;
-                        } else {
-                            this.getHoliday();
-                        }
+                          
+                        this.showAllGains = res.showAllGains ? res.showAllGains : false;
                         this.showGSZ = res.showGSZ ? res.showGSZ : false;
                         this.showCost = res.showCost ? res.showCost : false;
                         this.showAllCost = res.showAllCost ? res.showAllCost : false;
+                        this.showTotalRevenue = res.showTotalRevenue ?? false;
                         this.showTotalAssets = res.showTotalAssets ? res.showTotalAssets : false;
                         this.showProportion = res.showProportion ? res.showProportion : false;
                         this.showCostRate = res.showCostRate ? res.showCostRate : false;
                         this.darkMode = res.darkMode ? res.darkMode : false;
-                        this.showBadge = res.showBadge ? res.showBadge : 1;
-                        this.BadgeContent = res.BadgeContent ? res.BadgeContent : 1;
-                        this.BadgeType = res.BadgeType ? res.BadgeType : 1;
+                        this.historicalRevenueAmount = res.historicalRevenueAmount ? res.historicalRevenueAmount : undefined;
 
                         // console.log('mi', res);
                         if (res.userInfo) {
@@ -468,7 +431,7 @@ export default {
                     let config = JSON.parse(event.target.result);
                     storage.set(config, (val) => {
                         this.initOption();
-                        chrome.runtime.sendMessage({ type: "refresh" });
+                        chrome.runtime.sendMessage({ type: "refreshOption" });
                         this.$message({
                             message: "恭喜,导入配置成功！",
                             type: "success",
@@ -491,32 +454,13 @@ export default {
         },
         successInput () {
             this.initOption();
-            chrome.runtime.sendMessage({ type: "refresh" });
+            chrome.runtime.sendMessage({ type: "refreshOption" });
         },
         openConfigBox () {
             this.$refs.configBox.init();
         },
-        getHoliday () {
-            this.disabled = true;
-            let url = "/rabt/funds/holiday.json";
-            this.$axios.get(url).then((res) => {
-                console.log(11, res);
-                storage.set(
-                    {
-                        holiday: res,
-                    },
-                    () => {
-                        this.holiday = res;
-                        this.disabled = false;
-                    }
-                );
-            });
-        },
         goBack () {
-            this.$router.push('/')
-        },
-        openHoliday () {
-            window.open("/rabt/funds/holiday.json");
+            history.back()
         },
         openGithub () {
             window.open("https://github.com/taxilng/fund");
@@ -540,6 +484,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+hr {
+  border: none;
+  border-bottom: 1px solid hsla(0, 0%, 100%, .38);
+}
+.subtitle {
+  font-size: 14px;
+  margin-top: 10px;  
+}
+
 .container {
     min-width: 300px;
     min-height: 520px;

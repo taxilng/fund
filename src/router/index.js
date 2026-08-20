@@ -17,6 +17,14 @@ export const appRouter = [
         path: "/option",
         component: () => import("@/views/options")
     },
+    {
+        path: "/stock",
+        component: () => import("@/views/stock")
+    },
+    {
+        path: "/totalrevenue",
+        component: () => import("@/views/totalrevenue")
+    },
 ];
 
 

@@ -134,20 +134,21 @@ export default {
                         params: {
                             ...this.addForm,
                             deviceId: this.userId,
+                            id: this.userId,
                             scene: "register"
                         }
                     }).then((res) => {
                         console.log('注册成功', res);
-                        if (res.success && res.result && res.result.code === 0) {
+                        if (res.result && res.result.code === 0) {
                             this.$notify.success({
-                                title: res.result.msg
+                                title: '注册成功'
                             });
                             storage.set({
                                 userInfo: res.result.userInfo,
                                 token: res.result.token,
                             });
                             this.close('refresh')
-                        } else if (res.success && res.result) {
+                        } else if (res.result) {
                             let msg = ''
                             if (typeof res.result === 'object') {
                                 msg = res.result.msg

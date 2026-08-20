@@ -1,9 +1,10 @@
 <template>
     <div>
-        <div class="subtitle">
-            <span>估算涨幅：</span> <span :class="lastGSZZL >= 0 ? 'up' : 'down'">{{lastGSZZL}}%</span>
+        <!-- <div class="subtitle">
+            <span>估算涨幅：</span> <span :class="lastGSZZL >= 0 ? 'up' : 'down'">{{ lastGSZZL }}%</span>
         </div>
-        <div class="main-echarts" ref="mainCharts"></div>
+        <div class="main-echarts" ref="mainCharts"></div> -->
+        <img style="width: 100%;" :src="imgUrl" alt="">
     </div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
             required: true,
         },
     },
-    data () {
+    data() {
         return {
             lastGSZZL: 0,
             chartEL: null,
@@ -287,23 +288,26 @@ export default {
         };
     },
     watch: {
-        fund () {
-            this.init()
+        fund() {
+            // this.init()
         }
     },
     computed: {
-        defaultColor () {
+        imgUrl() {
+            return `https://j4.dfcfw.com/charts/pic6/${this.fund.fundcode}.png`
+        },
+        defaultColor() {
             return this.darkMode ? "rgba(255,255,255,0.6)" : "#ccc";
         },
-        defaultLabelColor () {
+        defaultLabelColor() {
             return this.darkMode ? "rgba(255,255,255,0.6)" : "#000";
         },
     },
-    mounted () {
-        this.init();
+    mounted() {
+        // this.init();
     },
     methods: {
-        init () {
+        init() {
             this.chartEL = this.$refs.mainCharts;
             this.myChart = echarts.init(this.chartEL, this.darkMode ? "dark" : "customed");
             this.option = {
@@ -409,14 +413,14 @@ export default {
             this.getData();
         },
 
-        fmtAxis (val, ind) {
+        fmtAxis(val, ind) {
             if (val == "13:00") {
                 return "11:30/13:00";
             } else {
                 return val;
             }
         },
-        fmtVal (ind, val) {
+        fmtVal(ind, val) {
             let arr = ["09:30", "10:30", "13:00", "14:00", "15:00"];
             if (arr.indexOf(val) != -1) {
                 return true;
@@ -424,15 +428,15 @@ export default {
                 return false;
             }
         },
-        yAxisLabelColor (val, ind) {
+        yAxisLabelColor(val, ind) {
             return val > 0 ? "#f56c6c" : val == 0 ? this.defaultLabelColor : "#4eb61b";
         },
-        handle_num (data) {
+        handle_num(data) {
             var _aa = Math.abs(Math.max.apply(null, data)).toFixed(2);
             var _bb = Math.abs(Math.min.apply(null, data)).toFixed(2);
             return _aa > _bb ? _aa : _bb;
         },
-        getData () {
+        getData() {
             let url = `/FundMApi/FundVarietieValuationDetail.ashx?FCODE=${this.fund.fundcode
                 }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&_=${new Date().getTime()}`;
             this.$axios.get(url).then((res) => {
@@ -464,14 +468,16 @@ export default {
     width: 100%;
     height: 240px;
 }
+
 .subtitle {
     margin-top: 5px;
     text-align: left;
+
     .up {
         color: #f56c6c;
     }
+
     .down {
         color: #4eb61b;
     }
-}
-</style>
+}</style>

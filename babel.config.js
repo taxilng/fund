@@ -3,8 +3,7 @@ module.exports = {
     '@vue/app'
   ],
   "compact": false,
-  // "plugins": [["import", {
-  //   "libraryName": "iview",
-  //   "libraryDirectory": "src/components"
-  // }]]
+  // plugins: [
+  //   '@babel/plugin-proposal-optional-chaining',  //可选链 ?.
+  // ]
 }

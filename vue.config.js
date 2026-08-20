@@ -57,7 +57,7 @@ module.exports = {
   // https://cli.vuejs.org/guide/webpack.html#simple-configuration
   configureWebpack: (config) => {
     config.resolve.alias["vendor"] = path.resolve(__dirname, "./src/vendor");
-    config.entry = ["babel-polyfill", "./src/main.js"];
+    config.entry = ["./src/main.js"];
     // resolve: {
     //   alias: {
     //     'vendor': path.resolve(__dirname, './src/vendor')
@@ -146,6 +146,13 @@ module.exports = {
         target: "https://fundmobapi.eastmoney.com/",
         changeOrigin: true,
       },
+      "/FundMNewApi": {
+        target: "https://fundmobapi.eastmoney.com/",
+        changeOrigin: true,
+        onProxyReq: (proxyReq) => {
+          proxyReq.setHeader('User-Agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Mobile Safari/537.36') //添加请求头
+        }
+      },
       "/fundsuggest": {
         target: "https://fundsuggest.eastmoney.com/",
         changeOrigin: true,
@@ -153,34 +160,34 @@ module.exports = {
           "^/fundsuggest": "",
         },
       },
-      "/rabt": {
-        target: "https://x2rr.github.io/",
+      "/fundRabtTop": {
+        target: "https://fundgz.1234567.com.cn/",
         changeOrigin: true,
         pathRewrite: {
-          "^/rabt": "",
+          "^/fundRabtTop": "",
         },
       },
       "/bspapp": {
-        target:
-          "https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center/",
+        target: "https://fund-api-url.rabt.top/http/user-center",
         changeOrigin: true,
         pathRewrite: {
           "^/bspapp": "",
         },
       },
-    },
-    before: (app) => {
-      app.get("/FundMNewApi/FundMNFInfo", (req, res) => {
-        const url = "https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo";
-        axios.get(url, {
-          headers: {
-            // referer: "https://m.1234567.com.cn/",
-          },
-          params: req.query,
-        }).then(response => {
-            res.json(response.data)
-        });
-      });
+      '/searchapi': {
+        target: 'https://searchapi.eastmoney.com/',
+        changeOrigin: true,
+        pathRewrite: {
+            '^/searchapi': ''
+        }
+      },
+      '/sinaFund': {
+        target: 'https://stock.finance.sina.com.cn/fundInfo/api/openapi.php/',
+        changeOrigin: true,
+        pathRewrite: {
+            '^/sinaFund': ''
+        }
+      },
     },
   },
   // 构建时开启多进程处理 babel 编译
