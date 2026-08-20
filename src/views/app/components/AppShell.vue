@@ -61,6 +61,8 @@ export default {
   --app-up: #ef1f1f;
   --app-down: #139327;
   --app-shadow: rgba(15, 23, 42, 0.08);
+  --app-loading-bg: rgba(255, 255, 255, 0.9);
+  --app-loading-text: #303133;
   position: relative;
   width: 100%;
   max-width: 430px;
@@ -122,6 +124,8 @@ export default {
   --app-up: #ff6b6b;
   --app-down: #22c55e;
   --app-shadow: rgba(0, 0, 0, 0.28);
+  --app-loading-bg: rgba(15, 23, 42, 0.72);
+  --app-loading-text: #f8fafc;
   background: linear-gradient(180deg, var(--app-bg-soft) 0%, var(--app-bg) 100%);
   color: var(--app-text);
 }

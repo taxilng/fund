@@ -251,4 +251,13 @@ export default {
 .fund-data-panel {
   min-height: 180px;
 }
+
+.fund-data-panel /deep/ .el-loading-mask {
+  background-color: var(--app-loading-bg, rgba(255, 255, 255, 0.9));
+}
+
+.fund-data-panel /deep/ .el-loading-text,
+.fund-data-panel /deep/ .el-icon-loading {
+  color: var(--app-loading-text, #303133);
+}
 </style>
