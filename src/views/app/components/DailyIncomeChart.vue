@@ -18,8 +18,15 @@
     <div class="income-chart__canvas">
       <div class="income-chart__plot">
         <svg viewBox="0 0 320 112" preserveAspectRatio="none" aria-hidden="true">
-          <line class="zero-line" :x1="0" :x2="320" :y1="zeroY" :y2="zeroY"></line>
-          <line class="axis-line" x1="0" x2="320" y1="94" y2="94"></line>
+          <line
+            v-for="(tick, index) in rateAxisTicks"
+            :key="`grid-${index}`"
+            :class="['grid-line', { 'grid-line--zero': tick.isZero }]"
+            :x1="0"
+            :x2="320"
+            :y1="tick.y"
+            :y2="tick.y"
+          ></line>
           <line class="axis-break" x1="160" x2="160" y1="88" y2="98"></line>
           <polyline v-if="chartPoints.length" class="chart-line" :points="chartPoints"></polyline>
         </svg>
@@ -32,7 +39,11 @@
         <span>15:00</span>
       </div>
       <div class="income-chart__rate-axis" aria-hidden="true">
-        <span v-for="label in rateAxisLabels" :key="label">{{ label }}</span>
+        <span
+          v-for="(tick, index) in rateAxisTicks"
+          :key="`rate-${index}`"
+          :style="{ top: `${((tick.y / 112) * 100).toFixed(2)}%` }"
+        >{{ tick.label }}</span>
       </div>
       <div v-if="!chartPoints.length" class="income-chart__empty">{{ loading ? '曲线加载中' : '暂无曲线数据' }}</div>
     </div>
@@ -110,8 +121,21 @@ export default {
         top: `${((this.lastPoint.y / 112) * 100).toFixed(4)}%`,
       };
     },
-    rateAxisLabels() {
-      return [this.bounds.max, 0, this.bounds.min].map((value) => this.formatRateAxis(value));
+    rateAxisTicks() {
+      const { max, min } = this.bounds;
+      if (max === min) {
+        return [{ value: 0, y: this.toY(0), isZero: true, label: this.formatRateAxis(0) }];
+      }
+      const steps = 4;
+      return Array.from({ length: steps + 1 }, (_, i) => {
+        const value = min + ((max - min) * i) / steps;
+        return {
+          value,
+          y: this.toY(value),
+          isZero: Math.abs(value) < 1e-9,
+          label: this.formatRateAxis(value),
+        };
+      });
     },
     statItems() {
       return [
@@ -296,16 +320,20 @@ export default {
   height: 100%;
 }
 
-.zero-line {
+.grid-line {
+  stroke: var(--app-border-soft, #eef2f7);
+  stroke-width: 0.5;
+}
+
+.grid-line--zero {
   stroke: var(--app-border, #e2e8f0);
   stroke-dasharray: 4 4;
-  stroke-width: 1;
 }
 
 .axis-line,
 .axis-break {
   stroke: var(--app-border-soft, #eef2f7);
-  stroke-width: 1;
+  stroke-width: 0.5;
 }
 
 .axis-break {
@@ -370,15 +398,19 @@ export default {
   top: 0;
   left: 0;
   width: calc(var(--rate-axis-width) - 8px);
-  bottom: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  bottom: 0;
   color: var(--app-muted, #64748b);
   font-size: 10px;
   line-height: 12px;
   pointer-events: none;
   text-align: left;
+}
+
+.income-chart__rate-axis span {
+  position: absolute;
+  left: 0;
+  transform: translateY(-50%);
+  white-space: nowrap;
 }
 
 .income-chart__empty {
@@ -395,7 +427,7 @@ export default {
   min-height: 260px;
 
   .income-chart__canvas {
-    height: 220px;
+    height: 500px;
   }
 }
 

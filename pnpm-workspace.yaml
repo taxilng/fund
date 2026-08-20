@@ -1,4 +1,0 @@
-allowBuilds:
-  core-js: false
-  ejs: false
-  esbuild: true
