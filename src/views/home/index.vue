@@ -115,7 +115,7 @@
               </td>
               <!-- 涨跌幅 -->
               <td v-if="!isEdit" :class="el.gszzl >= 0 ? 'up' : 'down'">{{ el.gszzl !== null && el.gszzl !== undefined ?
-                `${el.gszzl}%` : '--' }}</td>
+                `${Number(el.gszzl).toFixed(2)}%` : '--' }}</td>
               <!-- 估算收益 -->
               <td v-if="showGains && !isEdit" :class="el.gains >= 0 ? 'up' : 'down'">
                 {{ el.gains }}
