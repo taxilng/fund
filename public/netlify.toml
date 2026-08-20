@@ -1,0 +1,39 @@
+[[redirects]]
+  from = "/api/qt/*"
+  to = "http://push2.eastmoney.com/api/qt/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/FundMApi/*"
+  to = "https://fundmobapi.eastmoney.com/FundMApi/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/FundMNewApi/*"
+  to = "https://fundmobapi.eastmoney.com/FundMNewApi/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/fundsuggest/*"
+  to = "https://fundsuggest.eastmoney.com/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/fundRabtTop/*"
+  to = "https://fundgz.1234567.com.cn/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/sinaFundInfo/*"
+  to = "https://stock.finance.sina.com.cn/fundInfo/api/openapi.php/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/bspapp/*"
+  to = "https://fund-api-url.rabt.top/http/user-center/:splat"
+  status = 200
+ 
+[[redirects]]
+  from = "/searchapi/*"
+  to = "https://searchapi.eastmoney.com/:splat"
+  status = 200

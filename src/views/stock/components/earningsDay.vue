@@ -1,0 +1,317 @@
+<template>
+  <div v-if="boxShadow" class="shadow" :class="darkMode ? 'darkMode' : ''">
+    <div class="content-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.8)">
+      <div id="copyImage">
+        <h5>股票当日收益曲线</h5>
+        <div class="subtitle">
+          <span>当前收益：</span><span :class="latestAmout >= 0 ? 'up' : 'down'">{{ latestAmout }} ({{ latestRate }})</span>
+          <span style="margin-left: 20px"> 波动：{{ wave.difference }}（{{ wave.differenceRate }}）</span>
+          <div style="margin-top: 10px">
+            <span>最高：</span> <span :class="wave.max >= 0 ? 'up' : 'down'">{{ wave.max }}({{ wave.maxRate }})</span> <span style="margin-left: 20px">最低：</span>
+            <span :class="wave.min >= 0 ? 'up' : 'down'">{{ wave.min }}({{ wave.minRate }})</span>
+          </div>
+        </div>
+        <!-- <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+                <el-tab-pane lazy label="净值估算" name="first"> -->
+        <charts :darkMode="darkMode" :fundAmount="fundAmount" :allAmount="allAmount" ref="first"></charts>
+        <!-- </el-tab-pane>
+            </el-tabs> -->
+      </div>
+      <div class="tab-row">
+        <input class="btn" type="button" value="返回列表" @click="close" />
+        <input class="btn" type="button" value="刷新" @click="init" />
+        <input v-if="isCopyPic" class="btn copy" type="button" value="复制图片" @click="copyPic" />
+        <input class="btn copy" type="button" value="复制文字" @click="copyText" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import ClipboardJS from 'clipboard';
+import charts from '../../common/earningsDayCharts';
+import html2canvas from 'html2canvas';
+export default {
+  components: {
+    charts,
+  },
+  name: 'fundDetail',
+  props: {
+    darkMode: {
+      type: Boolean,
+      default: false,
+    },
+    fundList: {
+      type: Array,
+      required: true,
+    },
+    earningsDayDialogShow: {
+      type: Boolean,
+      default: false,
+    },
+    allAmount: {
+      type: String,
+      default: '1',
+    },
+  },
+  data() {
+    return {
+      newTime: '',
+      loading: false,
+      fundAmount: [],
+      activeName: 'first',
+      boxShadow: false,
+    };
+  },
+  computed: {
+    isMobile() {
+      if (window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+        return true; // 移动端
+      } else {
+        return false; // PC端
+      }
+    },
+    isCopyPic() {
+      return !this.isMobile && navigator.clipboard;
+    },
+    latestAmout() {
+      return this.fundAmount[this.fundAmount.length - 1];
+    },
+    latestRate() {
+      return `${((this.latestAmout / this.allAmount) * 100).toFixed(2)}%`;
+    },
+    wave() {
+      const max = Math.max.apply(Math, this.fundAmount);
+      const min = Math.min.apply(Math, this.fundAmount);
+      let difference = 0;
+      if (isFinite(max)) {
+        difference = (max - min).toFixed(2);
+      }
+      // console.log('difference',difference,max, this.fundAmount);
+      return {
+        difference,
+        differenceRate: `${((difference / this.allAmount) * 100).toFixed(2)}%`,
+        max,
+        maxRate: `${((max / this.allAmount) * 100).toFixed(2)}%`,
+        min,
+        minRate: `${((min / this.allAmount) * 100).toFixed(2)}%`,
+      };
+    },
+  },
+  watch: {
+    earningsDayDialogShow(val) {
+      this.boxShadow = val;
+      if (val) {
+        this.init();
+      }
+    },
+  },
+  mounted() {
+    // setTimeout(() => {
+    //     console.log('allAmount', this.allAmount);
+    // }, 1000);
+  },
+  methods: {
+    copyPic() {
+      const that = this;
+      html2canvas(document.querySelector('#copyImage')).then(function (canvas) {
+        canvas.toBlob((blob) => {
+          const clipboardItem = new window.ClipboardItem({ 'image/png': blob });
+          navigator.clipboard.write([clipboardItem]);
+        }, 'image/png');
+        that.$notify.closeAll();
+        that.$notify.success({
+          title: '复制图片成功',
+        });
+      });
+    },
+    copyText() {
+      const that = this;
+      var clipboard = new ClipboardJS('.copy', {
+         text: function () {
+          return `${that.newTime}股票收益：${that.latestAmout}(${that.latestRate})`;
+        },
+      });
+      clipboard.on('success', function (e) {
+        that.$notify.closeAll();
+        that.$notify.success({
+          title: '复制文字成功',
+        });
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        e.clearSelection();
+      });
+
+      clipboard.on('error', function (e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+      });
+    },
+    handleClick(tab, event) {
+      this.activeName = tab.name;
+    },
+    init() {
+      this.loading = true;
+      // console.log('mi', this.fundList);
+      const fundCodeList = this.fundList
+        .filter((v) => Number(v.amount))
+        .map((v) => {
+          let url = `https://push2.eastmoney.com/api/qt/stock/trends2/get?secid=${v.f13}.${v.f12}&fields1=f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13&fields2=f51,f53,f56,f58&iscr=0&iscca=0&ndays=1&forcect=1`;
+          return this.$axios.get(url);
+        });
+      Promise.all(fundCodeList)
+        .then((res) => {
+          // console.log('股票当日曲线', res);
+          // const maxlength = Math.max.apply(Math, res.map(v => v.data?.trendsTotal))
+          // console.log('maxlength', maxlength);
+          let amountList = [];
+          res.forEach((v) => {
+            const curFund = this.fundList.find((x) => x.fundcode === v.data.code);
+            // console.log('这是', curFund);
+            if (curFund) {
+              const num = curFund.num;
+              const prePrice = v.data.prePrice; // 昨日收盘价
+              const trends = v.data.trends;
+              let dataList = trends.map((item) => item.split(',')).map((y) => ((y[1] - prePrice) * num).toFixed(2));
+              this.newTime = trends[trends.length - 1].slice(11, 16)
+              console.log('最后时间', this.newTime);
+              if (amountList.length && dataList.length) {
+                amountList = amountList.map((v, i) => Number(v) + Number(dataList[i]));
+              } else if (amountList.length === 0) {
+                amountList = dataList;
+              }
+            }
+          });
+          console.log('amountList', amountList);
+          this.fundAmount = amountList.filter((v) => !isNaN(v)).map((v) => Number(v).toFixed(1));
+          console.log('fundAmount', this.fundAmount);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    close() {
+      this.boxShadow = false;
+      this.$emit('close');
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.shadow {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  padding: 20px 2px;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.content-box {
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 0 2px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1;
+  vertical-align: middle;
+  .subtitle {
+    text-align: left;
+    margin: 0 0 0 20px;
+    .up {
+      color: #f56c6c;
+    }
+    .down {
+      color: #4eb61b;
+    }
+  }
+  h5 {
+    margin: 0;
+    padding: 13px;
+  }
+
+  /deep/ .el-tabs__item {
+    padding: 0 15px;
+    height: 34px;
+    line-height: 34px;
+  }
+  /deep/ .el-tabs--border-card > .el-tabs__content {
+    padding: 5px;
+  }
+}
+.main-echarts {
+  width: 100%;
+  height: 240px;
+}
+.btn {
+  display: inline-block;
+  line-height: 1;
+  cursor: pointer;
+  background: #fff;
+  padding: 5px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #000000;
+  margin: 0 5px;
+  outline: none;
+  border: 1px solid #dcdfe6;
+}
+.tab-row {
+  padding: 12px 0;
+}
+
+.tab-row:after,
+.tab-row:before {
+  display: table;
+  content: '';
+}
+
+.tab-row:after {
+  clear: both;
+}
+
+.shadow.darkMode {
+  .content-box,
+  #copyImage {
+    background-color: #373737;
+  }
+  .btn {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  /deep/ .el-tabs--border-card {
+    background-color: #373737;
+    border: 1px solid rgba(255, 255, 255, 0.37);
+    .el-tabs__header {
+      background-color: rgba(255, 255, 255, 0.16);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.37);
+
+      .el-tabs__item.is-active {
+        background-color: rgba(64, 158, 255, 0.6);
+        color: rgba(255, 255, 255, 0.6);
+        border-right-color: rgba(255, 255, 255, 0.37);
+        border-left-color: rgba(255, 255, 255, 0.37);
+      }
+    }
+  }
+
+  /deep/ .el-radio-button--mini .el-radio-button__inner {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.37);
+  }
+
+  /deep/ .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+    background-color: rgba(64, 158, 255, 0.6);
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(64, 158, 255, 0.37);
+  }
+}
+</style>

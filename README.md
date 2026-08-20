@@ -1,13 +1,12 @@
 # 自选基金助手
 
-[网站netlify](https://fundsforweb.netlify.app)
-
-[腾讯云](http://1.15.64.13:8088/)
+[网站 netlify](https://fundsforweb.netlify.app)
 
 ## 项目启动
-``` bash
+
+```bash
 # 安装依赖
-yarn 
+yarn
 
 # 项目运行
 yarn dev
@@ -17,7 +16,8 @@ yarn build
 
 ```
 
-## nginx配置
+## nginx 配置
+
 ```bash
 server {
         listen       81;
@@ -66,8 +66,8 @@ server {
             proxy_ssl_session_reuse off;
             proxy_ssl_ciphers HIGH:!DH:!MD5;
         }
-        location /rabt/ {
-            proxy_pass https://x2rr.github.io/;
+        location /fundRabtTop/ {
+            proxy_pass http://fund.rabt.top/;
             proxy_read_timeout 1500;  # 秒
             proxy_connect_timeout 1500;
             send_timeout 1500;
@@ -75,7 +75,7 @@ server {
             proxy_ssl_ciphers HIGH:!DH:!MD5;
         }
         location /bspapp {
-            proxy_pass https://2955b122-0e37-42a7-a4ee-4ddd503fe6b6.bspapp.com/http/user-center/;
+            proxy_pass https://fund-api-url.rabt.top/http/user-center/;
             proxy_read_timeout 1500;  # 秒
             proxy_connect_timeout 1500;
             send_timeout 1500;
@@ -94,28 +94,66 @@ server {
 ```
 
 ## 更新日志
+
 ---
+
+### 2023.08.14
+
+- fix: 修复累计收益不展示的问题
+- fix: 修复海外基金导致不展示的问题
+
+### 2023.07.27
+
+- fix: 修复涨跌幅不展示的问题
+
+### 2022.06.24
+
+- fix: 股票-涨跌幅无法排序的 bug
+
+### 2021.11.22
+
+- feat: 支持股票收益曲线和基金加股票的总收益曲线
+- fix: 基金编辑时简化
+
 ### 2021.10.14
-* fix: 修复无法基金列表无法请求的bug；
+
+- fix: 修复无法基金列表无法请求的 bug；
+
 ### 2021.08.09
-* feat: 累计收益增加当日的估值，方便判断是否加仓；
+
+- feat: 累计收益增加当日的估值，方便判断是否加仓；
+
 ### 2021.07.19
-* feat: 合并了累计收益和历史收益，界面精简；
+
+- feat: 合并了累计收益和历史收益，界面精简；
+
 ### 2021.07.05
-* feat: 增加累计收益功能；以前用历史累计净值估算不准确；
-* fix: 查看基金详情，点下一页，然后关闭；再查看详情，基金详情显示错误的bug；
+
+- feat: 增加累计收益功能；以前用历史累计净值估算不准确；
+- fix: 查看基金详情，点下一页，然后关闭；再查看详情，基金详情显示错误的 bug；
+
 ### 2021.05.20
-* fix: 关闭当日收益曲线弹窗，还调用接口的问题；某些基金收益曲线不是最新的时，用最新收益来估算；
-* feat: 当日收益曲线加上刷新按钮；
+
+- fix: 关闭当日收益曲线弹窗，还调用接口的问题；某些基金收益曲线不是最新的时，用最新收益来估算；
+- feat: 当日收益曲线加上刷新按钮；
+
 ### 2021.05.12
-* fix: 打开持有收益率，不展示成本价输入框的bug
+
+- fix: 打开持有收益率，不展示成本价输入框的 bug
+
 ### 2021.05.06
-* 累计净值的涨幅修复误差；y轴修复； 
+
+- 累计净值的涨幅修复误差；y 轴修复；
+
 ### 2021.04.30
-* 增加了当日收益曲线波动和波动率； 
-### 2021.04.29  
-* 增加了最新的收益和收益率；  
-* 增加了累计净值的涨跌幅；  
+
+- 增加了当日收益曲线波动和波动率；
+
+### 2021.04.29
+
+- 增加了最新的收益和收益率；
+- 增加了累计净值的涨跌幅；
 
 ### 2021.04.14
-* 新增了当日收益曲线
+
+- 新增了当日收益曲线

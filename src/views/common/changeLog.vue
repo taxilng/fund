@@ -29,7 +29,6 @@
 </template>
 
 <script>
-var json = require("./changeLog.json");
 // import QRCode from "qrcodejs2";
 export default {
     props: {

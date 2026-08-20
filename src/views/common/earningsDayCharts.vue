@@ -3,15 +3,12 @@
 </template>
 
 <script>
-let echarts = require("echarts/lib/echarts");
-
+import echarts from "echarts/lib/echarts";
 import "./js/customed.js";
 import "./js/dark.js";
-
-require("echarts/lib/chart/line");
-
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
+import "echarts/lib/chart/line";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/legend";
 
 export default {
     name: "chatrs",
@@ -25,7 +22,7 @@ export default {
             required: true,
         },
         allAmount: {
-            type: String,
+            type: [String, Number],
             default: '1',
         },
     },
@@ -160,7 +157,6 @@ export default {
                 "11:28",
                 "11:29",
                 "11:30",
-                "13:00",
                 "13:01",
                 "13:02",
                 "13:03",

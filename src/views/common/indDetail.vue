@@ -20,15 +20,13 @@
 </template>
 
 <script>
-let echarts = require("echarts/lib/echarts");
-
+import echarts from "echarts/lib/echarts";
 import "./js/customed.js";
 import "./js/dark.js";
-
-require("echarts/lib/chart/line");
-require("echarts/lib/chart/bar");
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
+import "echarts/lib/chart/line";
+import "echarts/lib/chart/bar";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/legend";
 
 export default {
   name: "indDetail",

@@ -1,8 +1,7 @@
 <template>
-    <div class="box" v-loading="loading" :element-loading-background="
-      darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)'
-    ">
-        <div class="subtitle" :class="upRate.slice(0, -1) >= 0 ? 'up' : 'down'">本基金涨幅 {{upRate}}%</div>
+    <div class="box" v-loading="loading" :element-loading-background="darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)'
+        ">
+        <div class="subtitle" :class="upRate.slice(0, -1) >= 0 ? 'up' : 'down'">本基金涨幅 {{ upRate }}%</div>
         <div class="main-echarts" ref="mainCharts"></div>
         <div>
             <el-radio-group size="mini" v-model="sltTimeRange" @change="changeTimeRange">
@@ -18,15 +17,12 @@
 </template>
 
 <script>
-let echarts = require("echarts/lib/echarts");
-
+import echarts from "echarts/lib/echarts";
 import "./js/customed.js";
 import "./js/dark.js";
-
-require("echarts/lib/chart/line");
-
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
+import "echarts/lib/chart/line";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/legend";
 
 export default {
     name: "chatrs",
@@ -44,7 +40,7 @@ export default {
             required: true,
         },
     },
-    data () {
+    data() {
         return {
             upRate: '',
             chartEL: null,
@@ -66,23 +62,23 @@ export default {
         };
     },
     watch: {
-        fund () {
+        fund() {
             this.init()
         }
     },
     computed: {
-        defaultColor () {
+        defaultColor() {
             return this.darkMode ? "rgba(255,255,255,0.6)" : "#ccc";
         },
     },
-    mounted () {
+    mounted() {
         this.init();
     },
-    beforeDestroy () {
+    beforeDestroy() {
         this.myChart && this.myChart.clear();
     },
     methods: {
-        init () {
+        init() {
             this.chartEL = this.$refs.mainCharts;
             this.myChart = echarts.init(
                 this.chartEL,
@@ -140,15 +136,15 @@ export default {
             };
             this.getData();
         },
-        changeTimeRange (val) {
+        changeTimeRange(val) {
             this.getData();
         },
-        handle_num_range (data) {
+        handle_num_range(data) {
             var _aa = Math.max.apply(null, data);
             var _bb = Math.min.apply(null, data);
             return [_aa, _bb];
         },
-        getData () {
+        getData() {
             this.loading = true;
             const that = this
             const ljsy = () => {
@@ -179,17 +175,26 @@ export default {
                 })
             }
             const jzgs = () => {
-                let url = `/FundMApi/FundVarietieValuationDetail.ashx`;
-                return this.$axios.get(url, {
-                    params: {
-                        FCODE: this.fund.fundcode,
-                        deviceid: 'Wap',
-                        plat: 'Wap',
-                        product: 'EFund',
-                        version: '2.0.0',
-                        _: new Date().getTime(),
+                let url = `/fundRabtTop/js/${this.fund.fundcode}.js?timer=${Date.now()}`;
+                return this.$axios.get(url).then(res => {
+                    const valStr = res.replace('jsonpgz(', '').replace(');', '')
+                    if (!valStr) {
+                        return;
                     }
+                    let data = JSON.parse(valStr)
+                    return data;
                 })
+                // let url = `/FundMApi/FundVarietieValuationDetail.ashx`;
+                // return this.$axios.get(url, {
+                //     params: {
+                //         FCODE: this.fund.fundcode,
+                //         deviceid: 'Wap',
+                //         plat: 'Wap',
+                //         product: 'EFund',
+                //         version: '2.0.0',
+                //         _: new Date().getTime(),
+                //     }
+                // })
             }
             this.$axios.all([ljsy(), ljjz(), jzgs()]).then(
                 // this.$axios.spread((res1, res2) => {
@@ -198,18 +203,21 @@ export default {
                 res => {
                     this.loading = false;
                     const [data1, data2, data3] = res
-                    // console.log('xin', data1, data2, data3);
-                    this.upRate = data1.expansion.syl || data1.data[data1.data.length - 1].yield
+                    console.log('xin', data1, data2, data3);
+                    const flag = data1.data[data1.data.length - 1].pdate !== data3.gztime.slice(0, 10)
+                    const syl = Number(data1.expansion.syl || data1.data[data1.data.length - 1].yield)
+                    const gszzl = flag ? Number(data3.gszzl) : 0;
+                    this.upRate = (syl + gszzl).toFixed(2)
+                    console.log('x23in', this.upRate);
                     const result = data1.data.map(v => {
                         const { JZZZL } = data2.Datas.find(x => x.FSRQ === v.pdate) || { JZZZL: 0 }
                         return { ...v, JZZZL }
                     })
-                    const flag = result.some(v => v.pdate === data3.Expansion.GZTIME.slice(0, 10))
-                    if(!flag) {
+                    if (flag) {
                         result.push({
-                            pdate: data3.Expansion.GZTIME.slice(0, 10) + '（估）',
-                            JZZZL: data3.Expansion.GSZZL,
-                            yield: (Number(this.upRate) + Number(data3.Expansion.GSZZL)).toFixed(2),
+                            pdate: data3.gztime.slice(0, 10) + '（估）',
+                            JZZZL: data3.gszzl,
+                            yield: Number(this.upRate),
                         })
                     }
                     // console.log('result', result);
@@ -247,17 +255,21 @@ export default {
 .subtitle {
     text-align: left;
     margin: 10px 0 0 20px;
+
     &.up {
         color: #f56c6c;
     }
+
     &.down {
         color: #4eb61b;
     }
 }
+
 .box {
     width: 100%;
     height: 100%;
 }
+
 .main-echarts {
     width: 100%;
     height: 232px;

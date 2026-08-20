@@ -11,18 +11,15 @@
 </template>
 
 <script>
-let echarts = require("echarts/lib/echarts");
-
+import echarts from "echarts/lib/echarts";
 import "./js/customed.js";
 import "./js/dark.js";
-
-require("echarts/lib/chart/line");
-
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
-require("echarts/lib/component/dataZoom");
-// require("echarts/lib/component/dataZoomInside");
-// require("echarts/lib/component/dataZoomSlider");
+import "echarts/lib/chart/line";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/legend";
+import "echarts/lib/component/dataZoom";
+// import "echarts/lib/component/dataZoomInside";
+// import "echarts/lib/component/dataZoomSlider";
 
 export default {
   name: "marketBar",

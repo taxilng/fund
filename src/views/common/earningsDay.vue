@@ -2,7 +2,7 @@
     <div v-if="boxShadow" class="shadow" :class="darkMode ? 'darkMode' : ''">
         <div class="content-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.8)">
             <div id="copyImage">
-                <h5>当日收益曲线</h5>
+                <h5>基金当日收益曲线</h5>
                 <div class="subtitle">
                     <span>当前收益：</span><span :class="latestAmout >= 0 ? 'up' : 'down'">{{latestAmout}} ({{latestRate}})</span>
                     <span style="margin-left:20px;"> 波动：{{wave.difference}}（{{wave.differenceRate}}）</span>

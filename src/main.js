@@ -6,6 +6,7 @@ import VueClipboard from "vue-clipboard2";
 
 import {
     Input,
+    InputNumber,
     Dialog,
     Button,
     RadioGroup,
@@ -16,6 +17,7 @@ import {
     Switch,
     Radio,
     Loading,
+    MessageBox,
     Notification,
     Message,
     RadioButton,
@@ -48,6 +50,7 @@ Vue.prototype.$axios = axios;
 
 Vue.use(VueClipboard)
 Vue.use(Input)
+Vue.use(InputNumber)
 Vue.use(Dialog)
 Vue.use(Button)
 Vue.use(RadioGroup)
@@ -63,6 +66,7 @@ Vue.use(Form)
 Vue.use(FormItem)
 
 Vue.prototype.$notify = Notification;
+Vue.prototype.$confirm = MessageBox.confirm;
 
 Vue.prototype.$message = function (params) {
     const initParams = {
@@ -70,6 +74,13 @@ Vue.prototype.$message = function (params) {
     }
     Message({...initParams, ...params})
 };
+// 透传 Element UI 的 success / warning / info / error 静态方法
+['success', 'warning', 'info', 'error'].forEach((key) => {
+    Vue.prototype.$message[key] = (params) => {
+        const initParams = { duration: 1000 }
+        Message[key]({...initParams, message: params})
+    }
+})
 
 new Vue({
     router,

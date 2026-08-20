@@ -90,6 +90,16 @@ export default {
         this.fund.fundcode
       }&deviceid=Wap&plat=Wap&product=EFund&version=2.0.0&Uid=&_=${new Date().getTime()}`;
       this.$axios.get(url).then((res) => {
+        console.log('打印返回值', res);
+        if (!res.Success) {
+          this.loading = false;
+          this.$message({
+          message: "切换到移动端模式来展示持仓明细",
+          type: "error",
+          center: true,
+        });
+          return;
+        }
         let dataList = res.Datas.fundStocks;
         if (dataList) {
           let gpList = dataList
