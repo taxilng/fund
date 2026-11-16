@@ -52,7 +52,8 @@ export default {
       if (this.type === 'stock') {
         const rows = await fetchStocks(settings.stockList);
         this.totalAmount = rows.reduce((sum, item) => sum + Number(item.amount || 0), 0);
-        this.chartPoints = await fetchStockDailyReturns(rows);
+        const { series } = await fetchStockDailyReturns(rows);
+        this.chartPoints = series;
       } else {
         const rows = await fetchFunds(settings.fundListM);
         this.totalAmount = rows.reduce((sum, item) => sum + Number(item.amount || 0), 0);

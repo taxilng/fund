@@ -125,6 +125,7 @@ const SETTING_KEYS = [
   'showProportion',
   'showCostRate',
   'showGSZ',
+  'copyIncomeRate',
   'darkMode',
   'userInfo',
   'historicalRevenueAmount',
@@ -153,6 +154,7 @@ export default {
         showProportion: false,
         showCostRate: false,
         showGSZ: false,
+        copyIncomeRate: true,
       },
       fundDisplayOptions: [
         { key: 'showGSZ', label: '显示估算净值' },
@@ -167,6 +169,7 @@ export default {
         { key: 'showAllCost', label: '显示总持有收益' },
         { key: 'showTotalRevenue', label: '显示总收益' },
         { key: 'showTotalAssets', label: '显示总资产' },
+        { key: 'copyIncomeRate', label: '复制文本 展示收益率' },
       ],
       loginForm: {
         username: '',
@@ -202,7 +205,7 @@ export default {
       this.darkMode = !!res.darkMode;
       this.historicalRevenueAmount = res.historicalRevenueAmount || 0;
       Object.keys(this.settings).forEach((key) => {
-        this.settings[key] = !!res[key];
+        this.settings[key] = res[key] === undefined ? this.settings[key] : !!res[key];
       });
     },
     saveOption(key, value) {

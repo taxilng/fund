@@ -71,6 +71,8 @@ export default {
       indices: INDEX_FALLBACK,
       dailyReturns: [],
       dailyReturnsLoading: false,
+      latestTradeTime: '',
+      copyIncomeRate: true,
       refreshTimer: null,
     };
   },
@@ -111,6 +113,7 @@ export default {
     async refresh() {
       const settings = await loadSettings();
       this.stockList = settings.stockList;
+      this.copyIncomeRate = settings.copyIncomeRate !== false;
       fetchMarketIndices(settings.seciList).then((indices) => {
         this.indices = indices;
       });
@@ -119,7 +122,9 @@ export default {
     },
     async loadDailyReturns() {
       this.dailyReturnsLoading = true;
-      this.dailyReturns = await fetchStockDailyReturns(this.rows);
+      const { series, latestTime } = await fetchStockDailyReturns(this.rows);
+      this.dailyReturns = series;
+      this.latestTradeTime = latestTime || '';
       this.dailyReturnsLoading = false;
     },
     async search(query) {
@@ -176,7 +181,10 @@ export default {
       if (!item.fallback) this.$router.push(`/app/market/index/${item.f13 || 1}.${item.f12}`);
     },
     copyDailyIncome(type, amount, rate) {
-      const text = `${type}今日收益：${amount}（${rate}）`;
+      const prefix = this.latestTradeTime ? `${this.latestTradeTime} ` : '';
+      const text = this.copyIncomeRate
+        ? `${prefix}${type}今日收益：${amount}（${rate}）`
+        : `${prefix}收益：${amount}`;
       this.copyText(text);
     },
     copyText(text) {

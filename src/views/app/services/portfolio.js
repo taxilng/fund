@@ -153,10 +153,12 @@ export async function loadSettings() {
     'showCost',
     'showCostRate',
     'showProportion',
+    'copyIncomeRate',
     'userInfo',
   ]);
   return {
     ...res,
+    copyIncomeRate: res.copyIncomeRate !== false,
     fundListM: res.fundListM || [],
     stockList: res.stockList || [],
     seciList: res.seciList || DEFAULT_INDICES,
@@ -331,16 +333,16 @@ function mergeDailyReturns(seriesList = []) {
 export async function fetchFundDailyReturns(rows = []) {
   const fundRows = rows.filter((item) => item.assetType !== 'stock');
   const stockRows = rows.filter((item) => item.assetType === 'stock');
-  const [fundReturns, stockReturns] = await Promise.all([
+  const [fundReturns, stockResult] = await Promise.all([
     fetchSinaFundDailyReturns(fundRows),
     fetchStockDailyReturns(stockRows),
   ]);
-  return mergeDailyReturns([fundReturns, stockReturns]);
+  return mergeDailyReturns([fundReturns, stockResult.series]);
 }
 
 export async function fetchStockDailyReturns(rows = []) {
   const targets = rows.filter((item) => Number(item.num));
-  if (!targets.length) return [];
+  if (!targets.length) return { series: [], latestTime: '' };
   const responses = await Promise.allSettled(
     targets.map((item) => {
       const market = item.market || item.f13 || 1;
@@ -366,10 +368,22 @@ export async function fetchStockDailyReturns(rows = []) {
       }))
       : dataList;
   });
-  return normalizeSeries(amountList.map((point) => ({
-    time: point.time,
-    value: Number(point.value.toFixed(1)),
-  })));
+  const latestTime = responses
+    .map((result) => {
+      if (result.status !== 'fulfilled' || !result.value || !result.value.data || !Array.isArray(result.value.data.trends)) return '';
+      const trends = result.value.data.trends;
+      const last = trends[trends.length - 1] || '';
+      return String(last).split(',')[0].split(' ')[1] || '';
+    })
+    .filter(Boolean)
+    .sort()[0] || '';
+  return {
+    series: normalizeSeries(amountList.map((point) => ({
+      time: point.time,
+      value: Number(point.value.toFixed(1)),
+    }))),
+    latestTime,
+  };
 }
 
 export async function saveFundList(fundListM) {
