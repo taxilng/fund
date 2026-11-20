@@ -25,7 +25,7 @@
           <tr v-else>
             <th class="holding-table__name">名称/代码</th>
             <th v-if="showPositionAmount">持仓总额</th>
-            <th>成本/现价</th>
+            <th>现价/成本</th>
             <th>日收益/率</th>
             <th>持有收益/率</th>
           </tr>
@@ -63,8 +63,8 @@
                 <strong>{{ formatAmount(item.amount) }}</strong>
               </td>
               <td class="holding-number holding-price">
-                <strong>{{ formatCost(item.cost) }}</strong>
-                <span>{{ formatPrice(item) }}</span>
+                <strong>{{ formatPrice(item) }}</strong>
+                <span>{{ formatCost(item.cost) }}</span>
               </td>
               <td class="holding-number" :class="dailyChangeClass(item)">
                 <strong>{{ signedAmount(item.gains) }}</strong>
