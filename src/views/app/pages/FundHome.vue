@@ -204,7 +204,7 @@ export default {
       this.$router.push(`/app/fund/detail/${item.code}`);
     },
     openIndex(item) {
-      if (!item.fallback) this.$router.push(`/app/market/index/${item.f13 || 1}.${item.f12}`);
+      if (!item.fallback) this.$router.push(`/app/market/index/${item.f13}.${item.f12}`);
     },
     formatMoney(value) {
       return signedAmount(value);

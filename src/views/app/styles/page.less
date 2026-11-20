@@ -1,22 +1,30 @@
 .icon-action {
   display: grid;
   gap: 2px;
+  justify-items: center;
   min-width: 38px;
+  padding: 5px 12px;
   border: 0;
-  background: transparent;
+  border-radius: 999px;
+  background: var(--app-surface-soft, #f1f5f9);
   color: var(--app-subtext, #334155);
   cursor: pointer;
   font: inherit;
   text-align: center;
+  transition: opacity 0.15s ease;
+
+  &:active {
+    opacity: 0.7;
+  }
 
   i {
-    font-size: 20px;
-    line-height: 22px;
+    font-size: 18px;
+    line-height: 20px;
   }
 
   span {
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 11px;
+    line-height: 13px;
   }
 }
 

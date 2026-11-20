@@ -42,7 +42,7 @@ export const appRouter = [
             {
                 path: "market/index/:code",
                 name: "indexDetail",
-                component: () => import("@/views/app/pages/SimplePage.vue")
+                component: () => import("@/views/app/pages/IndexDetailPage.vue")
             },
             {
                 path: "market/flow",
